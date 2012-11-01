@@ -1,4 +1,4 @@
-#ifndef ZPR_STEGANO_H
+b#ifndef ZPR_STEGANO_H
 #define ZPR_STEGANO_H
 
 #include <QtGui/QMainWindow>
