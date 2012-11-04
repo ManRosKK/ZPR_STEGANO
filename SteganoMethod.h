@@ -17,9 +17,9 @@ public:
 	virtual void makePreview(PString, PString,PByteArray, PArgsList)=0;
 	virtual ~CSteganoMethod(void);
 signals:
-	virtual	void previewFinished(PImage);
-	virtual	void encryptFinished(void);
-	virtual	void decryptFinished(void);
-	virtual	void progressChanged(int);
+	void previewFinished(PImage);
+	void encryptFinished(void);
+	void decryptFinished(void);
+	void progressChanged(int);
 };
 
