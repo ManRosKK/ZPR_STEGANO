@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'zpr_stegano.ui'
 **
-** Created: Thu 1. Nov 00:04:57 2012
+** Created: Sun 4. Nov 13:06:40 2012
 **      by: Qt User Interface Compiler version 4.8.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!

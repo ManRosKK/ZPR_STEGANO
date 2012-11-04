@@ -1,6 +1,6 @@
 #pragma once
 #include <qobject.h>
- #include <QSharedPointer>
+#include <QSharedPointer>
 #include <QImage>
 	typedef QSharedPointer<QString> PString;
 	typedef QSharedPointer<QByteArray> PByteArray;
