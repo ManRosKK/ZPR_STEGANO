@@ -2,17 +2,18 @@
 #include <qobject.h>
 #include <QSharedPointer>
 #include <QImage>
+#include <qwidget.h>
 #include "SteganoMethod.h"
 ;
-class CSteganoManger: public QObject
+class CSteganoManager: public QObject
 {
 	Q_OBJECT
 public:
     typedef QSharedPointer<CSteganoMethod> (*createFunc)(void);
-	CSteganoManger(void);
-	virtual ~CSteganoManger(void);
+	virtual ~CSteganoManager(void);
     QSharedPointer<CSteganoMethod> produceSteganoMethod(int id);
-	void registerSteganoMethod(createFunc);
- 
+    void registerSteganoMethod(createFunc,QWidget,QString);
+private:
+    CSteganoManager(void);
 };
 
