@@ -13,5 +13,6 @@ public:
 	virtual ~CSteganoManger(void);
 	CSteganoMethod* produceSteganoMethod(int id);	
 	void registerSteganoMethod(createFunc);
+ 
 };
 
