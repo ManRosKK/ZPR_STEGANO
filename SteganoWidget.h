@@ -1,5 +1,4 @@
 #pragma once
-
 #include <QWidget>
 
 typedef QList<QVariant> ArgsList;
