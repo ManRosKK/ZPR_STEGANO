@@ -8,6 +8,7 @@ class CSteganoMethod: public QObject
     Q_OBJECT
 public:
     CSteganoMethod(void);
+    virtual ~CSteganoMethod(void);
     //! Encryption method.
     /*!
       \param filepath to image to hide data in
@@ -23,12 +24,16 @@ public:
       \param argument list alternating method behaviour
     */
     virtual void decrypt(QString, PByteArray, PArgsList) = 0;
-    virtual void makePreview(QString, QString, PByteArray, PArgsList) = 0;
-    virtual ~CSteganoMethod(void);
+    
+    virtual void makePreview(QString, QString, PByteArray, PArgsList) = 0 ;
+    //! getter for method name
+    QString getName(void) const;
 signals:
     void previewFinished(PImage);
     void encryptFinished(void);
     void decryptFinished(void);
     void progressChanged(int);
+protected:
+    QString m_name;
 };
 
