@@ -1,23 +1,27 @@
 #pragma once
-#include <qobject.h>
 #include <QSharedPointer>
 #include <QImage>
-#include <qwidget.h>
+#include <QWidget>
 #include "SteganoMethod.h"
-;
+#include "SteganoWidget.h"
+
 class CSteganoManager: public QObject
 {
 	Q_OBJECT
 public:
-    typedef QSharedPointer<CSteganoMethod> (*createFunc)(void);
+    typedef QSharedPointer<CSteganoMethod> (*PCreateMethodFunc)(void);
+    typedef QSharedPointer<CSteganoWidget> (*PCreateWidgetFunc)(void);
 	virtual ~CSteganoManager(void);
-    QSharedPointer<CSteganoMethod> produceSteganoMethod(int id);
-    QSharedPointer<CSteganoWidget> produceSteganoWidget(int id);
-    // powinno byc jeszcze get list ale to d³uga lista qsha<qlistt<....
-    void registerSteganoMethod(createFunc, QSharedPointer<CSteganoWidget>, QString);
-    static QSharedPointer<CSteganoManager> getInstance();
+    static CSteganoManager& getInstance();
+    QList< std::pair<int,QString> > getSteganoMethodList();
+    QSharedPointer<CSteganoMethod> produceSteganoMethod(int Id);
+    QSharedPointer<CSteganoWidget> produceSteganoWidget(int Id);
+    int registerSteganoMethod(PCreateMethodFunc, PCreateWidgetFunc, QString);
 private:
-    static int m_counter = 0;
+    Q_DISABLE_COPY(CSteganoManager)
     CSteganoManager(void);
+
+    //private data
+    static int m_counter;
 };
 

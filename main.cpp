@@ -1,10 +1,9 @@
-#include "zpr_stegano.h"
+#include "Application.h"
 #include <QtGui/QApplication>
+
 
 int main(int argc, char *argv[])
 {
-	QApplication a(argc, argv);
-	ZPR_STEGANO w;
-	w.show();
+    CApplication a(argc, argv);
 	return a.exec();
 }

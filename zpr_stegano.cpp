@@ -10,3 +10,23 @@ ZPR_STEGANO::~ZPR_STEGANO()
 {
 
 }
+
+void ZPR_STEGANO::updateProgress(int)
+{
+
+}
+
+void ZPR_STEGANO::onEncryptFinished(void)
+{
+
+}
+
+void ZPR_STEGANO::onDecryptFinished(void)
+{
+
+}
+
+void ZPR_STEGANO::displayPreview(PImage)
+{
+
+}
