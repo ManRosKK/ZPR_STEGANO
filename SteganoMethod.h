@@ -34,6 +34,5 @@ signals:
     void decryptFinished(void);
     void progressChanged(int);
 protected:
-    QString m_name;
 };
 

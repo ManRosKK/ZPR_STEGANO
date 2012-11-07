@@ -3,7 +3,6 @@
 
 CSteganoBitsMethod::CSteganoBitsMethod(void)
 {
-    m_name =  "Metoda 1";
 }
 
 
