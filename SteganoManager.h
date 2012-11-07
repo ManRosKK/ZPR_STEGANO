@@ -14,7 +14,7 @@ public:
     QSharedPointer<CSteganoMethod> produceSteganoMethod(int id);
     QSharedPointer<CSteganoWidget> produceSteganoWidget(int id);
     // powinno byc jeszcze get list ale to d³uga lista qsha<qlistt<....
-    void registerSteganoMethod(createFunc, CSteganoWidget, QString);
+    void registerSteganoMethod(createFunc, QSharedPointer<CSteganoWidget>, QString);
     static QSharedPointer<CSteganoManager> getInstance();
 private:
     static int m_counter = 0;
