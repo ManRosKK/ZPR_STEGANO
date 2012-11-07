@@ -1,13 +1,13 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'SteganoMethod.h'
 **
-** Created: Sun 4. Nov 19:47:52 2012
+** Created: Wed 7. Nov 10:52:06 2012
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.3)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../../../../../../../Documents/Visual Studio 2010/Projects/ZPR_STEGANO/ZPR_STEGANO/SteganoMethod.h"
+#include "../../SteganoMethod.h"
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'SteganoMethod.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 63

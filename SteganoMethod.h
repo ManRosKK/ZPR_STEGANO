@@ -1,11 +1,7 @@
 #pragma once
 #include <QSharedPointer>
 #include <QImage>
-
-typedef QSharedPointer<QByteArray> PByteArray;
-typedef QList<QVariant> ArgsList;
-typedef QSharedPointer<ArgsList> PArgsList;
-typedef QSharedPointer<QImage> PImage;
+#include "SteganoTypes.h"
 
 class CSteganoMethod: public QObject
 {
