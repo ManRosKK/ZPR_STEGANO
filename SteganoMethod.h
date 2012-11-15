@@ -12,6 +12,7 @@ class CSteganoMethod: public QObject
     Q_OBJECT
 public:
     CSteganoMethod(void);
+    virtual ~CSteganoMethod(void);
     //! Encryption method.
     /*!
       \param filepath to image to hide data in
@@ -28,7 +29,18 @@ public:
     */
     virtual void decrypt(QString, PByteArray, PArgsList) = 0;
     virtual void makePreview(QString, QString, PByteArray, PArgsList) = 0;
-    virtual ~CSteganoMethod(void);
+    //! Evaluates number of possible bytes to be hidden in given amount of pixels
+    /*!
+        \param argument list alternating method behaviour
+        \param pixel count
+     */
+    virtual int evaluate(PArgsList,int);
+    //! Evaluates number of possible bytes to be hidden in given file
+    /*!
+        \param argument list alternating method behaviour
+        \param filepath
+     */
+    virtual int evaluate(PArgsList,QString);
 signals:
     void previewFinished(PImage);
     void encryptFinished(void);
