@@ -24,10 +24,8 @@ public:
       \param argument list alternating method behaviour
     */
     virtual void decrypt(QString, PByteArray, PArgsList) = 0;
-    
-    virtual void makePreview(QString, QString, PByteArray, PArgsList) = 0 ;
-    //! getter for method name
-    QString getName(void) const;
+<<<<<<< HEAD
+    virtual void makePreview(QString, QString, PByteArray, PArgsList) = 0;
     //! Evaluates number of possible bytes to be hidden in given amount of pixels
     /*!
         \param argument list alternating method behaviour
@@ -40,6 +38,12 @@ public:
         \param filepath
      */
     virtual int evaluate(PArgsList,QString);
+=======
+    
+    virtual void makePreview(QString, QString, PByteArray, PArgsList) = 0 ;
+    //! getter for method name
+    QString getName(void) const;
+>>>>>>> aaef608d036c0059b4afcf651a52be151095c9b8
 signals:
     void previewFinished(PImage);
     void encryptFinished(void);

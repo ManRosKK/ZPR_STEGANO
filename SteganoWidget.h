@@ -1,8 +1,7 @@
 #pragma once
 #include <QWidget>
+#include "SteganoTypes.h"
 
-typedef QList<QVariant> ArgsList;
-typedef QSharedPointer<ArgsList> PArgsList;
 
 class CSteganoWidget : public QWidget
 {
