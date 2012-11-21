@@ -1,8 +1,9 @@
 #pragma once
 #include <QObject>
 #include <QString>
+#include <QString>
 #include "SteganoTypes.h"
-#include "OperationResult.h"
+#include "OperationResult.h
 class CSteganoExecutor : public QObject
 {
     Q_OBJECT
@@ -15,4 +16,7 @@ signals:
 public slots:
     void setImageFilePath( QString path );
     void setSteganoParam( int steganoMethod, PArgsList args );
+private:
+    int m_LastMethodId;
+    PSteganoMethod m_pSteganoMethod;
 };
