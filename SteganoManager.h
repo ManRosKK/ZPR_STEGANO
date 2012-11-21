@@ -5,6 +5,7 @@
 #include "SteganoTypes.h"
 #include "SteganoMethod.h"
 #include "SteganoWidget.h"
+
 class CSteganoManager: public QObject
 {
 	Q_OBJECT

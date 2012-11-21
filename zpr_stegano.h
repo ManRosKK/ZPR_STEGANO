@@ -20,7 +20,11 @@ signals:
     void steganoMethodChoosen(int id);
     void encryptButtonClicked();
     void decryptButtonClicked();
-
+    void previewButtonClicked();
+    void imageFilepathChanged(QString);
+    void saveFilepathChanged(QString);
+    void textToHideChanged(QString);
+    void fileToHideChanged(QString);
 public slots:
     void updateProgress(int);
     void onEncryptFinished(void);
@@ -29,4 +33,5 @@ public slots:
 
 private:
 	Ui::ZPR_STEGANOClass ui;
+    QSharedPointer<CSteganoWidget> m_MethodWidget;
 };
