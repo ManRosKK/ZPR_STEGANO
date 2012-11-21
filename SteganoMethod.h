@@ -34,9 +34,6 @@ public:
     */
     virtual void makePreview(QString, QString, PByteArray, PArgsList) = 0 ;
 
-    //! getter for method name
-    QString getName(void) const;
-
     //! Evaluates number of possible bytes to be hidden in given amount of pixels
     /*!
         \param argument list alternating method behaviour

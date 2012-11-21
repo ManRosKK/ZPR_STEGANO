@@ -22,3 +22,13 @@ void CSteganoBitsMethod::decrypt(QString imageFilePath, PByteArray data, PArgsLi
 void CSteganoBitsMethod::makePreview(QString imageFilePath, QString imageSaveFilePath, PByteArray data, PArgsList steganoParameters)
 {
 }
+
+int CSteganoBitsMethod::evaluate(PArgsList,int)
+{
+    return 0;
+}
+
+int CSteganoBitsMethod::evaluate(PArgsList,QString)
+{
+    return 0;
+}
