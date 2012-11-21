@@ -3,7 +3,7 @@
 #include <QString>
 #include <QString>
 #include "SteganoTypes.h"
-#include "OperationResult.h
+#include "OperationResult.h"
 class CSteganoExecutor : public QObject
 {
     Q_OBJECT
