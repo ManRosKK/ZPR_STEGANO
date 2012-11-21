@@ -1,25 +1,24 @@
 #pragma once
 #include <QObject>
-#include <QSharedPointer>
-#include "SteganoMethod.h"
-
-typedef QSharedPointer<CSteganoMethod> PSteganoMethod;
+#include <QString>
+#include "SteganoTypes.h"
 
 class CSteganoExecutor : public QObject
 {
     Q_OBJECT
 public:
-    explicit CSteganoExecutor(QObject *parent = 0);
+    explicit CSteganoExecutor( QObject *parent = 0 );
+    PMethodList getSteganoMethodList();
     void encrypt(int,QString, QString, PByteArray, PArgsList);
     void decrypt(int,QString, PByteArray, PArgsList);
     void makePreview(int,QString, QString, PByteArray, PArgsList);
 signals:
     void previewFinished(PImage);
-    void encryptFinished(void);
-    void decryptFinished(void);
+    void encryptFinished(bool); ///< bool: whether it succeded or not
+    void decryptFinished(bool);
     void progressChanged(int);
 public slots:
-    
+
 private:
     int m_LastMethodId;
     PSteganoMethod m_pSteganoMethod;
