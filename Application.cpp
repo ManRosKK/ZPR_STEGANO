@@ -5,6 +5,7 @@ CApplication::CApplication(int & argc, char ** argv):
 {
     //TODO: finishme: connect signal and slots to executor and window
     m_Window.show();
+
 }
 
 void CApplication::onEncryptButtonClicked(){}

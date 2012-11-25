@@ -113,6 +113,9 @@
     <ClCompile Include="GeneratedFiles\Release\moc_OperationResult.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="SteganoException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="zpr_stegano.h">
@@ -151,6 +154,9 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="SteganoTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SteganoException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

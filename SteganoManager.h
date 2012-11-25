@@ -19,6 +19,8 @@ public:
     PSteganoWidget produceSteganoWidget(int Id);
     int registerSteganoMethod(PCreateMethodFunc, PCreateWidgetFunc, QString);
 private:
+    QVector< std::pair<PCreateMethodFunc, PCreateWidgetFunc> > m_steganoProducts;
+    QVector< QString > m_steganoNames;
     Q_DISABLE_COPY(CSteganoManager)
     CSteganoManager(void);
 
