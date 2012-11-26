@@ -35,4 +35,16 @@ PMethodList CSteganoManager::getSteganoMethodList()
 
     return list;
 }
+PSteganoMethod CSteganoManager::produceSteganoMethod( int id )
+{
+    if( id >= m_counter)
+        throw CSteganoException("Method not registered");
+    return m_steganoProducts[id].first();
+}
+PSteganoWidget CSteganoManager::produceSteganoWidget( int id )
+{
+    if( id >= m_counter)
+        throw CSteganoException("Widget not registered");
+    return m_steganoProducts[id].second();
+}
 int CSteganoManager::m_counter = 0;
