@@ -8,6 +8,8 @@ class CSteganoBitsMethod :
 public:
     CSteganoBitsMethod(void);
     virtual ~CSteganoBitsMethod(void);
+    static PSteganoMethod createSteganoBitsMethod();
+
     virtual void encrypt(QString, QString, PByteArray, PArgsList);
     virtual void decrypt(QString, PByteArray, PArgsList);
     virtual void makePreview(QString, QString, PByteArray, PArgsList);
