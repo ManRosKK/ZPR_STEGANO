@@ -34,4 +34,7 @@ public slots:
 private:
 	Ui::ZPR_STEGANOClass ui;
     QSharedPointer<CSteganoWidget> m_MethodWidget;
+private slots:
+    void openFileButtonClicked();
+    void saveFileButtonClicked();
 };

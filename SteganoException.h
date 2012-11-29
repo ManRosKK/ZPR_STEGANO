@@ -8,6 +8,6 @@ class CSteganoException :
 public:
     CSteganoException(void);
     CSteganoException(const char* message):m_message(message){}
-    virtual ~CSteganoException(void);
+    virtual ~CSteganoException(void) throw();
 };
 
