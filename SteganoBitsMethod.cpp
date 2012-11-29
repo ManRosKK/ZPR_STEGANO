@@ -1,22 +1,25 @@
 #include "SteganoBitsMethod.h"
 
-
 CSteganoBitsMethod::CSteganoBitsMethod(void)
 {
 
 }
-
 
 CSteganoBitsMethod::~CSteganoBitsMethod(void)
 {
 
 }
 
+PSteganoMethod CSteganoBitsMethod::createSteganoBitsMethod()
+{
+    return PSteganoMethod(new CSteganoBitsMethod());
+}
+
 void CSteganoBitsMethod::encrypt(QString imageFilePath, QString imageSaveFilePath, PByteArray data, PArgsList steganoParameters)
 {
     QImage image;
-    image.load( imageFilePath );
-    image.save( imageSaveFilePath );
+    image.load(imageFilePath);
+    image.save(imageSaveFilePath);
 }
 
 void CSteganoBitsMethod::decrypt(QString imageFilePath, PByteArray data, PArgsList steganoParameters)

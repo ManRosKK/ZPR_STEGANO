@@ -6,6 +6,8 @@ class CSteganoBitsWidget :
 public:
     CSteganoBitsWidget(void);
     virtual ~CSteganoBitsWidget(void);
+    static PSteganoWidget createSteganoBitsWidget();
+
     virtual PArgsList getArgsList();
 };
 

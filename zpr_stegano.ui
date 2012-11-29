@@ -16,30 +16,59 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
+     <widget class="QComboBox" name="comboBox"/>
+    </item>
+    <item>
      <widget class="QPushButton" name="encryptButton">
       <property name="text">
-       <string>PushButton</string>
+       <string>encrypt</string>
       </property>
      </widget>
     </item>
     <item>
      <widget class="QPushButton" name="decryptButton">
       <property name="text">
-       <string>PushButton</string>
+       <string>decrypt</string>
       </property>
      </widget>
     </item>
     <item>
      <widget class="QPushButton" name="openFileButton">
       <property name="text">
-       <string>PushButton</string>
+       <string>openFile</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="openFileLabel">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>20</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>choosenFile</string>
       </property>
      </widget>
     </item>
     <item>
      <widget class="QPushButton" name="saveFileButton">
       <property name="text">
-       <string>PushButton</string>
+       <string>save</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="saveFilepathLabel">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>20</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>filepath to save</string>
       </property>
      </widget>
     </item>
@@ -51,7 +80,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QWidget" name="widget" native="true"/>
+     <layout class="QVBoxLayout" name="methodWidgetLayout"/>
     </item>
    </layout>
   </widget>

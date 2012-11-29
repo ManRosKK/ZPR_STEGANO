@@ -1,9 +1,16 @@
 #include "SteganoManager.h"
 #include "SteganoException.h"
+#include "SteganoBitsMethod.h"
+#include "SteganoBitsWidget.h"
 
 CSteganoManager::CSteganoManager(void)
 {
-    //
+    registerSteganoMethod(CSteganoBitsMethod::createSteganoBitsMethod,
+                          CSteganoBitsWidget::createSteganoBitsWidget,
+                          QString("Koczo"));
+    registerSteganoMethod(CSteganoBitsMethod::createSteganoBitsMethod,
+                          CSteganoBitsWidget::createSteganoBitsWidget,
+                          QString("Koczo2"));
 }
 
 CSteganoManager::~CSteganoManager(void)
@@ -18,18 +25,18 @@ CSteganoManager& CSteganoManager::getInstance()
 
 int CSteganoManager::registerSteganoMethod(PCreateMethodFunc methodCreator, PCreateWidgetFunc widgetCreator, QString name)
 {
-    if ( m_steganoNames.contains( name ) ) 
+    if (m_steganoNames.contains(name) )
         throw CSteganoException("Method already exists");
 
     m_steganoNames.push_back(name);
-    m_steganoProducts.push_back( std::pair< PCreateMethodFunc, PCreateWidgetFunc> (methodCreator,widgetCreator) );
+    m_steganoProducts.push_back( std::pair< PCreateMethodFunc, PCreateWidgetFunc>(methodCreator,widgetCreator) );
 
     return m_counter++;
 }
 
 PMethodList CSteganoManager::getSteganoMethodList()
 {
-    PMethodList list( &QList< std::pair<int,QString> >()  );
+    PMethodList list(new QList< std::pair<int,QString> >());
 
     for( int i = 0; i < m_counter; i++ )
         list->push_back( std::pair<int,QString>( i, m_steganoNames[i]) );

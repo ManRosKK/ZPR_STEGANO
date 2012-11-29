@@ -19,7 +19,15 @@ public slots:
     void onSaveFilepathChanged(QString);
     void onTextToHideChanged(QString);
     void onFileToHideChanged(QString);
+    void onEncryptFinished(bool);
 private:
+    void configureWindow();
+    void configureExecutor();
+
     ZPR_STEGANO m_Window;
     CSteganoExecutor m_Executor;
+
+    QString m_ImageFilepath;
+    QString m_SaveFilepath;
+    int m_ChoosenMethodId;
 };

@@ -2,6 +2,8 @@
 #include <QtGui/QMainWindow>
 #include "ui_zpr_stegano.h"
 #include "SteganoWidget.h"
+#include "SteganoTypes.h"
+#include <QMessageBox>
 
 typedef QList<QVariant> ArgsList;
 typedef QSharedPointer<QImage> PImage;
@@ -14,8 +16,11 @@ public:
 	ZPR_STEGANO(QWidget *parent = 0, Qt::WFlags flags = 0);
 	~ZPR_STEGANO();
     void setWidget(QSharedPointer<CSteganoWidget>);
-    ArgsList getArgsListFromWidget();
+    PArgsList getArgsListFromWidget();
 
+    // comment stub
+    // Method should set active the first element on the list
+    void setStegonoMethodsList(PMethodList);
 signals:
     void steganoMethodChoosen(int id);
     void encryptButtonClicked();
@@ -30,10 +35,12 @@ public slots:
     void onEncryptFinished(void);
     void onDecryptFinished(void);
     void displayPreview(PImage);
+    void showMessageBox(QString Message, QMessageBox::Icon MessageBoxIcon);
 
 private:
 	Ui::ZPR_STEGANOClass ui;
-    QSharedPointer<CSteganoWidget> m_MethodWidget;
+    PSteganoWidget m_pMethodWidget;
+
 private slots:
     void openFileButtonClicked();
     void saveFileButtonClicked();
