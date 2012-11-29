@@ -10,10 +10,10 @@ ZPR_STEGANO::ZPR_STEGANO(QWidget *parent, Qt::WFlags flags)
     ui.openFileButton->setText("Open File");
     ui.saveFileButton->setText("Save File to..");
 
-    connect(ui.encryptButton,SIGNAL(clicked()),this,SIGNAL(encryptButtonClicked()));
-    connect(ui.decryptButton,SIGNAL(clicked()),this,SIGNAL(decryptButtonClicked()));
-    connect(ui.openFileButton,SIGNAL(clicked()),this,SLOT(openFileButtonClicked()));
-    connect(ui.saveFileButton,SIGNAL(clicked()),this,SLOT(saveFileButtonClicked()));
+    connect(ui.encryptButton, SIGNAL(clicked()), this, SIGNAL(encryptButtonClicked()));
+    connect(ui.decryptButton, SIGNAL(clicked()), this, SIGNAL(decryptButtonClicked()));
+    connect(ui.openFileButton, SIGNAL(clicked()), this, SLOT(openFileButtonClicked()));
+    connect(ui.saveFileButton, SIGNAL(clicked()), this, SLOT(saveFileButtonClicked()));
 }
 
 ZPR_STEGANO::~ZPR_STEGANO()
