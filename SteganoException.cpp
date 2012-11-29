@@ -6,6 +6,6 @@ CSteganoException::CSteganoException(void)
 }
 
 
-CSteganoException::~CSteganoException(void)
+CSteganoException::~CSteganoException(void) throw()
 {
 }

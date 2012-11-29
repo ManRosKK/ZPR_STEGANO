@@ -135,6 +135,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OperationResult.cpp" />
     <ClCompile Include="SteganoBitsMethod.cpp" />
+    <ClCompile Include="SteganoBitsWidget.cpp" />
     <ClCompile Include="SteganoException.cpp" />
     <ClCompile Include="SteganoExecutor.cpp" />
     <ClCompile Include="SteganoManager.cpp" />
@@ -188,6 +189,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui"</Command>
     </CustomBuild>
+    <ClInclude Include="SteganoBitsWidget.h" />
     <ClInclude Include="SteganoException.h" />
     <ClInclude Include="SteganoTypes.h" />
     <CustomBuild Include="Application.h">
