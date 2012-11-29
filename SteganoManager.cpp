@@ -3,6 +3,7 @@
 
 CSteganoManager::CSteganoManager(void)
 {
+    //
 }
 
 CSteganoManager::~CSteganoManager(void)
@@ -32,7 +33,6 @@ PMethodList CSteganoManager::getSteganoMethodList()
 
     for( int i = 0; i < m_counter; i++ )
         list->push_back( std::pair<int,QString>( i, m_steganoNames[i]) );
-
     return list;
 }
 

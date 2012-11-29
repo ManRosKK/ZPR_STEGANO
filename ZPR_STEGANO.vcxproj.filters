@@ -116,6 +116,9 @@
     <ClCompile Include="SteganoException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SteganoBitsWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="zpr_stegano.h">
@@ -157,6 +160,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SteganoException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SteganoBitsWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
