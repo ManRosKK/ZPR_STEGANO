@@ -1,7 +1,7 @@
 #include "SteganoBitsWidget.h"
 #include <QLayout>
 #include <QLabel>
-
+#include <QBitArray>
 CSteganoBitsWidget::CSteganoBitsWidget(void)
 {
     QVBoxLayout *VerticalLayout = new QVBoxLayout(this);
@@ -22,7 +22,10 @@ PSteganoWidget CSteganoBitsWidget::createSteganoBitsWidget()
 
 PArgsList CSteganoBitsWidget::getArgsList()
 {
-    PArgsList pArgsList(new ArgsList());
 
+    PArgsList pArgsList(new ArgsList());
+    QBitArray Array(24);
+    Array.fill(true,0,16);
+    pArgsList->append(Array);
     return pArgsList;
 }
