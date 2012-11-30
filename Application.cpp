@@ -19,7 +19,7 @@ void CApplication::onEncryptButtonClicked()
     PByteArray ByteArray(new QByteArray());
     for(int i=0;i<50;++i)
     {
-        ByteArray->push_back(static_cast<char>(i));
+        ByteArray->push_back(static_cast<char>(0));
     }
 
     try

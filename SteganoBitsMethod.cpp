@@ -18,7 +18,6 @@ PSteganoMethod CSteganoBitsMethod::createSteganoBitsMethod()
 
 void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePath, PByteArray Data, PArgsList SteganoParameters)
 {
-    //bitarray 0-7 Red 8-15 gren 16-23 blue
     QImage image;
     image.load(ImageFilePath);
     unsigned int maskPixel = SteganoParameters->takeAt(0).toUInt();
