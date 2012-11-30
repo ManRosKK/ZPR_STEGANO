@@ -48,6 +48,8 @@ public:
         \param filepath
      */
     virtual int evaluate(PArgsList,QString) = 0;
+    virtual PSteganoMethod clone() = 0;
+    virtual QString getName() = 0;
 
 signals:
     void previewFinished(PImage);

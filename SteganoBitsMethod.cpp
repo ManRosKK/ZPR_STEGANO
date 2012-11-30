@@ -7,6 +7,11 @@ CSteganoBitsMethod::CSteganoBitsMethod(void)
 
 }
 
+CSteganoBitsMethod::CSteganoBitsMethod(const CSteganoBitsMethod&)
+{
+
+}
+
 CSteganoBitsMethod::~CSteganoBitsMethod(void)
 {
 
@@ -118,4 +123,15 @@ int CSteganoBitsMethod::evaluate(PArgsList,QString)
 inline void CSteganoBitsMethod::modifyPixel(QRgb& pixel, QVector<unsigned int> mask, QBitArray data)
 {
     
+}
+
+PSteganoMethod CSteganoBitsMethod::clone()
+{
+    return PSteganoMethod(new CSteganoBitsMethod(*this));
+}
+
+QString CSteganoBitsMethod::getName()
+{
+    //temporary
+    return QString("Koczo");
 }
