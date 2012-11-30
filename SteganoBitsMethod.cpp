@@ -132,6 +132,6 @@ PSteganoMethod CSteganoBitsMethod::clone()
 
 QString CSteganoBitsMethod::getName()
 {
-    //temporary
+    //TEMP temporary
     return QString("Koczo");
 }

@@ -17,9 +17,9 @@ void CApplication::onEncryptButtonClicked()
     //TEMP: generate test ByteArray
 
     PByteArray ByteArray(new QByteArray());
-    for(int i=0;i<1000000;++i)
+    for(int i=0;i<1000;++i)
     {
-        ByteArray->push_back(static_cast<char>(0));
+        ByteArray->push_back(static_cast<char>(i));
     }
 
     try

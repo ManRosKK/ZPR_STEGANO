@@ -12,6 +12,9 @@ ZPR_STEGANO::ZPR_STEGANO(QWidget *parent, Qt::WFlags flags)
     ui.decryptButton->setText("Decrypt!");
     ui.openFileButton->setText("Open File");
     ui.saveFileButton->setText("Save File to..");
+    ui.progressBar->setMinimum(0);
+    ui.progressBar->setMaximum(100);
+    ui.progressBar->setValue(20);
 
     connect(ui.encryptButton, SIGNAL(clicked()), this, SIGNAL(encryptButtonClicked()));
     connect(ui.decryptButton, SIGNAL(clicked()), this, SIGNAL(decryptButtonClicked()));
@@ -50,9 +53,9 @@ void ZPR_STEGANO::setStegonoMethodsList(PMethodList pMethodList)
 }
 
 
-void ZPR_STEGANO::updateProgress(int)
+void ZPR_STEGANO::updateProgress(int Value)
 {
-
+    ui.progressBar->setValue(Value);
 }
 
 void ZPR_STEGANO::onEncryptFinished(void)
