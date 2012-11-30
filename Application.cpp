@@ -91,17 +91,31 @@ void CApplication::configureWindow()
 void CApplication::configureExecutor()
 {
     connect(&m_Executor,SIGNAL(encryptFinished(bool)),this,SLOT(onEncryptFinished(bool)));
-    //TODO: connect the rest
+    connect(&m_Executor,SIGNAL,this,SLOT(onDecryptFinished(bool)));
+    connect(&m_Executor,SIGNAL(progressChanged(int)),&m_Window,SLOT(updateProgress(int)));
+    connect(&m_Executor,SIGNAL(previewFinished(PImage)),&m_Window,SLOT(displayPreview(PImage)));
 }
 
 void CApplication::onEncryptFinished(bool IsSuccess)
 {
     if(IsSuccess)
     {
-        m_Window.showMessageBox(QString("Success"),QMessageBox::Information);
+        m_Window.showMessageBox(QString("Encryption: Success"),QMessageBox::Information);
     }
     else
     {
-         m_Window.showMessageBox(QString("Fefefefe EPIK FEJL"),QMessageBox::Critical);
+         m_Window.showMessageBox(QString("Encryption: Fefefefe EPIK FEJL"),QMessageBox::Critical);
+    }
+}
+
+void CApplication::onDecryptFinished(bool IsSuccess)
+{
+    if(IsSuccess)
+    {
+        m_Window.showMessageBox(QString("Decryption: Success"),QMessageBox::Information);
+    }
+    else
+    {
+         m_Window.showMessageBox(QString("Decryption: Fefefefe EPIK FEJL"),QMessageBox::Critical);
     }
 }

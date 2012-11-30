@@ -11,7 +11,7 @@ public:
     PMethodList getSteganoMethodList();
     void encrypt(int Id,QString ImageFilepath, QString SaveFilepath, PByteArray pData, PArgsList pArgsList);
     void decrypt(int Id,QString ImageFilepath, PByteArray pData, PArgsList pArgsList);
-    void makePreview(int,QString, QString, PByteArray, PArgsList);
+    void makePreview(int Id, QString ImageFilepath, PByteArray pData, PArgsList pArgsList);
 signals:
     void previewFinished(PImage);
     void encryptFinished(bool); ///< bool: whether it succeded or not

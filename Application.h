@@ -20,6 +20,7 @@ public slots:
     void onTextToHideChanged(QString);
     void onFileToHideChanged(QString);
     void onEncryptFinished(bool);
+    void onDecryptFinished(bool);
 private:
     void configureWindow();
     void configureExecutor();
