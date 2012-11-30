@@ -1,6 +1,7 @@
 #include "SteganoBitsMethod.h"
 #include <QBitArray>
 #include <QRgb>
+#include <QDebug>
 CSteganoBitsMethod::CSteganoBitsMethod(void)
 {
 
@@ -33,7 +34,7 @@ void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePat
         shifter<<=1;
     }
     
-    
+    qDebug()<<"maskVector.size() => "<<maskVector.size();
     
     unsigned int dataLength = Data->length();
     //generacja zpisu dlugosci danych
@@ -50,15 +51,16 @@ void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePat
     for(int i = 0;i < Data->size();++i)
         for(int j=0;j<8;j++)
             data.setBit(i*8+j,Data->at(i)&(1<<j));
-
+    qDebug()<<"data.size() => "<<data.size();
     
 
     unsigned int dataCounter = 0; 
+    bool loopShouldFinishFlag = 0;
     for( int i = 0;i < image.height();i++)
     {
         for( int j = 0;j < image.width();j++)
         {
-            QRgb pixel = image.pixel(i,j);
+            QRgb pixel = image.pixel(j,i);
             for(int k = 0;k < maskVector.size();k++)
             {
                 if(data.testBit(dataCounter++) )
@@ -71,17 +73,23 @@ void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePat
                 }
                 if(dataCounter >= dataBitLength) //coming out of loop
                 {
-                    k = maskVector.size();
-                    i = image.height();
-                    j = image.width();
+                    loopShouldFinishFlag = true;
+                    qDebug()<<"(i,j) => "<<i<<","<<j;
+                    break;
                 }
             }
-            image.setPixel(i,j,pixel);
+            image.setPixel(j,i,pixel);
+            if( loopShouldFinishFlag )
+            {
+                i = image.height();
+                j = image.width();
+            }
         }
     }
     if(dataCounter < dataBitLength )
     {
          //blad
+        qDebug()<<"ERRRRRRRRRRRORRRRRR: "<<dataCounter;
     }
     image.save(ImageSaveFilePath);
 }
