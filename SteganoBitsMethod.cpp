@@ -31,12 +31,12 @@ void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePat
         {
             maskVector.push_back(shifter);
         }
-        shifter<<1;
+        shifter<<=1;
     }
     
+    
+    
     unsigned int dataLength = Data->length();
-    unsigned int dataBitLength = dataLength*8;
-
     //generacja zpisu dlugosci danych
     unsigned int mask = 0x000000FF;
     for(int k = 0;k<4;k++)
@@ -44,7 +44,8 @@ void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePat
         Data->push_front( static_cast<char>( ( dataLength>>(k*8) ) & mask ) );
     }
     
-
+    dataLength = Data->length();
+    unsigned int dataBitLength = dataLength*8;
     //generator danych
     QBitArray data(dataBitLength);
     for(int i = 0;i < Data->size();++i)
