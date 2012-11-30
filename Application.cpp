@@ -14,6 +14,14 @@ CApplication::CApplication(int & argc, char ** argv):
 
 void CApplication::onEncryptButtonClicked()
 {
+    //TEMP: generate test ByteArray
+
+    PByteArray ByteArray(new QByteArray());
+    for(int i=0;i<50;++i)
+    {
+        ByteArray->push_back(static_cast<char>(i));
+    }
+
     try
     {
         //test whether image filepath is not empty
@@ -22,7 +30,7 @@ void CApplication::onEncryptButtonClicked()
         if(m_SaveFilepath.length() == 0)
             throw CSteganoException("'Save to' filepath is not specified!");
         //TODO: data pusta ewentualnie
-        m_Executor.encrypt(m_ChoosenMethodId,m_ImageFilepath,m_SaveFilepath, PByteArray(),m_Window.getArgsListFromWidget());
+        m_Executor.encrypt(m_ChoosenMethodId,m_ImageFilepath,m_SaveFilepath, ByteArray,m_Window.getArgsListFromWidget());
     }
     catch(CSteganoException& Exception)
     {
