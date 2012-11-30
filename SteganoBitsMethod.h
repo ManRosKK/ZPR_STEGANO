@@ -15,5 +15,7 @@ public:
     virtual void makePreview(QString, QString, PByteArray, PArgsList);
     virtual int evaluate(PArgsList,int);
     virtual int evaluate(PArgsList,QString);
+private:
+    inline void modifyPixel(QRgb& pixel, QVector<unsigned int> mask, QBitArray data);
 };
 

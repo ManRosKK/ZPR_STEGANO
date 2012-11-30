@@ -24,8 +24,7 @@ PArgsList CSteganoBitsWidget::getArgsList()
 {
 
     PArgsList pArgsList(new ArgsList());
-    QBitArray Array(24);
-    Array.fill(true,0,16);
-    pArgsList->append(Array);
+    unsigned int mask = 0x0000FF;
+    pArgsList->append(mask);
     return pArgsList;
 }
