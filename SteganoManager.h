@@ -15,8 +15,8 @@ public:
     virtual ~CSteganoManager(void);
     static CSteganoManager& getInstance(void);
     PMethodList getSteganoMethodList(void);
-    PSteganoMethod produceSteganoMethod(int);
-    PSteganoWidget produceSteganoWidget(int);
+    PSteganoMethod produceSteganoMethod(int Id);
+    PSteganoWidget produceSteganoWidget(int Id);
     int registerSteganoMethod(PCreateMethodFunc, PCreateWidgetFunc, QString);
 private:
     QVector< std::pair<PCreateMethodFunc, PCreateWidgetFunc> > m_steganoProducts;

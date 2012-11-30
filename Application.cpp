@@ -91,7 +91,7 @@ void CApplication::configureWindow()
 void CApplication::configureExecutor()
 {
     connect(&m_Executor,SIGNAL(encryptFinished(bool)),this,SLOT(onEncryptFinished(bool)));
-    connect(&m_Executor,SIGNAL,this,SLOT(onDecryptFinished(bool)));
+    connect(&m_Executor,SIGNAL(decryptFinished(bool)),this,SLOT(onDecryptFinished(bool)));
     connect(&m_Executor,SIGNAL(progressChanged(int)),&m_Window,SLOT(updateProgress(int)));
     connect(&m_Executor,SIGNAL(previewFinished(PImage)),&m_Window,SLOT(displayPreview(PImage)));
 }

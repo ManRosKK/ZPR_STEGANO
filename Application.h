@@ -14,13 +14,13 @@ public slots:
     void onEncryptButtonClicked();
     void onDecryptButtonClicked();
     void onPreviewButtonClicked();
-    void onSteganoMethodChoosen(int id);
-    void onImageFilepathChanged(QString);
-    void onSaveFilepathChanged(QString);
-    void onTextToHideChanged(QString);
-    void onFileToHideChanged(QString);
-    void onEncryptFinished(bool);
-    void onDecryptFinished(bool);
+    void onSteganoMethodChoosen(int Id);
+    void onImageFilepathChanged(QString Filepath);
+    void onSaveFilepathChanged(QString Filepath);
+    void onTextToHideChanged(QString Filepath);
+    void onFileToHideChanged(QString Filepath);
+    void onEncryptFinished(bool IsSuccess);
+    void onDecryptFinished(bool IsSuccess);
 private:
     void configureWindow();
     void configureExecutor();

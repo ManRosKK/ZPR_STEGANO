@@ -7,7 +7,7 @@ class CSteganoException :
 {
 public:
     CSteganoException(void);
-    CSteganoException(const char* message):m_message(message){}
+    CSteganoException(const char* Message):m_message(Message){}
     virtual QString getMessage();
     virtual ~CSteganoException(void) throw();
 private:
