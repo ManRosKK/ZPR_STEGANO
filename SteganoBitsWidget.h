@@ -5,9 +5,10 @@ class CSteganoBitsWidget :
 {
 public:
     CSteganoBitsWidget(void);
+    CSteganoBitsWidget(const CSteganoBitsWidget&);
     virtual ~CSteganoBitsWidget(void);
     static PSteganoWidget createSteganoBitsWidget();
-
     virtual PArgsList getArgsList();
+    virtual PSteganoWidget clone();
 };
 

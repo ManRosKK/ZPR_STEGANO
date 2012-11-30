@@ -4,3 +4,8 @@ CSteganoWidget::CSteganoWidget(QWidget *parent) :
     QWidget(parent)
 {
 }
+
+CSteganoWidget::CSteganoWidget(const CSteganoWidget&)
+{
+
+}
