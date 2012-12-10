@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>617</width>
+    <height>702</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,20 +17,6 @@
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
      <widget class="QComboBox" name="comboBox"/>
-    </item>
-    <item>
-     <widget class="QPushButton" name="encryptButton">
-      <property name="text">
-       <string>encrypt</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="decryptButton">
-      <property name="text">
-       <string>decrypt</string>
-      </property>
-     </widget>
     </item>
     <item>
      <widget class="QPushButton" name="openFileButton">
@@ -53,24 +39,172 @@
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="saveFileButton">
-      <property name="text">
-       <string>save</string>
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0">
+      <property name="spacing">
+       <number>6</number>
       </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="saveFilepathLabel">
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>20</height>
-       </size>
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
       </property>
-      <property name="text">
-       <string>filepath to save</string>
-      </property>
-     </widget>
+      <item>
+       <layout class="QVBoxLayout" name="EncryptLayout">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>ENCRYPT</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="saveFileEncryptButton">
+          <property name="text">
+           <string>saveEncrypt</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="saveFileEncryptLabel">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>filepath to save encryption</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="fileRadioEncrypt">
+          <property name="text">
+           <string>useFilepathBelow</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="openDataFileEncryptButton">
+          <property name="text">
+           <string>openFileToEncryption</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="openDataFileEncryptLabel">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>filepath to save encryption</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="textRadioEncrypt">
+          <property name="text">
+           <string>Use TextBox</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTextEdit" name="textEditEncrypt">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>60</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="encryptButton">
+          <property name="text">
+           <string>encrypt</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="DecryptLayout">
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>DECRYPT</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="fileRadioDecrypt">
+          <property name="text">
+           <string>useFilepathBelow</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="openDataFileDecryptButton">
+          <property name="text">
+           <string>openFileToDecryption</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="openDataFileDecryptLabel">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>filepath to save decryption</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="textRadioDecrypt">
+          <property name="text">
+           <string>Use TextBox</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTextEdit" name="textEditDecrypt">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>60</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="decryptButton">
+          <property name="text">
+           <string>decrypt</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
     </item>
     <item>
      <widget class="QProgressBar" name="progressBar">
@@ -78,6 +212,19 @@
        <number>24</number>
       </property>
      </widget>
+    </item>
+    <item>
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
     </item>
     <item>
      <layout class="QVBoxLayout" name="methodWidgetLayout"/>

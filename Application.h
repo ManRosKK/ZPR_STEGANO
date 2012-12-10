@@ -15,10 +15,6 @@ public slots:
     void onDecryptButtonClicked();
     void onPreviewButtonClicked();
     void onSteganoMethodChoosen(int Id);
-    void onImageFilepathChanged(QString Filepath);
-    void onSaveFilepathChanged(QString Filepath);
-    void onTextToHideChanged(QString Filepath);
-    void onFileToHideChanged(QString Filepath);
     void onEncryptFinished(bool IsSuccess);
     void onDecryptFinished(bool IsSuccess);
 private:
@@ -27,8 +23,7 @@ private:
 
     ZPR_STEGANO m_Window;
     CSteganoExecutor m_Executor;
+    PByteArray m_DecryptedData;
 
-    QString m_ImageFilepath;
-    QString m_SaveFilepath;
     int m_ChoosenMethodId;
 };

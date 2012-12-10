@@ -17,6 +17,14 @@ public:
 	~ZPR_STEGANO();
     void setWidget(QSharedPointer<CSteganoWidget>);
     PArgsList getArgsListFromWidget();
+    QString getTextToHide();
+    QString getImageFilepath();
+    QString getSaveFilepath();
+    QString getEncryptFileToHide();
+    QString getDecryptFileToHide();
+    bool getEncryptDataSource();
+    bool getDecryptDataSource();
+    void showResultsInTextArea(PByteArray DecryptedData);
 
     // comment stub
     // Method should set active the first element on the list
@@ -26,10 +34,11 @@ signals:
     void encryptButtonClicked();
     void decryptButtonClicked();
     void previewButtonClicked();
-    void imageFilepathChanged(QString);
-    void saveFilepathChanged(QString);
-    void textToHideChanged(QString);
-    void fileToHideChanged(QString);
+    void imageFilepathChanged();
+    void saveFilepathChanged();
+    void fileToHideChanged();
+    void dataSourceChanged();
+
 public slots:
     void updateProgress(int);
     void onEncryptFinished(void);
@@ -41,7 +50,18 @@ private:
 	Ui::ZPR_STEGANOClass ui;
     PSteganoWidget m_pMethodWidget;
 
+    QString m_FileToHideEncryptFilepath;
+    QString m_FileToHideDecryptFilepath;
+    QString m_ImageFilepath;
+    QString m_SaveFilepath;
+    bool m_IsFileRadioEncryptChoosen;
+    bool m_IsFileRadioDecryptChoosen;
+
 private slots:
     void openFileButtonClicked();
     void saveFileButtonClicked();
+    void onEncryptRadioChecked(bool);
+    void onDecryptRadioChecked(bool);
+    void onEncryptDataOpenFile();
+    void onDecryptDataOpenFile();
 };
