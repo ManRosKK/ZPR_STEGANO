@@ -31,7 +31,7 @@ void CApplication::onEncryptButtonClicked()
         if(IsDataToSaveAFile)
         {
             qDebug()<<"saving a file" << m_Window.getEncryptFileToHide();
-            Data = PByteArray(new QByteArray(m_Window.getSaveFilepath().toAscii()));
+            Data = PByteArray(new QByteArray(m_Window.getEncryptFileToHide().toAscii()));
         }
         else
         {
@@ -59,7 +59,7 @@ void CApplication::onDecryptButtonClicked()
     }
     else
     {
-        qDebug()<<"saving to a textbox" << m_Window.getTextToHide();
+        qDebug()<<"saving to textbox";
         m_DecryptedData = PByteArray(new QByteArray());
     }
 

@@ -4,7 +4,7 @@
 
 CSteganoExecutor::CSteganoExecutor(QObject *parent) :
     QObject(parent),
-    m_LastMethodId(-1)
+    m_LastMethodId(-1) //FIXME: magic constant
 {
 }
 
@@ -23,7 +23,6 @@ void CSteganoExecutor::encrypt(int Id,QString ImageFilepath, QString SaveFilepat
 
 void CSteganoExecutor::decrypt(int Id,QString ImageFilepath, PByteArray pData, bool IsDataFilepath, PArgsList pArgsList)
 {
-    qDebug()<< "troll\n";
     if( Id != m_LastMethodId)
     {
         m_pSteganoMethod = CSteganoManager::getInstance().produceSteganoMethod(Id);

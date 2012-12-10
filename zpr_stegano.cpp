@@ -17,6 +17,8 @@ ZPR_STEGANO::ZPR_STEGANO(QWidget *parent, Qt::WFlags flags)
     ui.progressBar->setMinimum(0);
     ui.progressBar->setMaximum(100);
     ui.progressBar->setValue(85);
+    ui.textRadioDecrypt->setChecked(true);
+    //ui.textRadioEncrypt->setChecked(true);
 
     connect(ui.encryptButton, SIGNAL(clicked()), this, SIGNAL(encryptButtonClicked()));
     connect(ui.decryptButton, SIGNAL(clicked()), this, SIGNAL(decryptButtonClicked()));
@@ -81,7 +83,7 @@ QString ZPR_STEGANO::getDecryptFileToHide()
 
 bool ZPR_STEGANO::getEncryptDataSource()
 {
-    return m_IsFileRadioDecryptChoosen;
+    return m_IsFileRadioEncryptChoosen;
 }
 
 bool ZPR_STEGANO::getDecryptDataSource()
@@ -157,7 +159,6 @@ void ZPR_STEGANO::openFileButtonClicked()
 
 void ZPR_STEGANO::onEncryptRadioChecked(bool IsFileChecked)
 {
-    qDebug()<<"radio chcked";
     m_IsFileRadioEncryptChoosen = IsFileChecked;
 }
 
@@ -174,9 +175,9 @@ void ZPR_STEGANO::onEncryptDataOpenFile()
     //check whether QFileDialog returned a valid filename
     if(FileName.length() != 0)
     {
-        m_FileToHideEncryptFilepath = FileName; //same atm \/
+        m_FileToHideEncryptFilepath = FileName;
         ui.openDataFileEncryptLabel->setText(FileName);
-        //emit imageFilepathChanged();
+        ui.fileRadioEncrypt->setChecked(true);
     }
 }
 
@@ -184,18 +185,19 @@ void ZPR_STEGANO::onDecryptDataOpenFile()
 {
     QString FileName = QFileDialog::getSaveFileName(this,
         tr("Save data to"), QString());
-    qDebug()<<"asdasd "<<FileName;
+
     //check whether QFileDialog returned a valid filename
     if(FileName.length() != 0)
     {
-        m_FileToHideDecryptFilepath = FileName; //same atm /\
+        m_FileToHideDecryptFilepath = FileName;
         ui.openDataFileDecryptLabel->setText(FileName);
-        //emit imageFilepathChanged();
+        ui.fileRadioDecrypt->setChecked(true);
     }
 }
 
 void ZPR_STEGANO::showResultsInTextArea(PByteArray DecryptedData)
 {
+    DecryptedData->replace('\0','.');
     QString string(*DecryptedData);
     string.append("");
     ui.textEditDecrypt->setDocument(new QTextDocument(string,this));
