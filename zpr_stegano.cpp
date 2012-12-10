@@ -17,8 +17,17 @@ ZPR_STEGANO::ZPR_STEGANO(QWidget *parent, Qt::WFlags flags)
     ui.progressBar->setMinimum(0);
     ui.progressBar->setMaximum(100);
     ui.progressBar->setValue(85);
+
+    QButtonGroup* ButtonGroupEncrypt = new QButtonGroup(this);
+    ButtonGroupEncrypt->addButton(ui.textRadioEncrypt);
+    ButtonGroupEncrypt->addButton(ui.fileRadioEncrypt);
+
+    QButtonGroup* ButtonGroupDecrypt = new QButtonGroup(this);
+    ButtonGroupDecrypt->addButton(ui.textRadioDecrypt);
+    ButtonGroupDecrypt->addButton(ui.fileRadioDecrypt);
+
     ui.textRadioDecrypt->setChecked(true);
-    //ui.textRadioEncrypt->setChecked(true);
+    ui.textRadioEncrypt->setChecked(true);
 
     connect(ui.encryptButton, SIGNAL(clicked()), this, SIGNAL(encryptButtonClicked()));
     connect(ui.decryptButton, SIGNAL(clicked()), this, SIGNAL(decryptButtonClicked()));

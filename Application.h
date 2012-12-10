@@ -24,6 +24,6 @@ private:
     ZPR_STEGANO m_Window;
     CSteganoExecutor m_Executor;
     PByteArray m_DecryptedData;
-
+    bool m_WasDataToSaveAFile;
     int m_ChoosenMethodId;
 };

@@ -62,7 +62,7 @@ void CApplication::onDecryptButtonClicked()
         qDebug()<<"saving to textbox";
         m_DecryptedData = PByteArray(new QByteArray());
     }
-
+    m_WasDataToSaveAFile = IsDataToSaveAFile;
     m_Executor.decrypt(m_ChoosenMethodId, m_Window.getImageFilepath(), m_DecryptedData, IsDataToSaveAFile, m_Window.getArgsListFromWidget());
 }
 
@@ -124,8 +124,11 @@ void CApplication::onDecryptFinished(bool IsSuccess)
 {
     if(IsSuccess)
     {
+        if(!m_WasDataToSaveAFile)
+        {
+            m_Window.showResultsInTextArea(m_DecryptedData);
+        }
         m_Window.showMessageBox(QString("Decryption: Success"),QMessageBox::Information);
-        m_Window.showResultsInTextArea(m_DecryptedData);
     }
     else
     {
