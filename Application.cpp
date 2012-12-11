@@ -16,21 +16,30 @@ void CApplication::onEncryptButtonClicked()
 {
     //TEMP: generate test ByteArray
 
-    PByteArray ByteArray(new QByteArray());
-    for(int i=0;i<1000;++i)
-    {
-        ByteArray->push_back(static_cast<char>(i));
-    }
-
     try
     {
         //test whether image filepath is not empty
-        if(m_ImageFilepath.length() == 0)
+        QString ImageFilepath = m_Window.getImageFilepath();
+        if(ImageFilepath.length() == 0)
             throw CSteganoException("Image Filepath is not specified!");
-        if(m_SaveFilepath.length() == 0)
+        QString SaveFilepath = m_Window.getSaveFilepath();
+        if(SaveFilepath.length() == 0)
             throw CSteganoException("'Save to' filepath is not specified!");
         //TODO: data pusta ewentualnie
-        m_Executor.encrypt(m_ChoosenMethodId,m_ImageFilepath,m_SaveFilepath, ByteArray,m_Window.getArgsListFromWidget());
+        PByteArray Data;
+        bool IsDataToSaveAFile = m_Window.getEncryptDataSource();
+        if(IsDataToSaveAFile)
+        {
+            qDebug()<<"saving a file" << m_Window.getEncryptFileToHide();
+            Data = PByteArray(new QByteArray(m_Window.getEncryptFileToHide().toAscii()));
+        }
+        else
+        {
+            qDebug()<<"saving a text" << m_Window.getTextToHide();
+            Data = PByteArray(new QByteArray(m_Window.getTextToHide().toAscii()));
+        }
+
+        m_Executor.encrypt(m_ChoosenMethodId,ImageFilepath,SaveFilepath, Data, IsDataToSaveAFile, m_Window.getArgsListFromWidget());
     }
     catch(CSteganoException& Exception)
     {
@@ -42,6 +51,19 @@ void CApplication::onEncryptButtonClicked()
 void CApplication::onDecryptButtonClicked()
 {
 
+    bool IsDataToSaveAFile = m_Window.getDecryptDataSource();
+    if(IsDataToSaveAFile)
+    {
+        qDebug()<<"saving to file" << m_Window.getDecryptFileToHide();
+        m_DecryptedData = PByteArray(new QByteArray(m_Window.getDecryptFileToHide().toAscii()));
+    }
+    else
+    {
+        qDebug()<<"saving to textbox";
+        m_DecryptedData = PByteArray(new QByteArray());
+    }
+    m_WasDataToSaveAFile = IsDataToSaveAFile;
+    m_Executor.decrypt(m_ChoosenMethodId, m_Window.getImageFilepath(), m_DecryptedData, IsDataToSaveAFile, m_Window.getArgsListFromWidget());
 }
 
 void CApplication::onPreviewButtonClicked()
@@ -57,26 +79,6 @@ void CApplication::onSteganoMethodChoosen(int id)
     m_Window.setWidget(pStegenoWidget);
 }
 
-void CApplication::onImageFilepathChanged(QString Filepath)
-{
-    m_ImageFilepath = Filepath;
-}
-
-void CApplication::onSaveFilepathChanged(QString Filepath)
-{
-    m_SaveFilepath = Filepath;
-}
-
-void CApplication::onTextToHideChanged(QString)
-{
-
-}
-
-void CApplication::onFileToHideChanged(QString)
-{
-
-}
-
 void CApplication::configureWindow()
 {
     PMethodList pMethodList = CSteganoManager::getInstance().getSteganoMethodList();
@@ -90,8 +92,10 @@ void CApplication::configureWindow()
 
     connect(&m_Window,SIGNAL(steganoMethodChoosen(int)),this,SLOT(onSteganoMethodChoosen(int)));
     connect(&m_Window,SIGNAL(encryptButtonClicked()),this,SLOT(onEncryptButtonClicked()));
-    connect(&m_Window,SIGNAL(imageFilepathChanged(QString)),this,SLOT(onImageFilepathChanged(QString)));
-    connect(&m_Window,SIGNAL(saveFilepathChanged(QString)),this,SLOT(onSaveFilepathChanged(QString)));
+    connect(&m_Window,SIGNAL(decryptButtonClicked()),this,SLOT(onDecryptButtonClicked()));
+    //connect(&m_Window,SIGNAL(dataSourceChanged(bool)),this,SLOT(onDataSourceChanged(bool)));
+    //connect(&m_Window,SIGNAL(imageFilepathChanged()),this,SLOT(onImageFilepathChanged()));
+    //connect(&m_Window,SIGNAL(saveFilepathChanged()),this,SLOT(onSaveFilepathChanged()));
 
     m_Window.show();
 }
@@ -120,6 +124,10 @@ void CApplication::onDecryptFinished(bool IsSuccess)
 {
     if(IsSuccess)
     {
+        if(!m_WasDataToSaveAFile)
+        {
+            m_Window.showResultsInTextArea(m_DecryptedData);
+        }
         m_Window.showMessageBox(QString("Decryption: Success"),QMessageBox::Information);
     }
     else

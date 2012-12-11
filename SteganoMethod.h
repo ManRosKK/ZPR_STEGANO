@@ -13,10 +13,10 @@ public:
     /*!
       \param filepath to image to hide data in
       \param filepath to save image with hidden data
-      \param data to be hidden
+      \param data to be hidden (eventually filepath)
       \param argument list alternating method behaviour
     */
-    virtual void encrypt(QString ImageFilepath, QString SaveFilepath, PByteArray pData, PArgsList pArgsList) = 0;
+    virtual void encrypt(QString ImageFilepath, QString SaveFilepath, PByteArray pData, bool IsDataFilepath, PArgsList pArgsList) = 0;
 
     //! Decryption method.
     /*!
@@ -24,7 +24,7 @@ public:
       \param retrieved data
       \param argument list alternating method behaviour
     */
-    virtual void decrypt(QString ImageFilepath, PByteArray pData, PArgsList pArgsList) = 0;
+    virtual void decrypt(QString ImageFilepath, PByteArray pData, bool IsDataFilepath, PArgsList pArgsList) = 0;
 
     //! Hides the data and returns QImage using a signal previewFinished(PImage).
     /*!

@@ -22,12 +22,13 @@ PSteganoMethod CSteganoBitsMethod::createSteganoBitsMethod()
     return PSteganoMethod(new CSteganoBitsMethod());
 }
 
-void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePath, PByteArray Data, PArgsList SteganoParameters)
+void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePath, PByteArray Data, bool IsDataFilepath, PArgsList SteganoParameters)
 {
     QImage image;
     image.load(ImageFilePath);
     unsigned int maskPixel = SteganoParameters->takeAt(0).toUInt();
     unsigned int shifter = 0x1;
+
     //genrator maski
     QVector<unsigned int> maskVector;
     while( shifter != 0x01000000 )  
@@ -42,7 +43,7 @@ void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePat
     qDebug()<<"maskVector.size() => "<<maskVector.size();
     
     unsigned int dataLength = Data->length();
-    //generacja zpisu dlugosci danych
+    //generacja opisu dlugosci danych - pierwszy bajt w Data będzie najbardziej znaczący
     unsigned int mask = 0x000000FF;
     for(int k = 0;k<4;k++)
     {
@@ -99,7 +100,7 @@ void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePat
     image.save(ImageSaveFilePath);
 }
 
-void CSteganoBitsMethod::decrypt(QString imageFilePath, PByteArray data, PArgsList steganoParameters)
+void CSteganoBitsMethod::decrypt(QString imageFilePath, PByteArray data, bool IsDataFilepath, PArgsList steganoParameters)
 {
 
 }

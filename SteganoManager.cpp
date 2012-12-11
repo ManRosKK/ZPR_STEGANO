@@ -2,13 +2,15 @@
 #include "SteganoException.h"
 #include "SteganoBitsMethod.h"
 #include "SteganoBitsWidget.h"
+#include "SteganoNonCheckedMethod.h"
+#include "SteganoNonCheckedWidget.h"
 
 CSteganoManager::CSteganoManager(void)
 {
     registerSteganoMethod(PSteganoMethod(new CSteganoBitsMethod()),
                           PSteganoWidget(new CSteganoBitsWidget()));
-    registerSteganoMethod(PSteganoMethod(new CSteganoBitsMethod()),
-                          PSteganoWidget(new CSteganoBitsWidget()));
+    registerSteganoMethod(PSteganoMethod(new CSteganoNonCheckedMethod()),
+                          PSteganoWidget(new CSteganoNonCheckedWidget()));
 }
 
 CSteganoManager::~CSteganoManager(void)

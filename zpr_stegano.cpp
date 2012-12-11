@@ -5,28 +5,46 @@
 #include <QMessageBox>
 
 ZPR_STEGANO::ZPR_STEGANO(QWidget *parent, Qt::WFlags flags)
-	: QMainWindow(parent, flags)
+    : QMainWindow(parent, flags),
+      m_IsFileRadioEncryptChoosen(false),
+      m_IsFileRadioDecryptChoosen(false)
 {
 	ui.setupUi(this);
     ui.encryptButton->setText("Encrypt!");
     ui.decryptButton->setText("Decrypt!");
     ui.openFileButton->setText("Open File");
-    ui.saveFileButton->setText("Save File to..");
+    ui.saveFileEncryptButton->setText("Save File to..");
     ui.progressBar->setMinimum(0);
     ui.progressBar->setMaximum(100);
-    ui.progressBar->setValue(20);
+    ui.progressBar->setValue(85);
+
+    QButtonGroup* ButtonGroupEncrypt = new QButtonGroup(this);
+    ButtonGroupEncrypt->addButton(ui.textRadioEncrypt);
+    ButtonGroupEncrypt->addButton(ui.fileRadioEncrypt);
+
+    QButtonGroup* ButtonGroupDecrypt = new QButtonGroup(this);
+    ButtonGroupDecrypt->addButton(ui.textRadioDecrypt);
+    ButtonGroupDecrypt->addButton(ui.fileRadioDecrypt);
+
+    ui.textRadioDecrypt->setChecked(true);
+    ui.textRadioEncrypt->setChecked(true);
 
     connect(ui.encryptButton, SIGNAL(clicked()), this, SIGNAL(encryptButtonClicked()));
     connect(ui.decryptButton, SIGNAL(clicked()), this, SIGNAL(decryptButtonClicked()));
     connect(ui.openFileButton, SIGNAL(clicked()), this, SLOT(openFileButtonClicked()));
-    connect(ui.saveFileButton, SIGNAL(clicked()), this, SLOT(saveFileButtonClicked()));
+    connect(ui.saveFileEncryptButton, SIGNAL(clicked()), this, SLOT(saveFileButtonClicked()));
+    connect(ui.openDataFileEncryptButton, SIGNAL(clicked()),this,SLOT(onEncryptDataOpenFile()));
+    connect(ui.openDataFileDecryptButton, SIGNAL(clicked()),this,SLOT(onDecryptDataOpenFile()));
     connect(ui.comboBox,SIGNAL(activated(int)),this,SIGNAL(steganoMethodChoosen(int)));
+    connect(ui.fileRadioEncrypt,SIGNAL(toggled(bool)),this,SLOT(onEncryptRadioChecked(bool)));
+    connect(ui.fileRadioDecrypt,SIGNAL(toggled(bool)),this,SLOT(onDecryptRadioChecked(bool)));
 }
 
 ZPR_STEGANO::~ZPR_STEGANO()
 {
 
 }
+
 void ZPR_STEGANO::setWidget(PSteganoWidget pWidget)
 {
     //remove all widgets
@@ -52,6 +70,40 @@ void ZPR_STEGANO::setStegonoMethodsList(PMethodList pMethodList)
     }
 }
 
+QString ZPR_STEGANO::getImageFilepath()
+{
+    return m_ImageFilepath;
+}
+
+QString ZPR_STEGANO::getSaveFilepath()
+{
+    return m_SaveFilepath;
+}
+
+QString ZPR_STEGANO::getEncryptFileToHide()
+{
+    return m_FileToHideEncryptFilepath;
+}
+
+QString ZPR_STEGANO::getDecryptFileToHide()
+{
+    return m_FileToHideDecryptFilepath;
+}
+
+bool ZPR_STEGANO::getEncryptDataSource()
+{
+    return m_IsFileRadioEncryptChoosen;
+}
+
+bool ZPR_STEGANO::getDecryptDataSource()
+{
+    return m_IsFileRadioDecryptChoosen;
+}
+
+QString ZPR_STEGANO::getTextToHide()
+{
+    return ui.textEditEncrypt->document()->toPlainText();
+}
 
 void ZPR_STEGANO::updateProgress(int Value)
 {
@@ -94,8 +146,9 @@ void ZPR_STEGANO::saveFileButtonClicked()
     //check whether QFileDialog returned a valid filename
     if(FileName.length() != 0)
     {
-        ui.saveFilepathLabel->setText(FileName);
-        emit saveFilepathChanged(FileName);
+        m_SaveFilepath = FileName;
+        ui.saveFileEncryptLabel->setText(FileName);
+        emit saveFilepathChanged();
     }
 }
 
@@ -107,8 +160,54 @@ void ZPR_STEGANO::openFileButtonClicked()
     //check whether QFileDialog returned a valid filename
     if(FileName.length() != 0)
     {
+        m_ImageFilepath = FileName;
         ui.openFileLabel->setText(FileName);
-        emit imageFilepathChanged(FileName);
+        emit imageFilepathChanged();
     }
 }
 
+void ZPR_STEGANO::onEncryptRadioChecked(bool IsFileChecked)
+{
+    m_IsFileRadioEncryptChoosen = IsFileChecked;
+}
+
+void ZPR_STEGANO::onDecryptRadioChecked(bool IsFileChecked)
+{
+    m_IsFileRadioDecryptChoosen = IsFileChecked;
+}
+
+void ZPR_STEGANO::onEncryptDataOpenFile()
+{
+    QString FileName = QFileDialog::getOpenFileName(this,
+        tr("Open File"), QString());
+
+    //check whether QFileDialog returned a valid filename
+    if(FileName.length() != 0)
+    {
+        m_FileToHideEncryptFilepath = FileName;
+        ui.openDataFileEncryptLabel->setText(FileName);
+        ui.fileRadioEncrypt->setChecked(true);
+    }
+}
+
+void ZPR_STEGANO::onDecryptDataOpenFile()
+{
+    QString FileName = QFileDialog::getSaveFileName(this,
+        tr("Save data to"), QString());
+
+    //check whether QFileDialog returned a valid filename
+    if(FileName.length() != 0)
+    {
+        m_FileToHideDecryptFilepath = FileName;
+        ui.openDataFileDecryptLabel->setText(FileName);
+        ui.fileRadioDecrypt->setChecked(true);
+    }
+}
+
+void ZPR_STEGANO::showResultsInTextArea(PByteArray DecryptedData)
+{
+    DecryptedData->replace('\0','.');
+    QString string(*DecryptedData);
+    string.append("");
+    ui.textEditDecrypt->setDocument(new QTextDocument(string,this));
+}

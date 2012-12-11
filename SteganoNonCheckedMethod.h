@@ -1,15 +1,13 @@
 #pragma once
 #include "SteganoMethod.h"
 
-class CSteganoBitsMethod :
-    public CSteganoMethod
+class CSteganoNonCheckedMethod : public CSteganoMethod
 {
-    Q_OBJECT
 public:
-    CSteganoBitsMethod(void);
-    CSteganoBitsMethod(const CSteganoBitsMethod&);
-    virtual ~CSteganoBitsMethod(void);
-    static PSteganoMethod createSteganoBitsMethod();
+    CSteganoNonCheckedMethod(void);
+    CSteganoNonCheckedMethod(const CSteganoNonCheckedMethod&);
+    virtual ~CSteganoNonCheckedMethod(void);
+    static PSteganoMethod createSteganoNonCheckedMethod();
 
     virtual void encrypt(QString, QString, PByteArray, bool IsDataFilepath, PArgsList);
     virtual void decrypt(QString, PByteArray, bool IsDataFilepath, PArgsList);
@@ -19,6 +17,7 @@ public:
     virtual PSteganoMethod clone();
     virtual QString getName();
 private:
-    inline void modifyPixel(QRgb& pixel, QVector<unsigned int> mask, QBitArray data);
+    static const unsigned int c_MaxExtensionLength = 16;
 };
+
 

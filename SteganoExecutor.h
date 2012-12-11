@@ -9,8 +9,8 @@ class CSteganoExecutor : public QObject
 public:
     explicit CSteganoExecutor( QObject *parent = 0 );
     PMethodList getSteganoMethodList();
-    void encrypt(int Id,QString ImageFilepath, QString SaveFilepath, PByteArray pData, PArgsList pArgsList);
-    void decrypt(int Id,QString ImageFilepath, PByteArray pData, PArgsList pArgsList);
+    void encrypt(int Id,QString ImageFilepath, QString SaveFilepath, PByteArray pData, bool IsDataFilepath, PArgsList pArgsList);
+    void decrypt(int Id,QString ImageFilepath, PByteArray pData, bool IsDataFilepath, PArgsList pArgsList);
     void makePreview(int Id, QString ImageFilepath, PByteArray pData, PArgsList pArgsList);
 signals:
     void previewFinished(PImage);
