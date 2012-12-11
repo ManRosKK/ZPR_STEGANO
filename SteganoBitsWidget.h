@@ -1,6 +1,5 @@
 #pragma once
 #include "SteganoWidget.h"
-#include "ui_stegano_bits_widget.h"
 #include <QCheckBox>
 
 class CSteganoBitsWidget :
