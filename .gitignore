@@ -31,3 +31,4 @@ _ReSharper*/
 *.tlh
 *.lib
 [Tt]est[Rr]esult*
+GeneratedFiles/ui_zpr_stegano.h

@@ -1,7 +1,10 @@
+
+#include "SteganoTypes.h"
 #include "SteganoBitsMethod.h"
 #include <QBitArray>
 #include <QRgb>
 #include <QDebug>
+
 CSteganoBitsMethod::CSteganoBitsMethod(void)
 {
 
@@ -21,44 +24,54 @@ PSteganoMethod CSteganoBitsMethod::createSteganoBitsMethod()
 {
     return PSteganoMethod(new CSteganoBitsMethod());
 }
-
-void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePath, PByteArray Data, bool IsDataFilepath, PArgsList SteganoParameters)
+PVectorInt CSteganoBitsMethod::generateEncryptMask(unsigned int maskPixel)
 {
-    QImage image;
-    image.load(ImageFilePath);
-    unsigned int maskPixel = SteganoParameters->takeAt(0).toUInt();
     unsigned int shifter = 0x1;
-
-    //genrator maski
-    QVector<unsigned int> maskVector;
+    PVectorInt pmaskVector(new QVector<unsigned int>());
+    //mask generator
     while( shifter != 0x01000000 )  
     {
         if( shifter & maskPixel)
         {
-            maskVector.push_back(shifter);
+            pmaskVector->push_back(shifter);
         }
         shifter<<=1;
     }
-    
-    qDebug()<<"maskVector.size() => "<<maskVector.size();
-    
-    unsigned int dataLength = Data->length();
-    //generacja opisu dlugosci danych - pierwszy bajt w Data będzie najbardziej znaczący
+    return pmaskVector;
+}
+PBitArray CSteganoBitsMethod::prepareEncryptData(PByteArray Data)
+{
+    //data length generation - 1 byte in stream is MSB 
+    unsigned int dataLength = Data->length(); //data length
     unsigned int mask = 0x000000FF;
     for(int k = 0;k<4;k++)
     {
         Data->push_front( static_cast<char>( ( dataLength>>(k*8) ) & mask ) );
     }
     
-    dataLength = Data->length();
+    dataLength = Data->length(); //data length + sizeof(data length)
     unsigned int dataBitLength = dataLength*8;
     //generator danych
-    QBitArray data(dataBitLength);
+    PBitArray pdata(new QBitArray(dataBitLength));
     for(int i = 0;i < Data->size();++i)
         for(int j=0;j<8;j++)
-            data.setBit(i*8+j,Data->at(i)&(1<<j));
-    qDebug()<<"data.size() => "<<data.size();
+            pdata->setBit(i*8+j,Data->at(i)&(1<<j));
+    qDebug()<<"data.size() => "<<pdata->size();
+    return pdata;
+}
+void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePath, PByteArray Data, bool IsDataFilepath, PArgsList SteganoParameters)
+{
+    unsigned int dataBitLength;
+    QImage image;
+    image.load(ImageFilePath);
+    unsigned int maskPixel = SteganoParameters->takeAt(0).toUInt();
     
+    PVectorInt pmaskVector = generateEncryptMask(maskPixel); //generating help mask for encrypting
+    qDebug()<<"maskVector.size() => "<<pmaskVector->size();
+    
+    PBitArray pdata = prepareEncryptData(Data);
+    dataBitLength = 8*Data->size();
+    Data.clear();
 
     unsigned int dataCounter = 0; 
     bool loopShouldFinishFlag = 0;
@@ -67,15 +80,15 @@ void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePat
         for( int j = 0;j < image.width();j++)
         {
             QRgb pixel = image.pixel(j,i);
-            for(int k = 0;k < maskVector.size();k++)
+            for(int k = 0;k < pmaskVector->size();k++)
             {
-                if(data.testBit(dataCounter++) )
-                {
-                    pixel |=(maskVector[k]); // set bit in pixel on proper position
+                if(pdata->testBit(dataCounter++) )
+                {//1
+                    pixel |=((*pmaskVector)[k]); // set bit in pixel on proper position
                 }
                 else
-                {
-                    pixel &=~(maskVector[k]);
+                {//0
+                    pixel &=~((*pmaskVector)[k]);
                 }
                 if(dataCounter >= dataBitLength) //coming out of loop
                 {
@@ -85,7 +98,7 @@ void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePat
                 }
             }
             image.setPixel(j,i,pixel);
-            if( loopShouldFinishFlag )
+            if( loopShouldFinishFlag ) //if we got the end of Data length
             {
                 i = image.height();
                 j = image.width();
@@ -100,9 +113,59 @@ void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePat
     image.save(ImageSaveFilePath);
 }
 
-void CSteganoBitsMethod::decrypt(QString imageFilePath, PByteArray data, bool IsDataFilepath, PArgsList steganoParameters)
+void CSteganoBitsMethod::decrypt(QString ImageFilePath, PByteArray data, bool IsDataFilepath, PArgsList SteganoParameters)
 {
+    PByteArray Data( new QByteArray() );
+    unsigned int dataBitLength;
+    QImage image;
+    image.load(ImageFilePath);
+    unsigned int maskPixel = SteganoParameters->takeAt(0).toUInt();
+    
+    PVectorInt pmaskVector = generateEncryptMask(maskPixel); //generating help mask for encrypting
+    qDebug()<<"maskVector.size() => "<<pmaskVector->size();
+    
+    //odczyt dlugosci danych
+  //  PBitArray pdata = prepareEncryptData(Data);
+  //  dataBitLength = 8*Data->size();
+  //  Data.clear();
 
+    unsigned int dataCounter = 0; 
+    bool loopShouldFinishFlag = 0;
+    for( int i = 0;i < image.height();i++)
+    {
+        for( int j = 0;j < image.width();j++)
+        {
+            QRgb pixel = image.pixel(j,i);
+            for(int k = 0;k < pmaskVector->size();k++)
+            {
+             /*   if(pdata->testBit(dataCounter++) )
+                {//1
+                    pixel |=((*pmaskVector)[k]); // set bit in pixel on proper position
+                }
+                else
+                {//0
+                    pixel &=~((*pmaskVector)[k]);
+                }
+                if(dataCounter >= dataBitLength) //coming out of loop
+                {
+                    loopShouldFinishFlag = true;
+                    qDebug()<<"(i,j) => "<<i<<","<<j;
+                    break;
+                }*/
+            }
+            image.setPixel(j,i,pixel);
+            if( loopShouldFinishFlag ) //if we got the end of Data length
+            {
+                i = image.height();
+                j = image.width();
+            }
+        }
+    }
+    if(dataCounter < dataBitLength )
+    {
+         //blad
+        qDebug()<<"ERRRRRRRRRRRORRRRRR: "<<dataCounter;
+    }
 }
 
 void CSteganoBitsMethod::makePreview(QString imageFilePath, QString imageSaveFilePath, PByteArray data, PArgsList steganoParameters)

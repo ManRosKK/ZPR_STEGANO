@@ -119,6 +119,12 @@
     <ClCompile Include="SteganoBitsWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SteganoNonCheckedMethod.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SteganoNonCheckedWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="zpr_stegano.h">
@@ -163,6 +169,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SteganoBitsWidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BitmapHeader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SteganoNonCheckedMethod.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SteganoNonCheckedWidget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

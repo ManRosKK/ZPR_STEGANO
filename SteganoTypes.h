@@ -15,3 +15,5 @@ typedef QSharedPointer<QImage> PImage;
 typedef QSharedPointer<CSteganoMethod> PSteganoMethod;
 typedef QSharedPointer<CSteganoWidget> PSteganoWidget;
 typedef QSharedPointer< QList< std::pair<int,QString> > > PMethodList;
+typedef QSharedPointer<QVector<unsigned int> > PVectorInt;
+typedef QSharedPointer<QBitArray> PBitArray;

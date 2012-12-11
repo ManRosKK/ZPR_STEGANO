@@ -1,6 +1,7 @@
 #pragma once
-#include "SteganoMethod.h"
 
+#include "SteganoTypes.h"
+#include "SteganoMethod.h"
 class CSteganoBitsMethod :
     public CSteganoMethod
 {
@@ -20,5 +21,7 @@ public:
     virtual QString getName();
 private:
     inline void modifyPixel(QRgb& pixel, QVector<unsigned int> mask, QBitArray data);
+    PVectorInt CSteganoBitsMethod::generateEncryptMask(unsigned int maskPixel);
+    PBitArray CSteganoBitsMethod::prepareEncryptData(PByteArray Data);
 };
 
