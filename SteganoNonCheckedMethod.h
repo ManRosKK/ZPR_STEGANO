@@ -9,8 +9,8 @@ public:
     virtual ~CSteganoNonCheckedMethod(void);
     static PSteganoMethod createSteganoNonCheckedMethod();
 
-    virtual void encrypt(QString, QString, PByteArray, bool IsDataFilepath, PArgsList);
-    virtual void decrypt(QString, PByteArray, bool IsDataFilepath, PArgsList);
+    virtual void encrypt(QString, QString, QString, PArgsList);
+    virtual void decrypt(QString, QString, PArgsList);
     virtual void makePreview(QString, QString, PByteArray, PArgsList);
     virtual int evaluate(PArgsList,int);
     virtual int evaluate(PArgsList,QString);

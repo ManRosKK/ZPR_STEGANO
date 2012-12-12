@@ -17,6 +17,7 @@ public slots:
     void onSteganoMethodChoosen(int Id);
     void onEncryptFinished(bool IsSuccess);
     void onDecryptFinished(bool IsSuccess);
+    void onDecryptFinished(bool IsSuccess, QString DecryptedData);
 private:
     void configureWindow();
     void configureExecutor();

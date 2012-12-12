@@ -59,9 +59,9 @@ PBitArray CSteganoBitsMethod::prepareEncryptData(PByteArray Data)
     qDebug()<<"data.size() => "<<pdata->size();
     return pdata;
 }
-void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePath, PByteArray Data, bool IsDataFilepath, PArgsList SteganoParameters)
+void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePath, QString DataFilePath, PArgsList SteganoParameters)
 {
-    unsigned int dataBitLength;
+    /*unsigned int dataBitLength;
     QImage image;
     image.load(ImageFilePath);
     unsigned int maskPixel = SteganoParameters->takeAt(0).toUInt();
@@ -110,12 +110,12 @@ void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePat
          //blad
         qDebug()<<"ERRRRRRRRRRRORRRRRR: "<<dataCounter;
     }
-    image.save(ImageSaveFilePath);
+    image.save(ImageSaveFilePath);*/
 }
 
-void CSteganoBitsMethod::decrypt(QString ImageFilePath, PByteArray data, bool IsDataFilepath, PArgsList SteganoParameters)
+void CSteganoBitsMethod::decrypt(QString ImageFilePath, QString DataFilepath, PArgsList SteganoParameters)
 {
-    PByteArray Data( new QByteArray() );
+    /*PByteArray Data( new QByteArray() );
     unsigned int dataBitLength;
     QImage image;
     image.load(ImageFilePath);
@@ -137,7 +137,7 @@ void CSteganoBitsMethod::decrypt(QString ImageFilePath, PByteArray data, bool Is
         {
             QRgb pixel = image.pixel(j,i);
             for(int k = 0;k < pmaskVector->size();k++)
-            {
+            {*/
              /*   if(pdata->testBit(dataCounter++) )
                 {//1
                     pixel |=((*pmaskVector)[k]); // set bit in pixel on proper position
@@ -152,7 +152,7 @@ void CSteganoBitsMethod::decrypt(QString ImageFilePath, PByteArray data, bool Is
                     qDebug()<<"(i,j) => "<<i<<","<<j;
                     break;
                 }*/
-            }
+/*            }
             image.setPixel(j,i,pixel);
             if( loopShouldFinishFlag ) //if we got the end of Data length
             {
@@ -165,7 +165,7 @@ void CSteganoBitsMethod::decrypt(QString ImageFilePath, PByteArray data, bool Is
     {
          //blad
         qDebug()<<"ERRRRRRRRRRRORRRRRR: "<<dataCounter;
-    }
+    }*/
 }
 
 void CSteganoBitsMethod::makePreview(QString imageFilePath, QString imageSaveFilePath, PByteArray data, PArgsList steganoParameters)

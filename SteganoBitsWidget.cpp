@@ -40,6 +40,11 @@ PArgsList CSteganoBitsWidget::getArgsList()
     return pArgsList;
 }
 
+void CSteganoBitsWidget::setArgsList(PArgsList)
+{
+    //todo: implement me
+}
+
 PSteganoWidget CSteganoBitsWidget::clone()
 {
     return PSteganoWidget(new CSteganoBitsWidget(*this));

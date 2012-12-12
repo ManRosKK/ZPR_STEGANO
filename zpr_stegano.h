@@ -17,6 +17,7 @@ public:
 	~ZPR_STEGANO();
     void setWidget(QSharedPointer<CSteganoWidget>);
     PArgsList getArgsListFromWidget();
+    void setArgsListForWidget(PArgsList);
     QString getTextToHide();
     QString getImageFilepath();
     QString getSaveFilepath();
@@ -24,7 +25,7 @@ public:
     QString getDecryptFileToHide();
     bool getEncryptDataSource();
     bool getDecryptDataSource();
-    void showResultsInTextArea(PByteArray DecryptedData);
+    void showResultsInTextArea(QString DecryptedData);
 
     // comment stub
     // Method should set active the first element on the list

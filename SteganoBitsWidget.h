@@ -11,6 +11,7 @@ public:
     virtual ~CSteganoBitsWidget(void);
     static PSteganoWidget createSteganoBitsWidget();
     virtual PArgsList getArgsList();
+    virtual void setArgsList(PArgsList);
     virtual PSteganoWidget clone();
 private:
     void configureUI();

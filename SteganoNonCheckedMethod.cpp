@@ -27,7 +27,7 @@ PSteganoMethod CSteganoNonCheckedMethod::createSteganoNonCheckedMethod()
     return PSteganoMethod(new CSteganoNonCheckedMethod());
 }
 
-void CSteganoNonCheckedMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePath, PByteArray Data, bool IsDataFilepath, PArgsList SteganoParameters)
+void CSteganoNonCheckedMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePath, QString DataFilepath, PArgsList SteganoParameters)
 {
     //SteganoParameters ignored atm
     //finds if sourcefilepath is a bitmap
@@ -35,7 +35,7 @@ void CSteganoNonCheckedMethod::encrypt(QString ImageFilePath, QString ImageSaveF
         //to destfilepath.
 
     std::fstream fileone(ImageFilePath.toStdString().c_str(), std::fstream::in | std::fstream::binary);
-    std::fstream filetwo(QString(*Data).toStdString().c_str(), std::fstream::in | std::fstream::binary);
+    std::fstream filetwo(DataFilepath.toStdString().c_str(), std::fstream::in | std::fstream::binary);
     std::fstream filedest(ImageSaveFilePath.toStdString().c_str(), std::fstream::out | std::fstream::binary);
 
     //check out whether fileone is a bitmap
@@ -54,11 +54,9 @@ void CSteganoNonCheckedMethod::encrypt(QString ImageFilePath, QString ImageSaveF
     }
     fileone.seekg (0, std::ios::beg);
 
-
     const int c_BufferSize = 1000000;
     // allocate memory for buffer
     char* buffer = new char[c_BufferSize];
-
 
     //rewrite the source file
     std::streamsize count = 0;
@@ -70,67 +68,50 @@ void CSteganoNonCheckedMethod::encrypt(QString ImageFilePath, QString ImageSaveF
     }
     while(count != 0);
 
-    if(IsDataFilepath)
+
+    //find out info file size
+    filetwo.seekg (0, std::ios::end);
+    int infofilesize = filetwo.tellg();
+    filetwo.seekg (0, std::ios::beg);
+    //qDebug()<<"infofilesize"<<infofilesize;
+
+    //write this size to file
+    filedest.write((char*)&infofilesize,sizeof(int));
+
+    //find out extention
+    char fileExtention[c_MaxExtensionLength+1];
+    memset(fileExtention, 0, c_MaxExtensionLength+1);
+    std::string infoFileExtension(DataFilepath.toStdString());
+    size_t lastof =infoFileExtension.find_last_of(".");
+    if(lastof != std::string::npos)
     {
-        //find out info file size
-        filetwo.seekg (0, std::ios::end);
-        int infofilesize = filetwo.tellg();
-        filetwo.seekg (0, std::ios::beg);
-        //qDebug()<<"infofilesize"<<infofilesize;
-
-        //write this size to file
-        filedest.write((char*)&infofilesize,sizeof(int));
-
-        //find out extention
-        char fileExtention[c_MaxExtensionLength+1];
-        memset(fileExtention, 0, c_MaxExtensionLength+1);
-        std::string infoFileExtension(QString(*Data).toStdString());
-        size_t lastof =infoFileExtension.find_last_of(".");
-        if(lastof != std::string::npos)
+        infoFileExtension = infoFileExtension.substr(lastof + 1);
+        if(infoFileExtension.length() <= c_MaxExtensionLength)
         {
-            infoFileExtension = infoFileExtension.substr(lastof + 1);
-            if(infoFileExtension.length() <= c_MaxExtensionLength)
-            {
-                strcpy (fileExtention,infoFileExtension.c_str());
-            }
-            else
-            {
-                //save without ext
-            }
+            strcpy (fileExtention,infoFileExtension.c_str());
         }
-
-        //write it to the file
-        filedest.write(fileExtention,c_MaxExtensionLength);
-
-        do
+        else
         {
-            filetwo.read(buffer, c_BufferSize);
-            count = filetwo.gcount();
-            filedest.write(buffer,count);
+            //save without ext
         }
-        while( count != 0);
     }
-    else
+
+    //write it to the file
+    filedest.write(fileExtention,c_MaxExtensionLength);
+
+    do
     {
-        //find out info file size
-        unsigned int infofilesize = static_cast<unsigned int>(Data->size());
-
-        //write this size to file
-        filedest.write((char*)&infofilesize,sizeof(int));
-
-        //write extension to the file
-        char fileExtention[c_MaxExtensionLength+1];
-        memset(fileExtention, 0, c_MaxExtensionLength+1);
-        filedest.write(fileExtention,c_MaxExtensionLength);
-
-        filedest.write(Data->constData (),Data->size());
+        filetwo.read(buffer, c_BufferSize);
+        count = filetwo.gcount();
+        filedest.write(buffer,count);
     }
+    while( count != 0);
 
     //clean up
     delete[](buffer);
 }
 
-void CSteganoNonCheckedMethod::decrypt(QString ImageFilePath, PByteArray Data, bool IsDataFilepath, PArgsList SteganoParameters)
+void CSteganoNonCheckedMethod::decrypt(QString ImageFilePath, QString SaveFilepath, PArgsList SteganoParameters)
 {
     std::fstream file(ImageFilePath.toStdString().c_str(), std::fstream::in | std::fstream::binary);
 
@@ -180,46 +161,26 @@ void CSteganoNonCheckedMethod::decrypt(QString ImageFilePath, PByteArray Data, b
             }
 
             //write the data
-            if(IsDataFilepath)
+
+            //compute filepath called filenamesavewithExt
+            std::string filenamesavewithExt(SaveFilepath.toStdString());
+            //filenamesavewithExt += ('0'+i); only one file!
+            if(strlen(fileExtention)>0)
             {
-                //compute filepath called filenamesavewithExt
-                std::string filenamesavewithExt(QString(*Data).toStdString());
-                filenamesavewithExt += ('0'+i);
-                if(strlen(fileExtention)>0)
-                {
-                    filenamesavewithExt.append(".");
-                }
-                filenamesavewithExt.append(fileExtention);
-
-                //fast read - try to allocate filesize buffer
-                char* buffer = new char[filesize]; //alternative - qscopedpointer, but no delete [] then, but safe for char.
-                file.read(buffer,filesize);
-                if(!file)
-                {
-                    std::cout << "error reading binary file hiden"<<std::endl;
-                }
-                std::fstream filewrite(filenamesavewithExt.c_str(), std::fstream::out | std::fstream::binary);
-                filewrite.write(buffer,filesize);
-                delete [] buffer;
+                filenamesavewithExt.append(".");
             }
-            else
+            filenamesavewithExt.append(fileExtention);
+
+            //fast read - try to allocate filesize buffer
+            char* buffer = new char[filesize]; //alternative - qscopedpointer, but no delete [] then, but safe for char.
+            file.read(buffer,filesize);
+            if(!file)
             {
-                //fast read - try to allocate filesize buffer
-                //alternative - qscopedpointer,(no delete [] then), but anyways it would be safe for char.
-                char* buffer = new char[filesize];
-
-                file.read(buffer,filesize);
-                if(!file)
-                {
-                    std::cout << "error reading binary file hiden"<<std::endl;
-                }
-                Data->clear();
-                Data->append(" "); //hack - deep copy is performed only if Data is not empty
-                Data->prepend(QByteArray::fromRawData(buffer, filesize)); //WARNING: not safe!!
-                Data->truncate(filesize);
-
-                delete [] buffer;
+                std::cout << "error reading binary file hiden"<<std::endl;
             }
+            std::fstream filewrite(filenamesavewithExt.c_str(), std::fstream::out | std::fstream::binary);
+            filewrite.write(buffer,filesize);
+            delete [] buffer;
 
             ++i;
         }

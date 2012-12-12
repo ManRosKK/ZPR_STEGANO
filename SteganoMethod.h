@@ -16,7 +16,7 @@ public:
       \param data to be hidden (eventually filepath)
       \param argument list alternating method behaviour
     */
-    virtual void encrypt(QString ImageFilepath, QString SaveFilepath, PByteArray pData, bool IsDataFilepath, PArgsList pArgsList) = 0;
+    virtual void encrypt(QString ImageFilepath, QString SaveFilepath, QString DataFilepath, PArgsList pArgsList) = 0;
 
     //! Decryption method.
     /*!
@@ -24,7 +24,7 @@ public:
       \param retrieved data
       \param argument list alternating method behaviour
     */
-    virtual void decrypt(QString ImageFilepath, PByteArray pData, bool IsDataFilepath, PArgsList pArgsList) = 0;
+    virtual void decrypt(QString ImageFilepath, QString SaveFilepath, PArgsList pArgsList) = 0;
 
     //! Hides the data and returns QImage using a signal previewFinished(PImage).
     /*!
@@ -48,6 +48,9 @@ public:
         \param filepath
      */
     virtual int evaluate(PArgsList,QString) = 0;
+
+    //virtual PArgsList suggestArgs(QString ImageFilepath, int ByteCount) = 0;
+
     virtual PSteganoMethod clone() = 0;
     virtual QString getName() = 0;
 
@@ -58,4 +61,6 @@ signals:
     void progressChanged(int);
 protected:
 };
+
+
 

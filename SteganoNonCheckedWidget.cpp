@@ -31,6 +31,11 @@ PArgsList CSteganoNonCheckedWidget::getArgsList()
     return pArgsList;
 }
 
+void CSteganoNonCheckedWidget::setArgsList(PArgsList)
+{
+    //empty method
+}
+
 PSteganoWidget CSteganoNonCheckedWidget::clone()
 {
     return PSteganoWidget(new CSteganoNonCheckedWidget(*this));

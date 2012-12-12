@@ -31,15 +31,14 @@ void CApplication::onEncryptButtonClicked()
         if(IsDataToSaveAFile)
         {
             qDebug()<<"saving a file" << m_Window.getEncryptFileToHide();
-            Data = PByteArray(new QByteArray(m_Window.getEncryptFileToHide().toAscii()));
-        }
+            m_Executor.encryptFile(m_ChoosenMethodId,ImageFilepath,SaveFilepath, m_Window.getEncryptFileToHide(), m_Window.getArgsListFromWidget());
+         }
         else
         {
             qDebug()<<"saving a text" << m_Window.getTextToHide();
-            Data = PByteArray(new QByteArray(m_Window.getTextToHide().toAscii()));
-        }
+            m_Executor.encryptText(m_ChoosenMethodId,ImageFilepath,SaveFilepath, m_Window.getTextToHide(), m_Window.getArgsListFromWidget());
 
-        m_Executor.encrypt(m_ChoosenMethodId,ImageFilepath,SaveFilepath, Data, IsDataToSaveAFile, m_Window.getArgsListFromWidget());
+        }
     }
     catch(CSteganoException& Exception)
     {
@@ -55,15 +54,13 @@ void CApplication::onDecryptButtonClicked()
     if(IsDataToSaveAFile)
     {
         qDebug()<<"saving to file" << m_Window.getDecryptFileToHide();
-        m_DecryptedData = PByteArray(new QByteArray(m_Window.getDecryptFileToHide().toAscii()));
+        m_Executor.decryptToFile(m_ChoosenMethodId, m_Window.getImageFilepath(), m_Window.getDecryptFileToHide(), m_Window.getArgsListFromWidget());
     }
     else
     {
         qDebug()<<"saving to textbox";
-        m_DecryptedData = PByteArray(new QByteArray());
+        m_Executor.decryptToText(m_ChoosenMethodId, m_Window.getImageFilepath(), m_Window.getArgsListFromWidget());
     }
-    m_WasDataToSaveAFile = IsDataToSaveAFile;
-    m_Executor.decrypt(m_ChoosenMethodId, m_Window.getImageFilepath(), m_DecryptedData, IsDataToSaveAFile, m_Window.getArgsListFromWidget());
 }
 
 void CApplication::onPreviewButtonClicked()
@@ -106,6 +103,7 @@ void CApplication::configureExecutor()
     connect(&m_Executor,SIGNAL(decryptFinished(bool)),this,SLOT(onDecryptFinished(bool)));
     connect(&m_Executor,SIGNAL(progressChanged(int)),&m_Window,SLOT(updateProgress(int)));
     connect(&m_Executor,SIGNAL(previewFinished(PImage)),&m_Window,SLOT(displayPreview(PImage)));
+    connect(&m_Executor,SIGNAL(decryptFinished(bool,QString)),this,SLOT(onDecryptFinished(bool,QString)));
 }
 
 void CApplication::onEncryptFinished(bool IsSuccess)
@@ -124,10 +122,6 @@ void CApplication::onDecryptFinished(bool IsSuccess)
 {
     if(IsSuccess)
     {
-        if(!m_WasDataToSaveAFile)
-        {
-            m_Window.showResultsInTextArea(m_DecryptedData);
-        }
         m_Window.showMessageBox(QString("Decryption: Success"),QMessageBox::Information);
     }
     else
@@ -135,3 +129,18 @@ void CApplication::onDecryptFinished(bool IsSuccess)
          m_Window.showMessageBox(QString("Decryption: Fefefefe EPIK FEJL"),QMessageBox::Critical);
     }
 }
+
+
+void CApplication::onDecryptFinished(bool IsSuccess, QString DecryptedData)
+{
+    if(IsSuccess)
+    {
+        m_Window.showResultsInTextArea(DecryptedData);
+        m_Window.showMessageBox(QString("Decryption: Success"),QMessageBox::Information);
+    }
+    else
+    {
+         m_Window.showMessageBox(QString("Decryption: Fefefefe EPIK FEJL"),QMessageBox::Critical);
+    }
+}
+
