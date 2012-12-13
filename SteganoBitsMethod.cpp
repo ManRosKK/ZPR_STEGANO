@@ -64,6 +64,9 @@ void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePat
     unsigned int dataBitLength;
     QImage image;
     image.load(ImageFilePath);
+    if(image.width() < 4)
+        ;//blad
+
     unsigned int maskPixel = SteganoParameters->takeAt(0).toUInt();
     
     PVectorInt pmaskVector = generateEncryptMask(maskPixel); //generating help mask for encrypting
@@ -112,30 +115,61 @@ void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePat
     }
     image.save(ImageSaveFilePath);
 }
+unsigned int CSteganoBitsMethod::getDataLength(PImage pimage,PVectorInt pmaskVector )
+{
+    unsigned int length = 0;
+    unsigned int bitLength = 3*8;
+    unsigned int bitCounter = 0;
+    for( int i = 0;i < pimage->height();i++)
+    {
+        for( int j = 0;j < pimage->width();j++)
+        {
+            QRgb pixel = pimage->pixel(j,i);
+            for(int k = 0;k < pmaskVector->size();k++)
+            {
+                if( pixel & (*pmaskVector)[k] )
+                {
+                    length |= (1<<bitCounter);
+                }else
+                {
+                    length &= ~(1<<bitCounter);
+                }
+                bitCounter++;
+            }
+            if( bitCounter >= bitLength )
+            {
+                return length;
+            }
+        }
+    }
+    return 0;
 
+}
 void CSteganoBitsMethod::decrypt(QString ImageFilePath, PByteArray data, bool IsDataFilepath, PArgsList SteganoParameters)
 {
     PByteArray Data( new QByteArray() );
     unsigned int dataBitLength;
-    QImage image;
-    image.load(ImageFilePath);
+    PImage pimage;
+    pimage->load(ImageFilePath);
     unsigned int maskPixel = SteganoParameters->takeAt(0).toUInt();
     
     PVectorInt pmaskVector = generateEncryptMask(maskPixel); //generating help mask for encrypting
     qDebug()<<"maskVector.size() => "<<pmaskVector->size();
     
     //odczyt dlugosci danych
+
+
   //  PBitArray pdata = prepareEncryptData(Data);
   //  dataBitLength = 8*Data->size();
   //  Data.clear();
 
     unsigned int dataCounter = 0; 
     bool loopShouldFinishFlag = 0;
-    for( int i = 0;i < image.height();i++)
+    for( int i = 0;i < pimage->height();i++)
     {
-        for( int j = 0;j < image.width();j++)
+        for( int j = 0;j < pimage->width();j++)
         {
-            QRgb pixel = image.pixel(j,i);
+            QRgb pixel = pimage->pixel(j,i);
             for(int k = 0;k < pmaskVector->size();k++)
             {
              /*   if(pdata->testBit(dataCounter++) )
@@ -153,11 +187,11 @@ void CSteganoBitsMethod::decrypt(QString ImageFilePath, PByteArray data, bool Is
                     break;
                 }*/
             }
-            image.setPixel(j,i,pixel);
+            
             if( loopShouldFinishFlag ) //if we got the end of Data length
             {
-                i = image.height();
-                j = image.width();
+                i = pimage->height();
+                j = pimage->width();
             }
         }
     }
