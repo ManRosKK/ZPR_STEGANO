@@ -9,3 +9,8 @@ CSteganoWidget::CSteganoWidget(const CSteganoWidget&)
 {
 
 }
+
+bool CSteganoWidget::allowPropositions()
+{
+    return false;
+}

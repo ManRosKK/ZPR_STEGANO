@@ -59,7 +59,7 @@ PBitArray CSteganoBitsMethod::prepareEncryptData(PByteArray Data)
     qDebug()<<"data.size() => "<<pdata->size();
     return pdata;
 }
-void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePath, PByteArray Data, bool IsDataFilepath, PArgsList SteganoParameters)
+void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePath, QString DataFilePath, PArgsList SteganoParameters)
 {
     unsigned int dataBitLength;
     QImage image;
@@ -145,7 +145,7 @@ unsigned int CSteganoBitsMethod::getDataLength(PImage pimage,PVectorInt pmaskVec
     return 0;
 
 }
-void CSteganoBitsMethod::decrypt(QString ImageFilePath, PByteArray data, bool IsDataFilepath, PArgsList SteganoParameters)
+void CSteganoBitsMethod::decrypt(QString ImageFilePath, QString DataFilepath, PArgsList SteganoParameters)
 {
     PByteArray Data( new QByteArray() );
     unsigned int dataBitLength;

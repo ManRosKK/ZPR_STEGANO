@@ -12,8 +12,8 @@ ZPR_STEGANO::ZPR_STEGANO(QWidget *parent, Qt::WFlags flags)
 	ui.setupUi(this);
     ui.encryptButton->setText("Encrypt!");
     ui.decryptButton->setText("Decrypt!");
-    ui.openFileButton->setText("Open File");
-    ui.saveFileEncryptButton->setText("Save File to..");
+    //ui.openFileButton->setText("Open File");
+    //ui.saveFileEncryptButton->setText("Save File to..");
     ui.progressBar->setMinimum(0);
     ui.progressBar->setMaximum(100);
     ui.progressBar->setValue(85);
@@ -204,10 +204,7 @@ void ZPR_STEGANO::onDecryptDataOpenFile()
     }
 }
 
-void ZPR_STEGANO::showResultsInTextArea(PByteArray DecryptedData)
+void ZPR_STEGANO::showResultsInTextArea(QString DecryptedData)
 {
-    DecryptedData->replace('\0','.');
-    QString string(*DecryptedData);
-    string.append("");
-    ui.textEditDecrypt->setDocument(new QTextDocument(string,this));
+    ui.textEditDecrypt->setDocument(new QTextDocument(DecryptedData,this));
 }

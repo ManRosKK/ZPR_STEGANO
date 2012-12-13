@@ -12,6 +12,7 @@ public:
     virtual ~CSteganoNonCheckedWidget(void);
     static PSteganoWidget createSteganoNonCheckedWidget();
     virtual PArgsList getArgsList();
+    virtual void setArgsList(PArgsList);
     virtual PSteganoWidget clone();
 private:
 
