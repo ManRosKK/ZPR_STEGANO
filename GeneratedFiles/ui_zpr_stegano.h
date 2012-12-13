@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'zpr_stegano.ui'
 **
-** Created: Tue 11. Dec 22:26:17 2012
+** Created: Thu 13. Dec 17:27:38 2012
 **      by: Qt User Interface Compiler version 4.8.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -15,6 +15,7 @@
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
 #include <QtGui/QComboBox>
+#include <QtGui/QGroupBox>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
@@ -39,20 +40,22 @@ public:
     QPushButton *openFileButton;
     QLabel *openFileLabel;
     QHBoxLayout *horizontalLayout;
+    QGroupBox *groupBox;
     QVBoxLayout *EncryptLayout;
-    QLabel *label_2;
     QPushButton *saveFileEncryptButton;
     QLabel *saveFileEncryptLabel;
+    QGroupBox *groupBox1;
+    QVBoxLayout *verticalLayout;
     QRadioButton *fileRadioEncrypt;
     QPushButton *openDataFileEncryptButton;
     QLabel *openDataFileEncryptLabel;
     QRadioButton *textRadioEncrypt;
     QTextEdit *textEditEncrypt;
     QPushButton *encryptButton;
+    QGroupBox *Decrypt;
     QVBoxLayout *DecryptLayout;
-    QLabel *label_3;
-    QLabel *label;
-    QLabel *label_4;
+    QGroupBox *groupBox_2;
+    QVBoxLayout *verticalLayout_3;
     QRadioButton *fileRadioDecrypt;
     QPushButton *openDataFileDecryptButton;
     QLabel *openDataFileDecryptLabel;
@@ -68,7 +71,7 @@ public:
     {
         if (ZPR_STEGANOClass->objectName().isEmpty())
             ZPR_STEGANOClass->setObjectName(QString::fromUtf8("ZPR_STEGANOClass"));
-        ZPR_STEGANOClass->resize(617, 702);
+        ZPR_STEGANOClass->resize(693, 702);
         centralWidget = new QWidget(ZPR_STEGANOClass);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         verticalLayout_2 = new QVBoxLayout(centralWidget);
@@ -92,115 +95,119 @@ public:
         verticalLayout_2->addWidget(openFileLabel);
 
         horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setSpacing(6);
+        horizontalLayout->setSpacing(30);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         horizontalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
-        EncryptLayout = new QVBoxLayout();
+        groupBox = new QGroupBox(centralWidget);
+        groupBox->setObjectName(QString::fromUtf8("groupBox"));
+        EncryptLayout = new QVBoxLayout(groupBox);
         EncryptLayout->setSpacing(6);
+        EncryptLayout->setContentsMargins(11, 11, 11, 11);
         EncryptLayout->setObjectName(QString::fromUtf8("EncryptLayout"));
-        label_2 = new QLabel(centralWidget);
-        label_2->setObjectName(QString::fromUtf8("label_2"));
-
-        EncryptLayout->addWidget(label_2);
-
-        saveFileEncryptButton = new QPushButton(centralWidget);
+        saveFileEncryptButton = new QPushButton(groupBox);
         saveFileEncryptButton->setObjectName(QString::fromUtf8("saveFileEncryptButton"));
 
         EncryptLayout->addWidget(saveFileEncryptButton);
 
-        saveFileEncryptLabel = new QLabel(centralWidget);
+        saveFileEncryptLabel = new QLabel(groupBox);
         saveFileEncryptLabel->setObjectName(QString::fromUtf8("saveFileEncryptLabel"));
         saveFileEncryptLabel->setMaximumSize(QSize(16777215, 20));
 
         EncryptLayout->addWidget(saveFileEncryptLabel);
 
-        fileRadioEncrypt = new QRadioButton(centralWidget);
+        groupBox1 = new QGroupBox(groupBox);
+        groupBox1->setObjectName(QString::fromUtf8("groupBox1"));
+        verticalLayout = new QVBoxLayout(groupBox1);
+        verticalLayout->setSpacing(6);
+        verticalLayout->setContentsMargins(11, 11, 11, 11);
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        fileRadioEncrypt = new QRadioButton(groupBox1);
         fileRadioEncrypt->setObjectName(QString::fromUtf8("fileRadioEncrypt"));
 
-        EncryptLayout->addWidget(fileRadioEncrypt);
+        verticalLayout->addWidget(fileRadioEncrypt);
 
-        openDataFileEncryptButton = new QPushButton(centralWidget);
+        openDataFileEncryptButton = new QPushButton(groupBox1);
         openDataFileEncryptButton->setObjectName(QString::fromUtf8("openDataFileEncryptButton"));
 
-        EncryptLayout->addWidget(openDataFileEncryptButton);
+        verticalLayout->addWidget(openDataFileEncryptButton);
 
-        openDataFileEncryptLabel = new QLabel(centralWidget);
+        openDataFileEncryptLabel = new QLabel(groupBox1);
         openDataFileEncryptLabel->setObjectName(QString::fromUtf8("openDataFileEncryptLabel"));
         openDataFileEncryptLabel->setMaximumSize(QSize(16777215, 20));
 
-        EncryptLayout->addWidget(openDataFileEncryptLabel);
+        verticalLayout->addWidget(openDataFileEncryptLabel);
 
-        textRadioEncrypt = new QRadioButton(centralWidget);
+        textRadioEncrypt = new QRadioButton(groupBox1);
         textRadioEncrypt->setObjectName(QString::fromUtf8("textRadioEncrypt"));
 
-        EncryptLayout->addWidget(textRadioEncrypt);
+        verticalLayout->addWidget(textRadioEncrypt);
 
-        textEditEncrypt = new QTextEdit(centralWidget);
+        textEditEncrypt = new QTextEdit(groupBox1);
         textEditEncrypt->setObjectName(QString::fromUtf8("textEditEncrypt"));
         textEditEncrypt->setMaximumSize(QSize(16777215, 60));
 
-        EncryptLayout->addWidget(textEditEncrypt);
+        verticalLayout->addWidget(textEditEncrypt);
 
-        encryptButton = new QPushButton(centralWidget);
+
+        EncryptLayout->addWidget(groupBox1);
+
+        encryptButton = new QPushButton(groupBox);
         encryptButton->setObjectName(QString::fromUtf8("encryptButton"));
 
         EncryptLayout->addWidget(encryptButton);
 
 
-        horizontalLayout->addLayout(EncryptLayout);
+        horizontalLayout->addWidget(groupBox);
 
-        DecryptLayout = new QVBoxLayout();
+        Decrypt = new QGroupBox(centralWidget);
+        Decrypt->setObjectName(QString::fromUtf8("Decrypt"));
+        DecryptLayout = new QVBoxLayout(Decrypt);
         DecryptLayout->setSpacing(6);
+        DecryptLayout->setContentsMargins(11, 11, 11, 11);
         DecryptLayout->setObjectName(QString::fromUtf8("DecryptLayout"));
-        label_3 = new QLabel(centralWidget);
-        label_3->setObjectName(QString::fromUtf8("label_3"));
-
-        DecryptLayout->addWidget(label_3);
-
-        label = new QLabel(centralWidget);
-        label->setObjectName(QString::fromUtf8("label"));
-
-        DecryptLayout->addWidget(label);
-
-        label_4 = new QLabel(centralWidget);
-        label_4->setObjectName(QString::fromUtf8("label_4"));
-
-        DecryptLayout->addWidget(label_4);
-
-        fileRadioDecrypt = new QRadioButton(centralWidget);
+        groupBox_2 = new QGroupBox(Decrypt);
+        groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
+        verticalLayout_3 = new QVBoxLayout(groupBox_2);
+        verticalLayout_3->setSpacing(6);
+        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
+        fileRadioDecrypt = new QRadioButton(groupBox_2);
         fileRadioDecrypt->setObjectName(QString::fromUtf8("fileRadioDecrypt"));
 
-        DecryptLayout->addWidget(fileRadioDecrypt);
+        verticalLayout_3->addWidget(fileRadioDecrypt);
 
-        openDataFileDecryptButton = new QPushButton(centralWidget);
+        openDataFileDecryptButton = new QPushButton(groupBox_2);
         openDataFileDecryptButton->setObjectName(QString::fromUtf8("openDataFileDecryptButton"));
 
-        DecryptLayout->addWidget(openDataFileDecryptButton);
+        verticalLayout_3->addWidget(openDataFileDecryptButton);
 
-        openDataFileDecryptLabel = new QLabel(centralWidget);
+        openDataFileDecryptLabel = new QLabel(groupBox_2);
         openDataFileDecryptLabel->setObjectName(QString::fromUtf8("openDataFileDecryptLabel"));
         openDataFileDecryptLabel->setMaximumSize(QSize(16777215, 20));
 
-        DecryptLayout->addWidget(openDataFileDecryptLabel);
+        verticalLayout_3->addWidget(openDataFileDecryptLabel);
 
-        textRadioDecrypt = new QRadioButton(centralWidget);
+        textRadioDecrypt = new QRadioButton(groupBox_2);
         textRadioDecrypt->setObjectName(QString::fromUtf8("textRadioDecrypt"));
 
-        DecryptLayout->addWidget(textRadioDecrypt);
+        verticalLayout_3->addWidget(textRadioDecrypt);
 
-        textEditDecrypt = new QTextEdit(centralWidget);
+        textEditDecrypt = new QTextEdit(groupBox_2);
         textEditDecrypt->setObjectName(QString::fromUtf8("textEditDecrypt"));
         textEditDecrypt->setMaximumSize(QSize(16777215, 60));
 
-        DecryptLayout->addWidget(textEditDecrypt);
+        verticalLayout_3->addWidget(textEditDecrypt);
 
-        decryptButton = new QPushButton(centralWidget);
+
+        DecryptLayout->addWidget(groupBox_2);
+
+        decryptButton = new QPushButton(Decrypt);
         decryptButton->setObjectName(QString::fromUtf8("decryptButton"));
 
         DecryptLayout->addWidget(decryptButton);
 
 
-        horizontalLayout->addLayout(DecryptLayout);
+        horizontalLayout->addWidget(Decrypt);
 
 
         verticalLayout_2->addLayout(horizontalLayout);
@@ -234,22 +241,22 @@ public:
     void retranslateUi(QMainWindow *ZPR_STEGANOClass)
     {
         ZPR_STEGANOClass->setWindowTitle(QApplication::translate("ZPR_STEGANOClass", "ZPR_STEGANO", 0, QApplication::UnicodeUTF8));
-        openFileButton->setText(QApplication::translate("ZPR_STEGANOClass", "openFile", 0, QApplication::UnicodeUTF8));
+        openFileButton->setText(QApplication::translate("ZPR_STEGANOClass", "Choose a file to encrypt or decrypt...", 0, QApplication::UnicodeUTF8));
         openFileLabel->setText(QApplication::translate("ZPR_STEGANOClass", "choosenFile", 0, QApplication::UnicodeUTF8));
-        label_2->setText(QApplication::translate("ZPR_STEGANOClass", "ENCRYPT", 0, QApplication::UnicodeUTF8));
-        saveFileEncryptButton->setText(QApplication::translate("ZPR_STEGANOClass", "saveEncrypt", 0, QApplication::UnicodeUTF8));
+        groupBox->setTitle(QApplication::translate("ZPR_STEGANOClass", "Encrypt", 0, QApplication::UnicodeUTF8));
+        saveFileEncryptButton->setText(QApplication::translate("ZPR_STEGANOClass", "Choose where to save file with hidden data", 0, QApplication::UnicodeUTF8));
         saveFileEncryptLabel->setText(QApplication::translate("ZPR_STEGANOClass", "filepath to save encryption", 0, QApplication::UnicodeUTF8));
-        fileRadioEncrypt->setText(QApplication::translate("ZPR_STEGANOClass", "useFilepathBelow", 0, QApplication::UnicodeUTF8));
-        openDataFileEncryptButton->setText(QApplication::translate("ZPR_STEGANOClass", "openFileToEncryption", 0, QApplication::UnicodeUTF8));
-        openDataFileEncryptLabel->setText(QApplication::translate("ZPR_STEGANOClass", "filepath to save encryption", 0, QApplication::UnicodeUTF8));
+        groupBox1->setTitle(QApplication::translate("ZPR_STEGANOClass", "Choose input data source", 0, QApplication::UnicodeUTF8));
+        fileRadioEncrypt->setText(QApplication::translate("ZPR_STEGANOClass", "Take data to hide in image from file...", 0, QApplication::UnicodeUTF8));
+        openDataFileEncryptButton->setText(QApplication::translate("ZPR_STEGANOClass", "Choose a file with data to be hidden", 0, QApplication::UnicodeUTF8));
+        openDataFileEncryptLabel->setText(QApplication::translate("ZPR_STEGANOClass", "Filepath with data to be hidden", 0, QApplication::UnicodeUTF8));
         textRadioEncrypt->setText(QApplication::translate("ZPR_STEGANOClass", "Use TextBox", 0, QApplication::UnicodeUTF8));
         encryptButton->setText(QApplication::translate("ZPR_STEGANOClass", "encrypt", 0, QApplication::UnicodeUTF8));
-        label_3->setText(QApplication::translate("ZPR_STEGANOClass", "DECRYPT", 0, QApplication::UnicodeUTF8));
-        label->setText(QString());
-        label_4->setText(QString());
-        fileRadioDecrypt->setText(QApplication::translate("ZPR_STEGANOClass", "useFilepathBelow", 0, QApplication::UnicodeUTF8));
-        openDataFileDecryptButton->setText(QApplication::translate("ZPR_STEGANOClass", "openFileToDecryption", 0, QApplication::UnicodeUTF8));
-        openDataFileDecryptLabel->setText(QApplication::translate("ZPR_STEGANOClass", "filepath to save decryption", 0, QApplication::UnicodeUTF8));
+        Decrypt->setTitle(QApplication::translate("ZPR_STEGANOClass", "Decrypt", 0, QApplication::UnicodeUTF8));
+        groupBox_2->setTitle(QApplication::translate("ZPR_STEGANOClass", "Choose output data target", 0, QApplication::UnicodeUTF8));
+        fileRadioDecrypt->setText(QApplication::translate("ZPR_STEGANOClass", "Output decrypted data taken from image to file", 0, QApplication::UnicodeUTF8));
+        openDataFileDecryptButton->setText(QApplication::translate("ZPR_STEGANOClass", "Choose a file where decrypted data will be written", 0, QApplication::UnicodeUTF8));
+        openDataFileDecryptLabel->setText(QApplication::translate("ZPR_STEGANOClass", "Filepath where data will be written", 0, QApplication::UnicodeUTF8));
         textRadioDecrypt->setText(QApplication::translate("ZPR_STEGANOClass", "Use TextBox", 0, QApplication::UnicodeUTF8));
         decryptButton->setText(QApplication::translate("ZPR_STEGANOClass", "decrypt", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
