@@ -137,7 +137,7 @@ void CSteganoNonCheckedMethod::encrypt(QString ImageFilePath, QString ImageSaveF
             bytesOfSourceImageToReadLeft -= count;
             int percent = static_cast<double>((dataToReadLength-bytesOfSourceImageToReadLeft))/dataToReadLength*50;
             emit progressChanged(percent);
-            usleep(100000);
+            //usleep(100000);
         }
         while(count != 0 && bytesOfSourceImageToReadLeft>0);
     }
@@ -162,7 +162,7 @@ void CSteganoNonCheckedMethod::encrypt(QString ImageFilePath, QString ImageSaveF
         bytesRead+= count;
         int percent = static_cast<double>(bytesRead)/infoFileSize*50+50;
         emit progressChanged(percent);
-        usleep(100000);
+        //usleep(100000);
     }
     while(count != 0);
 
@@ -219,7 +219,7 @@ void CSteganoNonCheckedMethod::decrypt(QString ImageFilePath, QString SaveFilepa
             DataToReadLeft -= count;
             int percent = static_cast<double>((dataToReadLength-DataToReadLeft))/dataToReadLength*100;
             emit progressChanged(percent);
-            usleep(100000);
+            //usleep(100000);
         }
         while(count != 0 && DataToReadLeft>0);
 
