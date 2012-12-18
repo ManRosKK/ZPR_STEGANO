@@ -22,6 +22,7 @@ public:
 private:
     inline void modifyPixel(QRgb& pixel, QVector<unsigned int> mask, QBitArray data);
     PVectorInt generateEncryptMask(unsigned int maskPixel);
-    PBitArray prepareEncryptData(PByteArray Data);
+    PBitArray prepareEncryptData(QString DataFilePath);
+    unsigned int getDataLength(PImage pimage,PVectorInt pmaskVector );
 };
 

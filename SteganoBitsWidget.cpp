@@ -71,7 +71,12 @@ void CSteganoBitsWidget::configureUI()
     {
         m_CheckBox[i] = new QCheckBox();
     }
+    
     const int c_BitsDepthPerChannel = 8;
+    m_CheckBox[c_BitsDepthPerChannel-1]->toggle();
+    m_CheckBox[c_BitsDepthPerChannel*2-1]->toggle();
+    m_CheckBox[c_BitsDepthPerChannel*3-1]->toggle();
+
     for(int i=0;i<c_BitsDepthPerChannel;++i)
     {
         HorizontalLayoutRed->addWidget(m_CheckBox[i]);
