@@ -7,10 +7,10 @@
 
 CSteganoManager::CSteganoManager(void)
 {
-    registerSteganoMethod(PSteganoMethod(new CSteganoBitsMethod()),
-                          PSteganoWidget(new CSteganoBitsWidget()));
     registerSteganoMethod(PSteganoMethod(new CSteganoNonCheckedMethod()),
                           PSteganoWidget(new CSteganoNonCheckedWidget()));
+    registerSteganoMethod(PSteganoMethod(new CSteganoBitsMethod()),
+                          PSteganoWidget(new CSteganoBitsWidget()));
 }
 
 CSteganoManager::~CSteganoManager(void)

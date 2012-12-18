@@ -17,7 +17,15 @@ public:
     virtual PSteganoMethod clone();
     virtual QString getName();
 private:
+    void findEndOfImage(std::fstream& fileone);
+    int findHiddenData(std::fstream& fileone);
+
     static const unsigned int c_MaxExtensionLength = 16;
+    static const int c_BufferSize = 1000000;
+    char buffer[c_BufferSize];
+    static const int c_FooterLength = 5;
+    static const char *footer;
+
 };
 
 

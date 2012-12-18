@@ -31,11 +31,13 @@ void CApplication::onEncryptButtonClicked()
         if(IsDataToSaveAFile)
         {
             qDebug()<<"saving a file" << m_Window.getEncryptFileToHide();
+            m_Window.changeUIblocking(true);
             m_Executor.encryptFile(m_ChoosenMethodId,ImageFilepath,SaveFilepath, m_Window.getEncryptFileToHide(), m_Window.getArgsListFromWidget());
          }
         else
         {
             qDebug()<<"saving a text" << m_Window.getTextToHide();
+            m_Window.changeUIblocking(true);
             m_Executor.encryptText(m_ChoosenMethodId,ImageFilepath,SaveFilepath, m_Window.getTextToHide(), m_Window.getArgsListFromWidget());
 
         }
@@ -54,11 +56,13 @@ void CApplication::onDecryptButtonClicked()
     if(IsDataToSaveAFile)
     {
         qDebug()<<"saving to file" << m_Window.getDecryptFileToHide();
+        m_Window.changeUIblocking(true);
         m_Executor.decryptToFile(m_ChoosenMethodId, m_Window.getImageFilepath(), m_Window.getDecryptFileToHide(), m_Window.getArgsListFromWidget());
     }
     else
     {
         qDebug()<<"saving to textbox";
+        m_Window.changeUIblocking(true);
         m_Executor.decryptToText(m_ChoosenMethodId, m_Window.getImageFilepath(), m_Window.getArgsListFromWidget());
     }
 }
@@ -108,6 +112,7 @@ void CApplication::configureExecutor()
 
 void CApplication::onEncryptFinished(bool IsSuccess)
 {
+    m_Window.changeUIblocking(false);
     if(IsSuccess)
     {
         m_Window.showMessageBox(QString("Encryption: Success"),QMessageBox::Information);
@@ -120,6 +125,7 @@ void CApplication::onEncryptFinished(bool IsSuccess)
 
 void CApplication::onDecryptFinished(bool IsSuccess)
 {
+    m_Window.changeUIblocking(false);
     if(IsSuccess)
     {
         m_Window.showMessageBox(QString("Decryption: Success"),QMessageBox::Information);
@@ -133,6 +139,7 @@ void CApplication::onDecryptFinished(bool IsSuccess)
 
 void CApplication::onDecryptFinished(bool IsSuccess, QString DecryptedData)
 {
+    m_Window.changeUIblocking(false);
     if(IsSuccess)
     {
         m_Window.showResultsInTextArea(DecryptedData);

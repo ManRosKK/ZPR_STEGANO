@@ -16,6 +16,7 @@ public:
     PSteganoMethod produceSteganoMethod(int Id);
     PSteganoWidget produceSteganoWidget(int Id);
     int registerSteganoMethod(PSteganoMethod, PSteganoWidget);
+    static const int c_InvalidIdNumber = -1;
 private:
     QVector< std::pair<PSteganoMethod, PSteganoWidget> > m_steganoProducts;
     Q_DISABLE_COPY(CSteganoManager)

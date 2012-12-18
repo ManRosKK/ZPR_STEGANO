@@ -24,7 +24,12 @@ signals:
 public slots:
 
 private:
+    void connectSignalsAndSlotsToMethod();
     int m_LastMethodId;
     PSteganoMethod m_pSteganoMethod;
     char TempFilepath[L_tmpnam];
+    bool m_DecryptToFile;
+private slots:
+    void onEncryptFinished(bool);
+    void onDecryptFinished(bool);
 };

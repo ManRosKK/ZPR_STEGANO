@@ -46,6 +46,7 @@ public slots:
     void onDecryptFinished(void);
     void displayPreview(PImage);
     void showMessageBox(QString Message, QMessageBox::Icon MessageBoxIcon);
+    void changeUIblocking(bool);
 
 private:
 	Ui::ZPR_STEGANOClass ui;

@@ -56,8 +56,8 @@ public:
 
 signals:
     void previewFinished(PImage);
-    void encryptFinished(void);
-    void decryptFinished(void);
+    void encryptFinished(bool);
+    void decryptFinished(bool);
     void progressChanged(int);
 protected:
 };

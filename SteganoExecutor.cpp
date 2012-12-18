@@ -3,10 +3,13 @@
 #include <QDebug>
 #include <fstream>
 #include <iostream>
+#include <QFile>
+#include <QtConcurrentRun>
+
 
 CSteganoExecutor::CSteganoExecutor(QObject *parent) :
     QObject(parent),
-    m_LastMethodId(-1) //FIXME: magic constant
+    m_LastMethodId(CSteganoManager::c_InvalidIdNumber)
 {
 }
 
@@ -16,10 +19,9 @@ void CSteganoExecutor::encryptFile(int Id,QString ImageFilepath, QString SaveFil
     {
         m_pSteganoMethod = CSteganoManager::getInstance().produceSteganoMethod(Id);
         m_LastMethodId = Id;
+        connectSignalsAndSlotsToMethod();
     }
-    m_pSteganoMethod->encrypt(ImageFilepath, SaveFilepath, DataFilepath, pArgsList);
-
-    emit encryptFinished(true);
+    QtConcurrent::run(m_pSteganoMethod.data(), &CSteganoMethod::encrypt, ImageFilepath, SaveFilepath, DataFilepath, pArgsList);
 }
 
 void CSteganoExecutor::encryptText(int Id,QString ImageFilepath, QString SaveFilepath, QString Data, PArgsList pArgsList)
@@ -28,16 +30,17 @@ void CSteganoExecutor::encryptText(int Id,QString ImageFilepath, QString SaveFil
     {
         m_pSteganoMethod = CSteganoManager::getInstance().produceSteganoMethod(Id);
         m_LastMethodId = Id;
+        connectSignalsAndSlotsToMethod();
     }
     tmpnam(TempFilepath);
-    // save file to temporary location and pass it to encrypt
-    std::fstream TempFile(TempFilepath, std::fstream::out);
-    TempFile << Data.toStdString();
-    TempFile.close();
+    QFile file(TempFilepath);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+        return;
+    QTextStream out(&file);
+    out <<Data;
+    file.close();
 
-    m_pSteganoMethod->encrypt(ImageFilepath, SaveFilepath, QString(TempFilepath), pArgsList);
-
-    emit encryptFinished(true);
+    QtConcurrent::run(m_pSteganoMethod.data(), &CSteganoMethod::encrypt, ImageFilepath, SaveFilepath, QString(TempFilepath), pArgsList);
 }
 
 void CSteganoExecutor::decryptToFile(int Id, QString ImageFilepath, QString DataFilepath, PArgsList pArgsList)
@@ -46,9 +49,10 @@ void CSteganoExecutor::decryptToFile(int Id, QString ImageFilepath, QString Data
     {
         m_pSteganoMethod = CSteganoManager::getInstance().produceSteganoMethod(Id);
         m_LastMethodId = Id;
+        connectSignalsAndSlotsToMethod();
     }
-    m_pSteganoMethod->decrypt(ImageFilepath, DataFilepath, pArgsList);
-    emit decryptFinished(true);
+    m_DecryptToFile = true;
+    QtConcurrent::run(m_pSteganoMethod.data(), &CSteganoMethod::decrypt, ImageFilepath, DataFilepath, pArgsList);
 }
 
 void CSteganoExecutor::decryptToText(int Id, QString ImageFilepath, PArgsList pArgsList)
@@ -57,13 +61,17 @@ void CSteganoExecutor::decryptToText(int Id, QString ImageFilepath, PArgsList pA
     {
         m_pSteganoMethod = CSteganoManager::getInstance().produceSteganoMethod(Id);
         m_LastMethodId = Id;
+        connectSignalsAndSlotsToMethod();
     }
 
     // ask method save file to temporary location and load it to string
     tmpnam(TempFilepath);
-    m_pSteganoMethod->decrypt(ImageFilepath, QString(TempFilepath), pArgsList);
+    m_DecryptToFile = false;
+    //m_pSteganoMethod->decrypt(ImageFilepath, QString(TempFilepath), pArgsList);
 
-    std::ifstream TempFile(TempFilepath, std::ios::in | std::ios::binary);
+    QtConcurrent::run(m_pSteganoMethod.data(), &CSteganoMethod::decrypt, ImageFilepath, QString(TempFilepath), pArgsList);
+
+    /*std::ifstream TempFile(TempFilepath, std::ios::in | std::ios::binary);
     if(!TempFile)
     {
         qDebug()<<"!good";
@@ -74,7 +82,44 @@ void CSteganoExecutor::decryptToText(int Id, QString ImageFilepath, PArgsList pA
     DecryptedData.resize(TempFile.tellg());
     TempFile.seekg(0, std::ios::beg);
     TempFile.read(&DecryptedData[0], DecryptedData.size());
-    TempFile.close();
+    TempFile.close();*/
 
-    emit decryptFinished(true,QString::fromStdString(DecryptedData));
 }
+
+void CSteganoExecutor::connectSignalsAndSlotsToMethod()
+{
+    connect(m_pSteganoMethod.data(),SIGNAL(encryptFinished(bool)),this,SLOT(onEncryptFinished(bool)),Qt::QueuedConnection);
+    connect(m_pSteganoMethod.data(),SIGNAL(decryptFinished(bool)),this,SLOT(onDecryptFinished(bool)),Qt::QueuedConnection);
+    connect(m_pSteganoMethod.data(),SIGNAL(progressChanged(int)), this,SIGNAL(progressChanged(int)));
+}
+
+void CSteganoExecutor::onDecryptFinished(bool success)
+{
+    if(success)
+    {
+        if(!m_DecryptToFile)
+        {
+            QFile file(TempFilepath);
+            QByteArray decryptedString;
+            if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+                return;
+            decryptedString = file.readAll();
+            file.close();
+            emit decryptFinished(true,QString(decryptedString));
+        }
+        else
+        {
+            emit decryptFinished(true);
+        }
+    }
+    else
+    {
+        emit decryptFinished(false);
+    }
+}
+
+void CSteganoExecutor::onEncryptFinished(bool success)
+{
+    emit encryptFinished(success);
+}
+

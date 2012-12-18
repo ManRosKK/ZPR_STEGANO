@@ -16,7 +16,8 @@ ZPR_STEGANO::ZPR_STEGANO(QWidget *parent, Qt::WFlags flags)
     //ui.saveFileEncryptButton->setText("Save File to..");
     ui.progressBar->setMinimum(0);
     ui.progressBar->setMaximum(100);
-    ui.progressBar->setValue(85);
+    ui.progressBar->setValue(100);
+    ui.progressBar->hide();
 
     QButtonGroup* ButtonGroupEncrypt = new QButtonGroup(this);
     ButtonGroupEncrypt->addButton(ui.textRadioEncrypt);
@@ -108,6 +109,14 @@ QString ZPR_STEGANO::getTextToHide()
 void ZPR_STEGANO::updateProgress(int Value)
 {
     ui.progressBar->setValue(Value);
+    if(Value >= 100)
+    {
+        ui.progressBar->hide();
+    }
+    else
+    {
+        ui.progressBar->show();
+    }
 }
 
 void ZPR_STEGANO::onEncryptFinished(void)
@@ -141,7 +150,7 @@ void ZPR_STEGANO::showMessageBox(QString Message, QMessageBox::Icon MessageBoxIc
 void ZPR_STEGANO::saveFileButtonClicked()
 {
     QString FileName = QFileDialog::getSaveFileName(this,
-        tr("Save Image to..."), QString(), tr("Image Files (*.png *.jpg *.bmp)"));
+        tr("Save Image to..."), QString(), tr("Image Files (*.png *.jpg *.bmp);;All Files (*)"));
 
     //check whether QFileDialog returned a valid filename
     if(FileName.length() != 0)
@@ -155,8 +164,7 @@ void ZPR_STEGANO::saveFileButtonClicked()
 void ZPR_STEGANO::openFileButtonClicked()
 {
     QString FileName = QFileDialog::getOpenFileName(this,
-        tr("Open Image"), QString(), tr("Image Files (*.png *.jpg *.bmp)"));
-
+        tr("Open Image"), QString(), tr("Image Files (*.png *.jpg *.bmp);;All Files (*)"));
     //check whether QFileDialog returned a valid filename
     if(FileName.length() != 0)
     {
@@ -207,4 +215,15 @@ void ZPR_STEGANO::onDecryptDataOpenFile()
 void ZPR_STEGANO::showResultsInTextArea(QString DecryptedData)
 {
     ui.textEditDecrypt->setDocument(new QTextDocument(DecryptedData,this));
+}
+
+void ZPR_STEGANO::changeUIblocking(bool ShouldBeBlocked)
+{
+    bool ShouldBeEnabled = !ShouldBeBlocked;
+    ui.encryptButton->setEnabled(ShouldBeEnabled);
+    ui.decryptButton->setEnabled(ShouldBeEnabled);
+    ui.openFileButton->setEnabled(ShouldBeEnabled);
+    ui.saveFileEncryptButton->setEnabled(ShouldBeEnabled);
+    ui.openDataFileEncryptButton->setEnabled(ShouldBeEnabled);
+    ui.openDataFileDecryptButton->setEnabled(ShouldBeEnabled);
 }
