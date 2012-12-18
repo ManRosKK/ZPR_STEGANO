@@ -95,6 +95,7 @@ void CSteganoExecutor::connectSignalsAndSlotsToMethod()
 
 void CSteganoExecutor::onDecryptFinished(bool success)
 {
+    qDebug()<<"checksuccess";
     if(success)
     {
         if(!m_DecryptToFile)
@@ -104,16 +105,19 @@ void CSteganoExecutor::onDecryptFinished(bool success)
             if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
                 return;
             decryptedString = file.readAll();
+            qDebug()<<"decryptedString"<<decryptedString;
             file.close();
             emit decryptFinished(true,QString(decryptedString));
         }
         else
         {
+            qDebug()<<"decryptedString2";
             emit decryptFinished(true);
         }
     }
     else
     {
+        qDebug()<<"decryptedString3";
         emit decryptFinished(false);
     }
 }
