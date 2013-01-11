@@ -66,7 +66,38 @@ void CApplication::onDecryptButtonClicked()
         m_Executor.decryptToText(m_ChoosenMethodId, m_Window.getImageFilepath(), m_Window.getArgsListFromWidget());
     }
 }
+void CApplication::onProposeButtonClicked()
+{
+     try
+    {
+        //test whether image filepath is not empty
+        QString ImageFilepath = m_Window.getImageFilepath();
+        if(ImageFilepath.length() == 0)
+            throw CSteganoException("Image Filepath is not specified!");
+        QString SaveFilepath = m_Window.getSaveFilepath();
+        //TODO: data pusta ewentualnie
+        PByteArray Data;
+        bool IsDataToSaveAFile = m_Window.getEncryptDataSource();
+        if(IsDataToSaveAFile)
+        {
+            qDebug()<<"proposing with file" << m_Window.getEncryptFileToHide();
+            m_Window.changeUIblocking(true);
+            m_Executor.proposeWithFile(m_ChoosenMethodId,ImageFilepath,SaveFilepath, m_Window.getEncryptFileToHide(), m_Window.getArgsListFromWidget());
+         }
+        else
+        {
+            qDebug()<<"proposing with text" << m_Window.getTextToHide();
+            m_Window.changeUIblocking(true);
+            m_Executor.proposeWithText(m_ChoosenMethodId,ImageFilepath,SaveFilepath, m_Window.getTextToHide(), m_Window.getArgsListFromWidget());
 
+        }
+    }
+    catch(CSteganoException& Exception)
+    {
+        m_Window.showMessageBox(Exception.getMessage(),QMessageBox::Warning);
+    }
+   
+}
 void CApplication::onPreviewButtonClicked()
 {
 
@@ -78,8 +109,8 @@ void CApplication::onSteganoMethodChoosen(int id)
     qDebug()<<"stegano method choosen: " << id;
     PSteganoWidget pStegenoWidget = CSteganoManager::getInstance().produceSteganoWidget(id);
     m_Window.setWidget(pStegenoWidget);
+    m_Window.changeProposeButtonVisibility(pStegenoWidget->isPropositionsAllowed());
 }
-
 void CApplication::configureWindow()
 {
     PMethodList pMethodList = CSteganoManager::getInstance().getSteganoMethodList();
@@ -90,10 +121,12 @@ void CApplication::configureWindow()
     // get widget from SteganoManager and set widget related to the first method on the method list
     PSteganoWidget pStegenoWidget = CSteganoManager::getInstance().produceSteganoWidget(pMethodList->first().first);
     m_Window.setWidget(pStegenoWidget);
-
+    m_Window.changeProposeButtonVisibility(pStegenoWidget->isPropositionsAllowed());
+    
     connect(&m_Window,SIGNAL(steganoMethodChoosen(int)),this,SLOT(onSteganoMethodChoosen(int)));
     connect(&m_Window,SIGNAL(encryptButtonClicked()),this,SLOT(onEncryptButtonClicked()));
     connect(&m_Window,SIGNAL(decryptButtonClicked()),this,SLOT(onDecryptButtonClicked()));
+    connect(&m_Window,SIGNAL(proposeButtonClicked()),this, SLOT(onProposeButtonClicked()));
     //connect(&m_Window,SIGNAL(dataSourceChanged(bool)),this,SLOT(onDataSourceChanged(bool)));
     //connect(&m_Window,SIGNAL(imageFilepathChanged()),this,SLOT(onImageFilepathChanged()));
     //connect(&m_Window,SIGNAL(saveFilepathChanged()),this,SLOT(onSaveFilepathChanged()));
@@ -105,9 +138,11 @@ void CApplication::configureExecutor()
 {
     connect(&m_Executor,SIGNAL(encryptFinished(bool)),this,SLOT(onEncryptFinished(bool)));
     connect(&m_Executor,SIGNAL(decryptFinished(bool)),this,SLOT(onDecryptFinished(bool)));
+    connect(&m_Executor,SIGNAL(proposed(PArgsList)),this,SLOT(onProposed(PArgsList)));
     connect(&m_Executor,SIGNAL(progressChanged(int)),&m_Window,SLOT(updateProgress(int)));
     connect(&m_Executor,SIGNAL(previewFinished(PImage)),&m_Window,SLOT(displayPreview(PImage)));
     connect(&m_Executor,SIGNAL(decryptFinished(bool,QString)),this,SLOT(onDecryptFinished(bool,QString)));
+    
 }
 
 void CApplication::onEncryptFinished(bool IsSuccess)
@@ -150,4 +185,7 @@ void CApplication::onDecryptFinished(bool IsSuccess, QString DecryptedData)
          m_Window.showMessageBox(QString("Decryption: Fefefefe EPIK FEJL"),QMessageBox::Critical);
     }
 }
-
+void CApplication::onProposed(PArgsList pArgs)
+{
+    m_Window.setWidgetArgs(pArgs);
+}

@@ -5,7 +5,7 @@
 #include <iostream>
 #include <QFile>
 #include <QtConcurrentRun>
-
+#include <QMessageBox>
 
 CSteganoExecutor::CSteganoExecutor(QObject *parent) :
     QObject(parent),
@@ -41,6 +41,33 @@ void CSteganoExecutor::encryptText(int Id,QString ImageFilepath, QString SaveFil
     file.close();
 
     QtConcurrent::run(m_pSteganoMethod.data(), &CSteganoMethod::encrypt, ImageFilepath, SaveFilepath, QString(TempFilepath), pArgsList);
+}
+void CSteganoExecutor::proposeWithText(int Id,QString ImageFilepath, QString SaveFilepath, QString Data, PArgsList pArgsList)
+{
+    if( Id != m_LastMethodId)
+    {
+        m_pSteganoMethod = CSteganoManager::getInstance().produceSteganoMethod(Id);
+        m_LastMethodId = Id;
+        connectSignalsAndSlotsToMethod();
+    }
+    unsigned int length = Data.length(); 
+    QtConcurrent::run(m_pSteganoMethod.data(), &CSteganoMethod::makeProposition, ImageFilepath, length, pArgsList);
+}
+void CSteganoExecutor::proposeWithFile(int Id,QString ImageFilepath, QString SaveFilepath, QString DataFilepath, PArgsList pArgsList)
+{
+    if( Id != m_LastMethodId)
+    {
+        m_pSteganoMethod = CSteganoManager::getInstance().produceSteganoMethod(Id);
+        m_LastMethodId = Id;
+        connectSignalsAndSlotsToMethod();
+    }
+    unsigned int size = 0;
+    QFile file(DataFilepath);
+    if(!file.open(QIODevice::ReadOnly))
+    {
+        size = file.size();
+    }
+    QtConcurrent::run(m_pSteganoMethod.data(), &CSteganoMethod::makeProposition, ImageFilepath, size, pArgsList);
 }
 
 void CSteganoExecutor::decryptToFile(int Id, QString ImageFilepath, QString DataFilepath, PArgsList pArgsList)
@@ -88,6 +115,8 @@ void CSteganoExecutor::decryptToText(int Id, QString ImageFilepath, PArgsList pA
 
 void CSteganoExecutor::connectSignalsAndSlotsToMethod()
 {
+    qRegisterMetaType<PArgsList>("PArgsList");
+    connect(m_pSteganoMethod.data(),SIGNAL(proposeFinished(PArgsList)),this,SLOT(onProposed(PArgsList)),Qt::QueuedConnection);
     connect(m_pSteganoMethod.data(),SIGNAL(encryptFinished(bool)),this,SLOT(onEncryptFinished(bool)),Qt::QueuedConnection);
     connect(m_pSteganoMethod.data(),SIGNAL(decryptFinished(bool)),this,SLOT(onDecryptFinished(bool)),Qt::QueuedConnection);
     connect(m_pSteganoMethod.data(),SIGNAL(progressChanged(int)), this,SIGNAL(progressChanged(int)));
@@ -127,3 +156,7 @@ void CSteganoExecutor::onEncryptFinished(bool success)
     emit encryptFinished(success);
 }
 
+void CSteganoExecutor::onProposed(PArgsList pArgsList)
+{
+    emit proposed(pArgsList);
+}

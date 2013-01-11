@@ -5,6 +5,8 @@
 #include <QRgb>
 #include <QDebug>
 #include <QFile>
+#include <QMessageBox>
+
 CSteganoBitsMethod::CSteganoBitsMethod(void)
 {
 
@@ -247,7 +249,11 @@ void CSteganoBitsMethod::decrypt(QString ImageFilePath, QString DataFilepath, PA
     }
     emit decryptFinished(false);
 }
-
+void CSteganoBitsMethod::makeProposition(QString ImageFilepath, unsigned int ByteCount, PArgsList pArgsList)
+{
+    emit proposeFinished(pArgsList);
+    return;
+}
 void CSteganoBitsMethod::makePreview(QString imageFilePath, QString imageSaveFilePath, PByteArray data, PArgsList steganoParameters)
 {
 

@@ -25,8 +25,9 @@ public:
     QString getDecryptFileToHide();
     bool getEncryptDataSource();
     bool getDecryptDataSource();
+    void changeProposeButtonVisibility(bool);
     void showResultsInTextArea(QString DecryptedData);
-
+    void setWidgetArgs(PArgsList);
     // comment stub
     // Method should set active the first element on the list
     void setStegonoMethodsList(PMethodList);
@@ -35,6 +36,7 @@ signals:
     void encryptButtonClicked();
     void decryptButtonClicked();
     void previewButtonClicked();
+    void proposeButtonClicked();
     void imageFilepathChanged();
     void saveFilepathChanged();
     void fileToHideChanged();
@@ -58,6 +60,8 @@ private:
     QString m_SaveFilepath;
     bool m_IsFileRadioEncryptChoosen;
     bool m_IsFileRadioDecryptChoosen;
+    void hideProposeButton();
+    void showProposeButton();
 
 private slots:
     void openFileButtonClicked();
@@ -66,4 +70,5 @@ private slots:
     void onDecryptRadioChecked(bool);
     void onEncryptDataOpenFile();
     void onDecryptDataOpenFile();
+    
 };

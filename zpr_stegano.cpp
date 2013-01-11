@@ -34,11 +34,12 @@ ZPR_STEGANO::ZPR_STEGANO(QWidget *parent, Qt::WFlags flags)
     connect(ui.decryptButton, SIGNAL(clicked()), this, SIGNAL(decryptButtonClicked()));
     connect(ui.openFileButton, SIGNAL(clicked()), this, SLOT(openFileButtonClicked()));
     connect(ui.saveFileEncryptButton, SIGNAL(clicked()), this, SLOT(saveFileButtonClicked()));
-    connect(ui.openDataFileEncryptButton, SIGNAL(clicked()),this,SLOT(onEncryptDataOpenFile()));
-    connect(ui.openDataFileDecryptButton, SIGNAL(clicked()),this,SLOT(onDecryptDataOpenFile()));
-    connect(ui.comboBox,SIGNAL(activated(int)),this,SIGNAL(steganoMethodChoosen(int)));
-    connect(ui.fileRadioEncrypt,SIGNAL(toggled(bool)),this,SLOT(onEncryptRadioChecked(bool)));
-    connect(ui.fileRadioDecrypt,SIGNAL(toggled(bool)),this,SLOT(onDecryptRadioChecked(bool)));
+    connect(ui.proposeButton, SIGNAL(clicked()), this, SIGNAL(proposeButtonClicked()));
+    connect(ui.openDataFileEncryptButton, SIGNAL(clicked()), this, SLOT(onEncryptDataOpenFile()));
+    connect(ui.openDataFileDecryptButton, SIGNAL(clicked()), this, SLOT(onDecryptDataOpenFile()));
+    connect(ui.comboBox, SIGNAL(activated(int)), this, SIGNAL(steganoMethodChoosen(int)));
+    connect(ui.fileRadioEncrypt, SIGNAL(toggled(bool)), this, SLOT(onEncryptRadioChecked(bool)));
+    connect(ui.fileRadioDecrypt, SIGNAL(toggled(bool)), this, SLOT(onDecryptRadioChecked(bool)));
 }
 
 ZPR_STEGANO::~ZPR_STEGANO()
@@ -105,7 +106,11 @@ QString ZPR_STEGANO::getTextToHide()
 {
     return ui.textEditEncrypt->document()->toPlainText();
 }
-
+void ZPR_STEGANO::setWidgetArgs(PArgsList pArgs)
+{
+    this->changeUIblocking(false);
+    m_pMethodWidget->setProposition(pArgs);
+}
 void ZPR_STEGANO::updateProgress(int Value)
 {
     ui.progressBar->setValue(Value);
@@ -211,7 +216,22 @@ void ZPR_STEGANO::onDecryptDataOpenFile()
         ui.fileRadioDecrypt->setChecked(true);
     }
 }
+void ZPR_STEGANO::changeProposeButtonVisibility(bool status)
+{
+    if(status) 
+        showProposeButton();
+    else
+        hideProposeButton();
 
+}
+void  ZPR_STEGANO::hideProposeButton()
+{
+    ui.proposeButton->hide();
+}
+void ZPR_STEGANO::showProposeButton()
+{
+    ui.proposeButton->show();
+}
 void ZPR_STEGANO::showResultsInTextArea(QString DecryptedData)
 {
     ui.textEditDecrypt->setDocument(new QTextDocument(DecryptedData,this));
@@ -220,6 +240,7 @@ void ZPR_STEGANO::showResultsInTextArea(QString DecryptedData)
 void ZPR_STEGANO::changeUIblocking(bool ShouldBeBlocked)
 {
     bool ShouldBeEnabled = !ShouldBeBlocked;
+    ui.comboBox->setEnabled(ShouldBeEnabled);
     ui.encryptButton->setEnabled(ShouldBeEnabled);
     ui.decryptButton->setEnabled(ShouldBeEnabled);
     ui.openFileButton->setEnabled(ShouldBeEnabled);

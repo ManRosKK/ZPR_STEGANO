@@ -4,7 +4,7 @@
 #include <QBitArray>
 #include <QDebug>
 #include <QCheckBox>
-
+#include <QMessageBox>
 CSteganoBitsWidget::CSteganoBitsWidget(void)
 {
     configureUI();
@@ -43,13 +43,22 @@ PArgsList CSteganoBitsWidget::getArgsList()
 void CSteganoBitsWidget::setArgsList(PArgsList)
 {
     //todo: implement me
+    
+    qDebug()<<"tutdaasddddddddddddddddd    argslist";
 }
 
 PSteganoWidget CSteganoBitsWidget::clone()
 {
     return PSteganoWidget(new CSteganoBitsWidget(*this));
 }
-
+bool CSteganoBitsWidget::isPropositionsAllowed()
+{
+    return true;
+}
+void CSteganoBitsWidget::setProposition(PArgsList pArgsList)
+{
+    QMessageBox::information(this,"zaimplementuj mnie","odebralem PARGS zaimplementuj mnie");
+}
 void CSteganoBitsWidget::configureUI()
 {
     QVBoxLayout *VerticalLayout = new QVBoxLayout(this);
@@ -93,3 +102,4 @@ void CSteganoBitsWidget::configureUI()
     VerticalLayout->addWidget(BlueLabel);
     VerticalLayout->addLayout(HorizontalLayoutBlue);
 }
+

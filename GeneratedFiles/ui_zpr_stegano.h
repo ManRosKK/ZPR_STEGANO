@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'zpr_stegano.ui'
 **
-** Created: Tue 18. Dec 16:58:10 2012
+** Created: Fri 11. Jan 22:47:24 2013
 **      by: Qt User Interface Compiler version 4.8.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -63,6 +63,7 @@ public:
     QTextEdit *textEditDecrypt;
     QPushButton *decryptButton;
     QProgressBar *progressBar;
+    QPushButton *proposeButton;
     QSpacerItem *verticalSpacer;
     QVBoxLayout *methodWidgetLayout;
     QStatusBar *statusBar;
@@ -218,6 +219,11 @@ public:
 
         verticalLayout_2->addWidget(progressBar);
 
+        proposeButton = new QPushButton(centralWidget);
+        proposeButton->setObjectName(QString::fromUtf8("proposeButton"));
+
+        verticalLayout_2->addWidget(proposeButton);
+
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout_2->addItem(verticalSpacer);
@@ -259,6 +265,7 @@ public:
         openDataFileDecryptLabel->setText(QApplication::translate("ZPR_STEGANOClass", "Filepath where data will be written", 0, QApplication::UnicodeUTF8));
         textRadioDecrypt->setText(QApplication::translate("ZPR_STEGANOClass", "Use TextBox", 0, QApplication::UnicodeUTF8));
         decryptButton->setText(QApplication::translate("ZPR_STEGANOClass", "decrypt", 0, QApplication::UnicodeUTF8));
+        proposeButton->setText(QApplication::translate("ZPR_STEGANOClass", "Propose parameters", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };
