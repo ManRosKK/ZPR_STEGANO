@@ -32,11 +32,13 @@ CSteganoWindow::CSteganoWindow(QWidget *parent, Qt::WFlags flags)
     connect(ui.decryptButton, SIGNAL(clicked()), this, SIGNAL(decryptButtonClicked()));
     connect(ui.openFileButton, SIGNAL(clicked()), this, SIGNAL(openFileButtonClicked()));
     connect(ui.saveFileEncryptButton, SIGNAL(clicked()), this, SLOT(saveFileButtonClicked()));
-    connect(ui.openDataFileEncryptButton, SIGNAL(clicked()),this,SLOT(onEncryptDataOpenFile()));
-    connect(ui.openDataFileDecryptButton, SIGNAL(clicked()),this,SLOT(onDecryptDataOpenFile()));
-    connect(ui.comboBox,SIGNAL(activated(int)),this,SIGNAL(steganoMethodChoosen(int)));
-    connect(ui.fileRadioEncrypt,SIGNAL(toggled(bool)),this,SLOT(onEncryptRadioChecked(bool)));
-    connect(ui.fileRadioDecrypt,SIGNAL(toggled(bool)),this,SLOT(onDecryptRadioChecked(bool)));
+    connect(ui.proposeButton, SIGNAL(clicked()), this, SIGNAL(proposeButtonClicked()));
+    connect(ui.previewButton, SIGNAL(clicked()), this, SIGNAL(previewButtonClicked()));
+    connect(ui.openDataFileEncryptButton, SIGNAL(clicked()), this, SLOT(onEncryptDataOpenFile()));
+    connect(ui.openDataFileDecryptButton, SIGNAL(clicked()), this, SLOT(onDecryptDataOpenFile()));
+    connect(ui.comboBox, SIGNAL(activated(int)), this, SIGNAL(steganoMethodChoosen(int)));
+    connect(ui.fileRadioEncrypt, SIGNAL(toggled(bool)), this, SLOT(onEncryptRadioChecked(bool)));
+    connect(ui.fileRadioDecrypt, SIGNAL(toggled(bool)), this, SLOT(onDecryptRadioChecked(bool)));
 }
 
 CSteganoWindow::~CSteganoWindow()
@@ -104,6 +106,12 @@ QString CSteganoWindow::getTextToHide()
     return ui.textEditEncrypt->document()->toPlainText();
 }
 
+void CSteganoWindow::setWidgetArgs(PArgsList pArgs)
+{
+    changeUIblocking(false);
+    m_pMethodWidget->setProposition(pArgs);
+}
+
 void CSteganoWindow::updateProgress(int Value)
 {
     ui.progressBar->setValue(Value);
@@ -127,9 +135,9 @@ void CSteganoWindow::onDecryptFinished(void)
 
 }
 
-void CSteganoWindow::displayPreview(PImage)
+void CSteganoWindow::displayPreview(PImage pImage)
 {
-
+    QMessageBox::information(this,"previe","aizmplemenetuj mnie");
 }
 
 void CSteganoWindow::showMessageBox(QString Message, QMessageBox::Icon MessageBoxIcon)
@@ -211,7 +219,22 @@ void CSteganoWindow::onDecryptDataOpenFile()
         ui.fileRadioDecrypt->setChecked(true);
     }
 }
+void CSteganoWindow::changeProposeButtonVisibility(bool status)
+{
+    if(status) 
+        showProposeButton();
+    else
+        hideProposeButton();
 
+}
+void  CSteganoWindow::hideProposeButton()
+{
+    ui.proposeButton->hide();
+}
+void CSteganoWindow::showProposeButton()
+{
+    ui.proposeButton->show();
+}
 void CSteganoWindow::showResultsInTextArea(QString DecryptedData)
 {
     ui.textEditDecrypt->setDocument(new QTextDocument(DecryptedData,this));
@@ -220,6 +243,7 @@ void CSteganoWindow::showResultsInTextArea(QString DecryptedData)
 void CSteganoWindow::changeUIblocking(bool ShouldBeBlocked)
 {
     bool ShouldBeEnabled = !ShouldBeBlocked;
+    ui.comboBox->setEnabled(ShouldBeEnabled);
     ui.encryptButton->setEnabled(ShouldBeEnabled);
     ui.decryptButton->setEnabled(ShouldBeEnabled);
     ui.openFileButton->setEnabled(ShouldBeEnabled);

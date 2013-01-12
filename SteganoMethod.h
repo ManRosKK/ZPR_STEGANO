@@ -33,7 +33,7 @@ public:
       \param data to be hidden
       \param argument list alternating method behaviour
     */
-    virtual void makePreview(QString ImageFilepath, QString SaveFilepath, PByteArray pData, PArgsList pArgsList) = 0 ;
+    virtual void makePreview(QString ImageFilepath,QString DataFilePath, PArgsList pArgsList) = 0 ;
 
     //! Evaluates number of possible bytes to be hidden in given amount of pixels
     /*!
@@ -49,6 +49,14 @@ public:
      */
     virtual int evaluate(PArgsList,QString) = 0;
 
+    //! Propose params of encryption.
+    /*!
+      \param filepath to image to hide data in
+      \param filepath to save image with hidden data
+      \param data to be hidden
+      \param argument list alternating method behaviour
+    */
+    virtual void makeProposition(QString ImageFilepath, unsigned int ByteCount, PArgsList pArgsList);
     //virtual PArgsList suggestArgs(QString ImageFilepath, int ByteCount) = 0;
 
     virtual PSteganoMethod clone() = 0;
@@ -61,6 +69,7 @@ signals:
     void encryptFinished(bool);
     void decryptFinished(bool);
     void progressChanged(int);
+    void proposeFinished(PArgsList pArgsList);
 protected:
 };
 

@@ -13,11 +13,13 @@ signals:
 public slots:
     void onEncryptButtonClicked();
     void onDecryptButtonClicked();
+    void onProposeButtonClicked();
     void onPreviewButtonClicked();
     void onSteganoMethodChoosen(int Id);
     void onEncryptFinished(bool IsSuccess);
     void onDecryptFinished(bool IsSuccess);
     void onDecryptFinished(bool IsSuccess, QString DecryptedData);
+    void onProposed(PArgsList args);
     void onOpenFileButtonClicked();
 private:
     void configureWindow();

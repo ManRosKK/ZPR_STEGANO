@@ -10,7 +10,11 @@ CSteganoWidget::CSteganoWidget(const CSteganoWidget&)
 
 }
 
-bool CSteganoWidget::allowPropositions()
+bool CSteganoWidget::isPropositionsAllowed()
 {
     return false;
+}
+void CSteganoWidget::setProposition(PArgsList pArgsList)
+{
+    return ;
 }
