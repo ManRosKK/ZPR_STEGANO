@@ -14,13 +14,14 @@ public:
 
     virtual void encrypt(QString, QString, QString, PArgsList);
     virtual void decrypt(QString, QString, PArgsList);
-    virtual void makePreview(QString, QString, PByteArray, PArgsList);
+    virtual void makePreview(QString ImageFilepath,QString DataFilePath, PArgsList pArgsList);
     virtual void makeProposition(QString ImageFilepath, unsigned int ByteCount, PArgsList pArgsList);
     virtual int evaluate(PArgsList,int);
     virtual int evaluate(PArgsList,QString);
     virtual PSteganoMethod clone();
     virtual QString getName();
 private:
+    PImage encryptWithPreview(QString ImageFilePath, QString DataFilePath, PArgsList SteganoParameters);
     inline void modifyPixel(QRgb& pixel, QVector<unsigned int> mask, QBitArray data);
     PVectorInt generateEncryptMask(unsigned int maskPixel);
     PBitArray prepareEncryptData(QString DataFilePath);

@@ -100,7 +100,33 @@ void CApplication::onProposeButtonClicked()
 }
 void CApplication::onPreviewButtonClicked()
 {
+    try
+    {
+        //test whether image filepath is not empty
+        QString ImageFilepath = m_Window.getImageFilepath();
+        if(ImageFilepath.length() == 0)
+            throw CSteganoException("Image Filepath is not specified!");
+        QString SaveFilepath = m_Window.getSaveFilepath();
+        //TODO: data pusta ewentualnie
+        PByteArray Data;
+        bool IsDataToSaveAFile = m_Window.getEncryptDataSource();
+        if(IsDataToSaveAFile)
+        {
+            qDebug()<<"preview with file" << m_Window.getEncryptFileToHide();
+            m_Executor.makePreviewWithFile(m_ChoosenMethodId,ImageFilepath,m_Window.getEncryptFileToHide(), m_Window.getArgsListFromWidget());
+         }
+        else
+        {
+            qDebug()<<"preview with text" << m_Window.getTextToHide();
+            
+            m_Executor.makePreviewWithFile(m_ChoosenMethodId,ImageFilepath, m_Window.getTextToHide(), m_Window.getArgsListFromWidget());
 
+        }
+    }
+    catch(CSteganoException& Exception)
+    {
+        m_Window.showMessageBox(Exception.getMessage(),QMessageBox::Warning);
+    }
 }
 
 void CApplication::onSteganoMethodChoosen(int id)
@@ -127,6 +153,7 @@ void CApplication::configureWindow()
     connect(&m_Window,SIGNAL(encryptButtonClicked()),this,SLOT(onEncryptButtonClicked()));
     connect(&m_Window,SIGNAL(decryptButtonClicked()),this,SLOT(onDecryptButtonClicked()));
     connect(&m_Window,SIGNAL(proposeButtonClicked()),this, SLOT(onProposeButtonClicked()));
+    connect(&m_Window,SIGNAL(previewButtonClicked()),this, SLOT(onPreviewButtonClicked()));
     //connect(&m_Window,SIGNAL(dataSourceChanged(bool)),this,SLOT(onDataSourceChanged(bool)));
     //connect(&m_Window,SIGNAL(imageFilepathChanged()),this,SLOT(onImageFilepathChanged()));
     //connect(&m_Window,SIGNAL(saveFilepathChanged()),this,SLOT(onSaveFilepathChanged()));
@@ -142,6 +169,7 @@ void CApplication::configureExecutor()
     connect(&m_Executor,SIGNAL(progressChanged(int)),&m_Window,SLOT(updateProgress(int)));
     connect(&m_Executor,SIGNAL(previewFinished(PImage)),&m_Window,SLOT(displayPreview(PImage)));
     connect(&m_Executor,SIGNAL(decryptFinished(bool,QString)),this,SLOT(onDecryptFinished(bool,QString)));
+  //  connect(&m_Executor,SIGNAL(previewFinished(QString)),this,SLOT(onPreviewFinished(QString)));
     
 }
 

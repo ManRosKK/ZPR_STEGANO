@@ -234,7 +234,7 @@ void CSteganoNonCheckedMethod::decrypt(QString ImageFilePath, QString SaveFilepa
     }
 }
 
-void CSteganoNonCheckedMethod::makePreview(QString imageFilePath, QString imageSaveFilePath, PByteArray data, PArgsList steganoParameters)
+void CSteganoNonCheckedMethod::makePreview(QString imageFilePath, QString data, PArgsList steganoParameters)
 {
 
 }

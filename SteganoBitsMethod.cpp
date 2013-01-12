@@ -70,10 +70,12 @@ PBitArray CSteganoBitsMethod::prepareEncryptData(QString DataFilePath)
     qDebug()<<"data.size() => "<<pdata->size();
     return pdata;
 }
-void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePath, QString DataFilePath, PArgsList SteganoParameters)
+PImage CSteganoBitsMethod::encryptWithPreview(QString ImageFilePath, QString DataFilePath, PArgsList SteganoParameters)
 {
     unsigned int dataBitLength;
-    QImage image;
+    PImage pImage(new QImage() );
+    QImage& image= *pImage.data();
+    
     image.load(ImageFilePath);
  
     unsigned int maskPixel = SteganoParameters->takeAt(0).toUInt();
@@ -125,11 +127,24 @@ void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePat
     }
     if(dataCounter < dataBitLength )
     {
-        emit encryptFinished(false);
-        return;
+        //emit encryptFinished(false);
+
+        return PImage(NULL);
     }
-    image.save(ImageSaveFilePath);
-    emit encryptFinished(true);
+    return pImage;
+}
+void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePath, QString DataFilePath, PArgsList SteganoParameters)
+{
+    try
+    {
+        PImage pImage = encryptWithPreview(ImageFilePath,DataFilePath,SteganoParameters);
+        pImage->save(ImageSaveFilePath);
+        emit encryptFinished(true);
+    }catch(...)
+    {
+        emit encryptFinished(false);
+    }
+    
 }
 unsigned int CSteganoBitsMethod::getDataLength(PImage pimage,PVectorInt pmaskVector)
 {
@@ -254,9 +269,17 @@ void CSteganoBitsMethod::makeProposition(QString ImageFilepath, unsigned int Byt
     emit proposeFinished(pArgsList);
     return;
 }
-void CSteganoBitsMethod::makePreview(QString imageFilePath, QString imageSaveFilePath, PByteArray data, PArgsList steganoParameters)
+void CSteganoBitsMethod::makePreview(QString ImageFilePath, QString DataFilePath, PArgsList SteganoParameters)
 {
-
+    try
+    {
+        PImage pImage = encryptWithPreview(ImageFilePath,DataFilePath,SteganoParameters);
+        
+        emit previewFinished(pImage);
+    }catch(...)
+    {
+        //emit BLAD;
+    }
 }
 
 int CSteganoBitsMethod::evaluate(PArgsList,int)

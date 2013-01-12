@@ -33,7 +33,7 @@ public:
       \param data to be hidden
       \param argument list alternating method behaviour
     */
-    virtual void makePreview(QString ImageFilepath, QString SaveFilepath, PByteArray pData, PArgsList pArgsList) = 0 ;
+    virtual void makePreview(QString ImageFilepath,QString DataFilePath, PArgsList pArgsList) = 0 ;
 
     //! Evaluates number of possible bytes to be hidden in given amount of pixels
     /*!

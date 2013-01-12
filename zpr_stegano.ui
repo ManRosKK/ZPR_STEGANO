@@ -207,16 +207,26 @@
      </layout>
     </item>
     <item>
-     <widget class="QProgressBar" name="progressBar">
-      <property name="value">
-       <number>24</number>
+     <widget class="QPushButton" name="proposeButton">
+      <property name="text">
+       <string>Propose parameters</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="proposeButton">
+     <widget class="QPushButton" name="previewButton">
       <property name="text">
-       <string>Propose parameters</string>
+       <string>Prieview</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QProgressBar" name="progressBar">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="value">
+       <number>24</number>
       </property>
      </widget>
     </item>

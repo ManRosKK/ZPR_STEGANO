@@ -11,7 +11,7 @@ public:
 
     virtual void encrypt(QString, QString, QString, PArgsList);
     virtual void decrypt(QString, QString, PArgsList);
-    virtual void makePreview(QString, QString, PByteArray, PArgsList);
+    virtual void makePreview(QString ImageFilepath,QString DataFilePath, PArgsList pArgsList);
     virtual int evaluate(PArgsList,int);
     virtual int evaluate(PArgsList,QString);
     virtual PSteganoMethod clone();

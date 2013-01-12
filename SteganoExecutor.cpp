@@ -112,13 +112,45 @@ void CSteganoExecutor::decryptToText(int Id, QString ImageFilepath, PArgsList pA
     TempFile.close();*/
 
 }
+void CSteganoExecutor::makePreviewWithFile(int Id,QString ImageFilepath, QString DataFilepath, PArgsList pArgsList)
+{
+    if( Id != m_LastMethodId)
+    {
+        m_pSteganoMethod = CSteganoManager::getInstance().produceSteganoMethod(Id);
+        m_LastMethodId = Id;
+        connectSignalsAndSlotsToMethod();
+    }
 
+    QtConcurrent::run(m_pSteganoMethod.data(), &CSteganoMethod::makePreview, ImageFilepath, DataFilepath, pArgsList);
+
+}
+void CSteganoExecutor::makePreviewWithText(int Id,QString ImageFilepath, QString Data, PArgsList pArgsList)
+{
+    if( Id != m_LastMethodId)
+    {
+        m_pSteganoMethod = CSteganoManager::getInstance().produceSteganoMethod(Id);
+        m_LastMethodId = Id;
+        connectSignalsAndSlotsToMethod();
+    }
+    tmpnam(TempFilepath);
+    QFile file(TempFilepath);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+        return;
+    QTextStream out(&file);
+    out <<Data;
+    file.close();
+
+    QtConcurrent::run(m_pSteganoMethod.data(), &CSteganoMethod::makePreview, ImageFilepath, QString(TempFilepath), pArgsList);
+}
 void CSteganoExecutor::connectSignalsAndSlotsToMethod()
 {
     qRegisterMetaType<PArgsList>("PArgsList");
+    qRegisterMetaType<PImage>("PImage");
+
     connect(m_pSteganoMethod.data(),SIGNAL(proposeFinished(PArgsList)),this,SLOT(onProposed(PArgsList)),Qt::QueuedConnection);
     connect(m_pSteganoMethod.data(),SIGNAL(encryptFinished(bool)),this,SLOT(onEncryptFinished(bool)),Qt::QueuedConnection);
     connect(m_pSteganoMethod.data(),SIGNAL(decryptFinished(bool)),this,SLOT(onDecryptFinished(bool)),Qt::QueuedConnection);
+    connect(m_pSteganoMethod.data(),SIGNAL(previewFinished(PImage)), this,SIGNAL(previewFinished(PImage)),Qt::QueuedConnection);
     connect(m_pSteganoMethod.data(),SIGNAL(progressChanged(int)), this,SIGNAL(progressChanged(int)));
 }
 

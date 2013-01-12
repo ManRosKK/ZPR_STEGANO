@@ -35,6 +35,7 @@ ZPR_STEGANO::ZPR_STEGANO(QWidget *parent, Qt::WFlags flags)
     connect(ui.openFileButton, SIGNAL(clicked()), this, SLOT(openFileButtonClicked()));
     connect(ui.saveFileEncryptButton, SIGNAL(clicked()), this, SLOT(saveFileButtonClicked()));
     connect(ui.proposeButton, SIGNAL(clicked()), this, SIGNAL(proposeButtonClicked()));
+    connect(ui.previewButton, SIGNAL(clicked()), this, SIGNAL(previewButtonClicked()));
     connect(ui.openDataFileEncryptButton, SIGNAL(clicked()), this, SLOT(onEncryptDataOpenFile()));
     connect(ui.openDataFileDecryptButton, SIGNAL(clicked()), this, SLOT(onDecryptDataOpenFile()));
     connect(ui.comboBox, SIGNAL(activated(int)), this, SIGNAL(steganoMethodChoosen(int)));
@@ -134,9 +135,9 @@ void ZPR_STEGANO::onDecryptFinished(void)
 
 }
 
-void ZPR_STEGANO::displayPreview(PImage)
+void ZPR_STEGANO::displayPreview(PImage pImage)
 {
-
+    QMessageBox::information(this,"previe","aizmplemenetuj mnie");
 }
 
 void ZPR_STEGANO::showMessageBox(QString Message, QMessageBox::Icon MessageBoxIcon)
