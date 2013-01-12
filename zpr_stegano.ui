@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>455</width>
-    <height>632</height>
+    <height>665</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -61,7 +61,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="EncryptTab">
        <attribute name="title">
@@ -267,12 +267,19 @@
         <item>
          <layout class="QVBoxLayout" name="methodWidgetLayout"/>
         </item>
+        <item>
+         <widget class="QPushButton" name="proposeButton">
+          <property name="text">
+           <string>Propose parameters</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="">
+     <layout class="QHBoxLayout" name="horizontalLayout">
       <property name="spacing">
        <number>30</number>
       </property>
@@ -282,20 +289,12 @@
      </layout>
     </item>
     <item>
-     <widget class="QPushButton" name="proposeButton">
-      <property name="text">
-       <string>Propose parameters</string>
-      </property>
-     </widget>
-    </item>
-    <item>
      <widget class="QPushButton" name="previewButton">
       <property name="text">
        <string>Prieview</string>
       </property>
      </widget>
     </item>
-
     <item>
      <widget class="QProgressBar" name="progressBar">
       <property name="value">
