@@ -15,6 +15,8 @@ public:
     PMethodList getSteganoMethodList(void);
     PSteganoMethod produceSteganoMethod(int Id);
     PSteganoWidget produceSteganoWidget(int Id);
+    QString getSupportedTypesToEncrypt(int Id);
+    QString getSupportedTypesToDecrypt(int Id);
     int registerSteganoMethod(PSteganoMethod, PSteganoWidget);
     static const int c_InvalidIdNumber = -1;
 private:

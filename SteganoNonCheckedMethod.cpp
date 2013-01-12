@@ -260,3 +260,13 @@ QString CSteganoNonCheckedMethod::getName()
     //TEMP temporary
     return QString("NonCheckedAreaOfFiles");
 }
+
+QString CSteganoNonCheckedMethod::getSupportedTypesToEncrypt()
+{
+    return QString("Image Files (*.png *.jpg *.bmp)");
+}
+
+QString CSteganoNonCheckedMethod::getSupportedTypesToDecrypt()
+{
+    return QString("Image Files (*.png *.jpg *.bmp)");
+}

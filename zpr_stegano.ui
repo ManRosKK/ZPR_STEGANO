@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>693</width>
-    <height>702</height>
+    <width>455</width>
+    <height>632</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,7 +16,21 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>&lt;b&gt;1. Choose method of encryption or decryption&lt;/b&gt;</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QComboBox" name="comboBox"/>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>&lt;b&gt;2. Choose a file to encrypt or decrypt&lt;/b&gt;</string>
+      </property>
+     </widget>
     </item>
     <item>
      <widget class="QPushButton" name="openFileButton">
@@ -39,171 +53,232 @@
      </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <widget class="QWidget" name="EncryptTab">
+       <attribute name="title">
+        <string>Encrypt</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>&lt;b&gt;3. Choose where to save image with hidden data&lt;/b&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="saveFileEncryptButton">
+          <property name="text">
+           <string>Choose where to save file with hidden data</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="saveFileEncryptLabel">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>filepath to save encryption</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox">
+          <property name="title">
+           <string>4. Choose input data source and provide data</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QRadioButton" name="fileRadioEncrypt">
+             <property name="text">
+              <string>Take data to hide in image from file...</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="openDataFileEncryptButton">
+             <property name="text">
+              <string>Choose a file with data to be hidden</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="openDataFileEncryptLabel">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Filepath with data to be hidden</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="textRadioEncrypt">
+             <property name="text">
+              <string>Use TextBox</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTextEdit" name="textEditEncrypt">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>60</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>&lt;b&gt;5. Provide encryption parameters (if any) in parameters tab&lt;/b&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>&lt;b&gt;6. Click &quot;Encrypt!&quot; button and wait for results!&lt;/b&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="encryptButton">
+          <property name="text">
+           <string>encrypt</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="DecryptTab">
+       <attribute name="title">
+        <string>Decrypt</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+        <item>
+         <widget class="QGroupBox" name="groupBox_2">
+          <property name="title">
+           <string>3. Choose where to save data taken from image</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QRadioButton" name="fileRadioDecrypt">
+             <property name="text">
+              <string>Output decrypted data taken from image to file</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="openDataFileDecryptButton">
+             <property name="text">
+              <string>Choose a file where decrypted data will be written</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="openDataFileDecryptLabel">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Filepath where data will be written</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="textRadioDecrypt">
+             <property name="text">
+              <string>Use TextBox</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTextEdit" name="textEditDecrypt">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>60</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>&lt;b&gt;4. Provide decryption parameters (if any) in parameters tab&lt;/b&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>&lt;b&gt;5. Click &quot;Decrypt!&quot; button and wait for results!&lt;/b&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="decryptButton">
+          <property name="text">
+           <string>decrypt</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="WidgetTab">
+       <attribute name="title">
+        <string>Encryption/Dectyption Parameters</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Parameters which can be changed are displayed below:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="methodWidgetLayout"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="">
       <property name="spacing">
        <number>30</number>
       </property>
       <property name="sizeConstraint">
        <enum>QLayout::SetDefaultConstraint</enum>
       </property>
-      <item>
-       <widget class="QGroupBox" name="">
-        <property name="title">
-         <string>Encrypt</string>
-        </property>
-        <layout class="QVBoxLayout" name="EncryptLayout">
-         <item>
-          <widget class="QPushButton" name="saveFileEncryptButton">
-           <property name="text">
-            <string>Choose where to save file with hidden data</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="saveFileEncryptLabel">
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>filepath to save encryption</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QGroupBox" name="groupBox">
-           <property name="title">
-            <string>Choose input data source</string>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout">
-            <item>
-             <widget class="QRadioButton" name="fileRadioEncrypt">
-              <property name="text">
-               <string>Take data to hide in image from file...</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="openDataFileEncryptButton">
-              <property name="text">
-               <string>Choose a file with data to be hidden</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="openDataFileEncryptLabel">
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>20</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Filepath with data to be hidden</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="textRadioEncrypt">
-              <property name="text">
-               <string>Use TextBox</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QTextEdit" name="textEditEncrypt">
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>60</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="encryptButton">
-           <property name="text">
-            <string>encrypt</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="Decrypt">
-        <property name="title">
-         <string>Decrypt</string>
-        </property>
-        <layout class="QVBoxLayout" name="DecryptLayout">
-         <item>
-          <widget class="QGroupBox" name="groupBox_2">
-           <property name="title">
-            <string>Choose output data target</string>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_3">
-            <item>
-             <widget class="QRadioButton" name="fileRadioDecrypt">
-              <property name="text">
-               <string>Output decrypted data taken from image to file</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="openDataFileDecryptButton">
-              <property name="text">
-               <string>Choose a file where decrypted data will be written</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="openDataFileDecryptLabel">
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>20</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Filepath where data will be written</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="textRadioDecrypt">
-              <property name="text">
-               <string>Use TextBox</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QTextEdit" name="textEditDecrypt">
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>60</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="decryptButton">
-           <property name="text">
-            <string>decrypt</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
      </layout>
     </item>
     <item>
@@ -212,22 +287,6 @@
        <number>24</number>
       </property>
      </widget>
-    </item>
-    <item>
-     <spacer name="verticalSpacer">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>40</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item>
-     <layout class="QVBoxLayout" name="methodWidgetLayout"/>
     </item>
    </layout>
   </widget>

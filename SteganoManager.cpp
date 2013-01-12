@@ -52,4 +52,14 @@ PSteganoWidget CSteganoManager::produceSteganoWidget( int id )
     return m_steganoProducts[id].second->clone();
 }
 
+QString CSteganoManager::getSupportedTypesToEncrypt(int Id)
+{
+    return m_steganoProducts[Id].first->getSupportedTypesToEncrypt();
+}
+
+QString CSteganoManager::getSupportedTypesToDecrypt(int Id)
+{
+    return m_steganoProducts[Id].first->getSupportedTypesToDecrypt();
+}
+
 int CSteganoManager::m_counter = 0;

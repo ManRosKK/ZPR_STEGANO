@@ -8,13 +8,13 @@
 typedef QList<QVariant> ArgsList;
 typedef QSharedPointer<QImage> PImage;
 
-class ZPR_STEGANO : public QMainWindow
+class CSteganoWindow : public QMainWindow
 {
 	Q_OBJECT
 
 public:
-	ZPR_STEGANO(QWidget *parent = 0, Qt::WFlags flags = 0);
-	~ZPR_STEGANO();
+    CSteganoWindow(QWidget *parent = 0, Qt::WFlags flags = 0);
+    ~CSteganoWindow();
     void setWidget(QSharedPointer<CSteganoWidget>);
     PArgsList getArgsListFromWidget();
     void setArgsListForWidget(PArgsList);
@@ -39,6 +39,7 @@ signals:
     void saveFilepathChanged();
     void fileToHideChanged();
     void dataSourceChanged();
+    void openFileButtonClicked();
 
 public slots:
     void updateProgress(int);
@@ -47,6 +48,7 @@ public slots:
     void displayPreview(PImage);
     void showMessageBox(QString Message, QMessageBox::Icon MessageBoxIcon);
     void changeUIblocking(bool);
+    void showOpenFileDialog(QString);
 
 private:
 	Ui::ZPR_STEGANOClass ui;
@@ -60,7 +62,6 @@ private:
     bool m_IsFileRadioDecryptChoosen;
 
 private slots:
-    void openFileButtonClicked();
     void saveFileButtonClicked();
     void onEncryptRadioChecked(bool);
     void onDecryptRadioChecked(bool);

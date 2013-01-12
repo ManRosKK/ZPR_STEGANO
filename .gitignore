@@ -17,6 +17,7 @@ Thumbs.db
 *.orig
 *_moc.h
 *_moc.cpp
+*.autosave
 [Bb]in
 [Dd]ebug*/
 *.sbr

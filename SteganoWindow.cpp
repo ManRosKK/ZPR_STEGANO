@@ -1,10 +1,10 @@
-#include "zpr_stegano.h"
+#include "SteganoWindow.h"
 #include <QFileDialog>
 #include <QtGlobal>
 #include <QDebug>
 #include <QMessageBox>
 
-ZPR_STEGANO::ZPR_STEGANO(QWidget *parent, Qt::WFlags flags)
+CSteganoWindow::CSteganoWindow(QWidget *parent, Qt::WFlags flags)
     : QMainWindow(parent, flags),
       m_IsFileRadioEncryptChoosen(false),
       m_IsFileRadioDecryptChoosen(false)
@@ -12,8 +12,6 @@ ZPR_STEGANO::ZPR_STEGANO(QWidget *parent, Qt::WFlags flags)
 	ui.setupUi(this);
     ui.encryptButton->setText("Encrypt!");
     ui.decryptButton->setText("Decrypt!");
-    //ui.openFileButton->setText("Open File");
-    //ui.saveFileEncryptButton->setText("Save File to..");
     ui.progressBar->setMinimum(0);
     ui.progressBar->setMaximum(100);
     ui.progressBar->setValue(100);
@@ -32,7 +30,7 @@ ZPR_STEGANO::ZPR_STEGANO(QWidget *parent, Qt::WFlags flags)
 
     connect(ui.encryptButton, SIGNAL(clicked()), this, SIGNAL(encryptButtonClicked()));
     connect(ui.decryptButton, SIGNAL(clicked()), this, SIGNAL(decryptButtonClicked()));
-    connect(ui.openFileButton, SIGNAL(clicked()), this, SLOT(openFileButtonClicked()));
+    connect(ui.openFileButton, SIGNAL(clicked()), this, SIGNAL(openFileButtonClicked()));
     connect(ui.saveFileEncryptButton, SIGNAL(clicked()), this, SLOT(saveFileButtonClicked()));
     connect(ui.openDataFileEncryptButton, SIGNAL(clicked()),this,SLOT(onEncryptDataOpenFile()));
     connect(ui.openDataFileDecryptButton, SIGNAL(clicked()),this,SLOT(onDecryptDataOpenFile()));
@@ -41,12 +39,12 @@ ZPR_STEGANO::ZPR_STEGANO(QWidget *parent, Qt::WFlags flags)
     connect(ui.fileRadioDecrypt,SIGNAL(toggled(bool)),this,SLOT(onDecryptRadioChecked(bool)));
 }
 
-ZPR_STEGANO::~ZPR_STEGANO()
+CSteganoWindow::~CSteganoWindow()
 {
 
 }
 
-void ZPR_STEGANO::setWidget(PSteganoWidget pWidget)
+void CSteganoWindow::setWidget(PSteganoWidget pWidget)
 {
     //remove all widgets
     QLayoutItem *pItem;
@@ -57,12 +55,12 @@ void ZPR_STEGANO::setWidget(PSteganoWidget pWidget)
     ui.methodWidgetLayout->addWidget(m_pMethodWidget.data());
 }
 
-PArgsList ZPR_STEGANO::getArgsListFromWidget()
+PArgsList CSteganoWindow::getArgsListFromWidget()
 {
     return m_pMethodWidget->getArgsList();
 }
 
-void ZPR_STEGANO::setStegonoMethodsList(PMethodList pMethodList)
+void CSteganoWindow::setStegonoMethodsList(PMethodList pMethodList)
 {
     std::pair<int,QString> i;
     foreach(i, *pMethodList)
@@ -71,42 +69,42 @@ void ZPR_STEGANO::setStegonoMethodsList(PMethodList pMethodList)
     }
 }
 
-QString ZPR_STEGANO::getImageFilepath()
+QString CSteganoWindow::getImageFilepath()
 {
     return m_ImageFilepath;
 }
 
-QString ZPR_STEGANO::getSaveFilepath()
+QString CSteganoWindow::getSaveFilepath()
 {
     return m_SaveFilepath;
 }
 
-QString ZPR_STEGANO::getEncryptFileToHide()
+QString CSteganoWindow::getEncryptFileToHide()
 {
     return m_FileToHideEncryptFilepath;
 }
 
-QString ZPR_STEGANO::getDecryptFileToHide()
+QString CSteganoWindow::getDecryptFileToHide()
 {
     return m_FileToHideDecryptFilepath;
 }
 
-bool ZPR_STEGANO::getEncryptDataSource()
+bool CSteganoWindow::getEncryptDataSource()
 {
     return m_IsFileRadioEncryptChoosen;
 }
 
-bool ZPR_STEGANO::getDecryptDataSource()
+bool CSteganoWindow::getDecryptDataSource()
 {
     return m_IsFileRadioDecryptChoosen;
 }
 
-QString ZPR_STEGANO::getTextToHide()
+QString CSteganoWindow::getTextToHide()
 {
     return ui.textEditEncrypt->document()->toPlainText();
 }
 
-void ZPR_STEGANO::updateProgress(int Value)
+void CSteganoWindow::updateProgress(int Value)
 {
     ui.progressBar->setValue(Value);
     if(Value >= 100)
@@ -119,22 +117,22 @@ void ZPR_STEGANO::updateProgress(int Value)
     }
 }
 
-void ZPR_STEGANO::onEncryptFinished(void)
+void CSteganoWindow::onEncryptFinished(void)
 {
 
 }
 
-void ZPR_STEGANO::onDecryptFinished(void)
+void CSteganoWindow::onDecryptFinished(void)
 {
 
 }
 
-void ZPR_STEGANO::displayPreview(PImage)
+void CSteganoWindow::displayPreview(PImage)
 {
 
 }
 
-void ZPR_STEGANO::showMessageBox(QString Message, QMessageBox::Icon MessageBoxIcon)
+void CSteganoWindow::showMessageBox(QString Message, QMessageBox::Icon MessageBoxIcon)
 {
     QMessageBox MsgBox(this);
     //set messagebox proporties
@@ -147,7 +145,7 @@ void ZPR_STEGANO::showMessageBox(QString Message, QMessageBox::Icon MessageBoxIc
     MsgBox.exec();
 }
 
-void ZPR_STEGANO::saveFileButtonClicked()
+void CSteganoWindow::saveFileButtonClicked()
 {
     QString FileName = QFileDialog::getSaveFileName(this,
         tr("Save Image to..."), QString(), tr("Image Files (*.png *.jpg *.bmp);;All Files (*)"));
@@ -161,10 +159,12 @@ void ZPR_STEGANO::saveFileButtonClicked()
     }
 }
 
-void ZPR_STEGANO::openFileButtonClicked()
+void CSteganoWindow::showOpenFileDialog(QString SupportedTypes)
 {
     QString FileName = QFileDialog::getOpenFileName(this,
-        tr("Open Image"), QString(), tr("Image Files (*.png *.jpg *.bmp);;All Files (*)"));
+        tr("Open Image"), QString(), SupportedTypes);
+     //tr("Image Files (*.png *.jpg *.bmp);;All Files (*)"));
+
     //check whether QFileDialog returned a valid filename
     if(FileName.length() != 0)
     {
@@ -174,17 +174,17 @@ void ZPR_STEGANO::openFileButtonClicked()
     }
 }
 
-void ZPR_STEGANO::onEncryptRadioChecked(bool IsFileChecked)
+void CSteganoWindow::onEncryptRadioChecked(bool IsFileChecked)
 {
     m_IsFileRadioEncryptChoosen = IsFileChecked;
 }
 
-void ZPR_STEGANO::onDecryptRadioChecked(bool IsFileChecked)
+void CSteganoWindow::onDecryptRadioChecked(bool IsFileChecked)
 {
     m_IsFileRadioDecryptChoosen = IsFileChecked;
 }
 
-void ZPR_STEGANO::onEncryptDataOpenFile()
+void CSteganoWindow::onEncryptDataOpenFile()
 {
     QString FileName = QFileDialog::getOpenFileName(this,
         tr("Open File"), QString());
@@ -198,7 +198,7 @@ void ZPR_STEGANO::onEncryptDataOpenFile()
     }
 }
 
-void ZPR_STEGANO::onDecryptDataOpenFile()
+void CSteganoWindow::onDecryptDataOpenFile()
 {
     QString FileName = QFileDialog::getSaveFileName(this,
         tr("Save data to"), QString());
@@ -212,12 +212,12 @@ void ZPR_STEGANO::onDecryptDataOpenFile()
     }
 }
 
-void ZPR_STEGANO::showResultsInTextArea(QString DecryptedData)
+void CSteganoWindow::showResultsInTextArea(QString DecryptedData)
 {
     ui.textEditDecrypt->setDocument(new QTextDocument(DecryptedData,this));
 }
 
-void ZPR_STEGANO::changeUIblocking(bool ShouldBeBlocked)
+void CSteganoWindow::changeUIblocking(bool ShouldBeBlocked)
 {
     bool ShouldBeEnabled = !ShouldBeBlocked;
     ui.encryptButton->setEnabled(ShouldBeEnabled);

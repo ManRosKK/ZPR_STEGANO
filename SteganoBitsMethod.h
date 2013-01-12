@@ -19,6 +19,8 @@ public:
     virtual int evaluate(PArgsList,QString);
     virtual PSteganoMethod clone();
     virtual QString getName();
+    virtual QString getSupportedTypesToEncrypt();
+    virtual QString getSupportedTypesToDecrypt();
 private:
     inline void modifyPixel(QRgb& pixel, QVector<unsigned int> mask, QBitArray data);
     PVectorInt generateEncryptMask(unsigned int maskPixel);

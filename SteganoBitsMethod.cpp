@@ -260,3 +260,13 @@ QString CSteganoBitsMethod::getName()
     //TEMP temporary
     return QString("Koczo");
 }
+
+QString CSteganoBitsMethod::getSupportedTypesToEncrypt()
+{
+    return QString("Image Files (*.png *.jpg *.bmp)");
+}
+
+QString CSteganoBitsMethod::getSupportedTypesToDecrypt()
+{
+    return QString("Image Files (*.jpg *.bmp)");
+}

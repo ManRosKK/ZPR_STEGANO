@@ -1,5 +1,5 @@
 #pragma once
-#include "zpr_stegano.h"
+#include "SteganoWindow.h"
 #include "SteganoExecutor.h"
 #include <QApplication>
 
@@ -18,11 +18,12 @@ public slots:
     void onEncryptFinished(bool IsSuccess);
     void onDecryptFinished(bool IsSuccess);
     void onDecryptFinished(bool IsSuccess, QString DecryptedData);
+    void onOpenFileButtonClicked();
 private:
     void configureWindow();
     void configureExecutor();
 
-    ZPR_STEGANO m_Window;
+    CSteganoWindow m_Window;
     CSteganoExecutor m_Executor;
     PByteArray m_DecryptedData;
     bool m_WasDataToSaveAFile;

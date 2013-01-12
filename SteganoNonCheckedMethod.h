@@ -16,6 +16,8 @@ public:
     virtual int evaluate(PArgsList,QString);
     virtual PSteganoMethod clone();
     virtual QString getName();
+    virtual QString getSupportedTypesToEncrypt();
+    virtual QString getSupportedTypesToDecrypt();
 private:
     void findEndOfImage(std::fstream& fileone);
     int findHiddenData(std::fstream& fileone);

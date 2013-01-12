@@ -14,8 +14,6 @@ CApplication::CApplication(int & argc, char ** argv):
 
 void CApplication::onEncryptButtonClicked()
 {
-    //TEMP: generate test ByteArray
-
     try
     {
         //test whether image filepath is not empty
@@ -25,8 +23,8 @@ void CApplication::onEncryptButtonClicked()
         QString SaveFilepath = m_Window.getSaveFilepath();
         if(SaveFilepath.length() == 0)
             throw CSteganoException("'Save to' filepath is not specified!");
-        //TODO: data pusta ewentualnie
-        PByteArray Data;
+        if(SaveFilepath == ImageFilepath)
+            throw CSteganoException("'Save to' filepath equals 'Input image' filepath: choose a different filepath for output!");
         bool IsDataToSaveAFile = m_Window.getEncryptDataSource();
         if(IsDataToSaveAFile)
         {
@@ -51,7 +49,6 @@ void CApplication::onEncryptButtonClicked()
 
 void CApplication::onDecryptButtonClicked()
 {
-
     bool IsDataToSaveAFile = m_Window.getDecryptDataSource();
     if(IsDataToSaveAFile)
     {
@@ -94,10 +91,7 @@ void CApplication::configureWindow()
     connect(&m_Window,SIGNAL(steganoMethodChoosen(int)),this,SLOT(onSteganoMethodChoosen(int)));
     connect(&m_Window,SIGNAL(encryptButtonClicked()),this,SLOT(onEncryptButtonClicked()));
     connect(&m_Window,SIGNAL(decryptButtonClicked()),this,SLOT(onDecryptButtonClicked()));
-    //connect(&m_Window,SIGNAL(dataSourceChanged(bool)),this,SLOT(onDataSourceChanged(bool)));
-    //connect(&m_Window,SIGNAL(imageFilepathChanged()),this,SLOT(onImageFilepathChanged()));
-    //connect(&m_Window,SIGNAL(saveFilepathChanged()),this,SLOT(onSaveFilepathChanged()));
-
+    connect(&m_Window,SIGNAL(openFileButtonClicked()), this, SLOT(onOpenFileButtonClicked()));
     m_Window.show();
 }
 
@@ -119,7 +113,7 @@ void CApplication::onEncryptFinished(bool IsSuccess)
     }
     else
     {
-         m_Window.showMessageBox(QString("Encryption: Fefefefe EPIK FEJL"),QMessageBox::Critical);
+         m_Window.showMessageBox(QString("Encryption: Failure"),QMessageBox::Critical);
     }
 }
 
@@ -132,7 +126,7 @@ void CApplication::onDecryptFinished(bool IsSuccess)
     }
     else
     {
-         m_Window.showMessageBox(QString("Decryption: Fefefefe EPIK FEJL"),QMessageBox::Critical);
+         m_Window.showMessageBox(QString("Decryption: Failure"),QMessageBox::Critical);
     }
 }
 
@@ -147,7 +141,11 @@ void CApplication::onDecryptFinished(bool IsSuccess, QString DecryptedData)
     }
     else
     {
-         m_Window.showMessageBox(QString("Decryption: Fefefefe EPIK FEJL"),QMessageBox::Critical);
+         m_Window.showMessageBox(QString("Decryption: Failure"),QMessageBox::Critical);
     }
 }
 
+void CApplication::onOpenFileButtonClicked()
+{
+    m_Window.showOpenFileDialog(CSteganoManager::getInstance().getSupportedTypesToEncrypt(m_ChoosenMethodId));
+}

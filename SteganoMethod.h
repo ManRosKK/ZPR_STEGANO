@@ -53,6 +53,8 @@ public:
 
     virtual PSteganoMethod clone() = 0;
     virtual QString getName() = 0;
+    virtual QString getSupportedTypesToEncrypt() = 0;
+    virtual QString getSupportedTypesToDecrypt() = 0;
 
 signals:
     void previewFinished(PImage);
