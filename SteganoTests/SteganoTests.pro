@@ -23,7 +23,6 @@ SOURCES += main.cpp \
     ../SteganoException.cpp \
     ../SteganoBitsWidget.cpp \
     ../SteganoBitsMethod.cpp \
-    ../OperationResult.cpp \
     ../Application.cpp
 
 
@@ -40,7 +39,6 @@ HEADERS  += \
     ../SteganoException.h \
     ../SteganoBitsWidget.h \
     ../SteganoBitsMethod.h \
-    ../OperationResult.h \
     ../BitmapHeader.h \
     ../Application.h \
     tst_csteganomanager.h

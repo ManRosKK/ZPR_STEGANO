@@ -12,11 +12,11 @@ class CSteganoTestWidget :
 {
 public:
     CSteganoTestWidget(void){}
-    CSteganoTestWidget(const CSteganoTestWidget&){}
+    CSteganoTestWidget(const CSteganoTestWidget& cp):CSteganoWidget(cp.parentWidget()){;}
     virtual ~CSteganoTestWidget(void){}
-    static PSteganoWidget createSteganoTestWidget(){}
+    static PSteganoWidget createSteganoTestWidget(){return PSteganoWidget(NULL);}
 
-    virtual PArgsList getArgsList(){}
+    virtual PArgsList getArgsList(){return PArgsList(NULL);}
 
     virtual void setArgsList(PArgsList){}
 
@@ -36,9 +36,9 @@ void CSteganoTestMethod::encrypt(QString, QString, QString, PArgsList){}
 
 void CSteganoTestMethod::decrypt(QString, QString, PArgsList){}
 
-void CSteganoTestMethod::makePreview(QString ImageFilepath,QString DataFilePath, PArgsList pArgsList){}
+void CSteganoTestMethod::makePreview(QString ,QString, PArgsList){}
 
-void CSteganoTestMethod::makeProposition(QString ImageFilepath, unsigned int ByteCount, PArgsList pArgsList){}
+void CSteganoTestMethod::makeProposition(QString , unsigned int , PArgsList){}
 
 int CSteganoTestMethod::evaluate(PArgsList,int){return 1;}
 
@@ -85,13 +85,6 @@ void tst_CSteganoManager::testCase1()
     {
     }
 
-    try {
-        object->registerSteganoMethod(PSteganoMethod(NULL),tmp );
-        QFAIL("Exception not thrown");
-    }
-    catch (...)
-    {
-    }
 
     bool exceptionSeen = false;
     try {
@@ -101,8 +94,8 @@ void tst_CSteganoManager::testCase1()
         exceptionSeen = true;
     }
     QCOMPARE(exceptionSeen, true);
-    int id2 = object->registerSteganoMethod(PSteganoMethod(new CSteganoTestMethod("test2")),tmp );
-    int id3 = object->registerSteganoMethod(PSteganoMethod(new CSteganoTestMethod("test3")),tmp );
+    object->registerSteganoMethod(PSteganoMethod(new CSteganoTestMethod("test2")),tmp );
+    object->registerSteganoMethod(PSteganoMethod(new CSteganoTestMethod("test3")),tmp );
     PMethodList objList = object->getSteganoMethodList();
 
     QCOMPARE(objList->length(),(3+2) );
@@ -121,8 +114,10 @@ void tst_CSteganoManager::testCase2()
 
     QVERIFY(object!=NULL);
     PSteganoWidget  tmp = PSteganoWidget(new CSteganoTestWidget());
-    int id1 = object->registerSteganoMethod(PSteganoMethod(new CSteganoTestMethod("test1")),tmp );
+    int id = object->registerSteganoMethod(PSteganoMethod(new CSteganoTestMethod("test1")),tmp );
 
+    QCOMPARE(object->getSupportedTypesToEncrypt(id),QString("jpg") );
+    QCOMPARE(object->getSupportedTypesToDecrypt(id),QString("png"));
 
 
 }

@@ -9,9 +9,7 @@ int main(int argc, char *argv[])
     //MainWindow w;
     //w.show();
 
-    char* mockUp2="";
-    int mockUp1=0;
-    CApplication a(mockUp1,&mockUp2);
+    CApplication a(argc,argv);
     /*******************************************************************/
     //    CStegano Test Case
     /*******************************************************************/
