@@ -1,6 +1,8 @@
 #include <QtGui/QApplication>
 #include <QTest>
 #include "tst_csteganomanager.h"
+#include "./../SteganoException.h"
+#include "./../Application.h"
 int main(int argc, char *argv[])
 {
     //QApplication a(argc, argv);
