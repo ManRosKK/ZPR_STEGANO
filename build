@@ -1,0 +1,14 @@
+#!/bin/bash
+if [ "$1" = "run" ]; then
+    qmake
+    make
+    ./steganoZPR
+elif [ "$1" = "test" ]; then
+    cd SteganoTests
+    qmake
+    make
+    ./SteganoTests  
+else
+    qmake
+    make
+fi

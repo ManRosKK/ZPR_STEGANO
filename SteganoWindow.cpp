@@ -150,13 +150,18 @@ void CSteganoWindow::onDecryptFinished(void)
 void CSteganoWindow::displayPreview(PImage pImage)
 {
     changeUIblocking(false);
-    CSteganoPreview* preview =(new CSteganoPreview(this));
-    //pPreview->setParent(this);
-    preview->setWindowTitle("Preview");
-    preview->SetImage(*pImage);
-    preview->exec();
+    if(!pImage.isNull())
+    {
+        CSteganoPreview* preview =(new CSteganoPreview(this));
+        //pPreview->setParent(this);
+        preview->setWindowTitle("Preview");
 
-    delete preview;
+        preview->SetImage(*pImage);
+        preview->exec();
+
+        delete preview;
+    }
+    ui.progressBar->setValue(100);
 }
 
 void CSteganoWindow::showMessageBox(QString Message, QMessageBox::Icon MessageBoxIcon)
@@ -168,7 +173,6 @@ void CSteganoWindow::showMessageBox(QString Message, QMessageBox::Icon MessageBo
     MsgBox.setWindowTitle("     \n");
     //disable icon on title bar of the message box
     MsgBox.setWindowFlags(Qt::Dialog | Qt::CustomizeWindowHint | Qt::WindowTitleHint);
-
     MsgBox.exec();
 }
 
@@ -176,7 +180,6 @@ void CSteganoWindow::showOpenFileEncryptDialog(QString SupportedTypes)
 {
     QString FileName = QFileDialog::getOpenFileName(this,
         tr("Open Image"), QString(), SupportedTypes);
-     //tr("Image Files (*.png *.jpg *.bmp);;All Files (*)"));
 
     //check whether QFileDialog returned a valid filename
     if(FileName.length() != 0)
@@ -214,7 +217,6 @@ void CSteganoWindow::showSaveFileEncryptDialog(QString SupportedTypes)
     }
 }
 
-
 void CSteganoWindow::onEncryptRadioChecked(bool IsFileChecked)
 {
     m_IsFileRadioEncryptChoosen = IsFileChecked;
@@ -242,7 +244,7 @@ void CSteganoWindow::onEncryptDataOpenFile()
 void CSteganoWindow::onDecryptDataOpenFile()
 {
     QString FileName = QFileDialog::getSaveFileName(this,
-        tr("Save data to"), QString());
+        tr("Save data to..."), QString());
 
     //check whether QFileDialog returned a valid filename
     if(FileName.length() != 0)
@@ -284,6 +286,7 @@ void CSteganoWindow::changeUIblocking(bool ShouldBeBlocked)
     ui.saveFileEncryptButton->setEnabled(ShouldBeEnabled);
     ui.openDataFileEncryptButton->setEnabled(ShouldBeEnabled);
     ui.openDataFileDecryptButton->setEnabled(ShouldBeEnabled);
+    ui.proposeButton->setEnabled(ShouldBeEnabled);
 }
 
 void CSteganoWindow::onComboBoxActivated(int Id)

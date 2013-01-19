@@ -16,7 +16,5 @@ CSteganoPreview::~CSteganoPreview()
 
 void CSteganoPreview::SetImage(QImage& Image)
 {
-    //*pImage;
-   // pWindowsImage = pImage;
     ui->label->setPixmap(QPixmap::fromImage(Image));
 }

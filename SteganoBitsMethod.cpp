@@ -334,6 +334,7 @@ void CSteganoBitsMethod::makePreview(QString ImageFilePath, QString DataFilePath
     }catch(CSteganoException& e)
     {
         emit errorOccurred(e.getMessage());
+        emit previewFinished(PImage());
         //emit BLAD;
     }
 }
