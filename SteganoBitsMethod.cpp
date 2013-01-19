@@ -54,6 +54,8 @@ PBitArray CSteganoBitsMethod::prepareEncryptData(QString DataFilePath)
 
     unsigned int dataLength = Data.length(); //data length
     qDebug()<<"dlugosc danych: "<<dataLength;
+    if(dataLength == 0)
+        return PBitArray(new QBitArray(0));
     unsigned int mask = 0x000000FF;
     for(int k = 3; k>=0; k--)
     {
@@ -74,9 +76,9 @@ PImage CSteganoBitsMethod::encryptWithPreview(QString ImageFilePath, QString Dat
 {
     unsigned int dataBitLength;
     PImage pImage(new QImage() );
-    QImage& image= *pImage.data();
+    //QImage& image= *pImage.data();
     
-    image.load(ImageFilePath);
+    pImage->load(ImageFilePath);
  
     unsigned int maskPixel = SteganoParameters->takeAt(0).toUInt();
     
@@ -87,14 +89,16 @@ PImage CSteganoBitsMethod::encryptWithPreview(QString ImageFilePath, QString Dat
     PBitArray pdata = prepareEncryptData(DataFilePath);
     dataBitLength = pdata->size();
     
+    if(dataBitLength == 0)
+        return pImage;
 
     unsigned int dataCounter = 0; 
     bool loopShouldFinishFlag = 0;
-    for( int i = 0;i < image.height();i++)
+    for( int i = 0;i < pImage->height();i++)
     {
-        for( int j = 0;j < image.width();j++)
+        for( int j = 0;j < pImage->width();j++)
         {
-            QRgb pixel = image.pixel(j,i);
+            QRgb pixel = pImage->pixel(j,i);
             for(int k = 0;k < pmaskVector->size();k++)
             {
                 if(pdata->testBit(dataCounter++) )
@@ -115,11 +119,11 @@ PImage CSteganoBitsMethod::encryptWithPreview(QString ImageFilePath, QString Dat
                     break;
                 }
             }
-            image.setPixel(j,i,pixel);
+            pImage->setPixel(j,i,pixel);
             if( loopShouldFinishFlag ) //if we got the end of Data length
             {
-                i = image.height();
-                j = image.width();
+                i = pImage->height();
+                j = pImage->width();
             }
         }
         int Percentage = (dataCounter*100)/dataBitLength;
@@ -138,6 +142,7 @@ void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePat
     try
     {
         PImage pImage = encryptWithPreview(ImageFilePath,DataFilePath,SteganoParameters);
+
         pImage->save(ImageSaveFilePath);
         emit encryptFinished(true);
     }catch(...)
@@ -273,8 +278,12 @@ void CSteganoBitsMethod::makePreview(QString ImageFilePath, QString DataFilePath
 {
     try
     {
-        PImage pImage = encryptWithPreview(ImageFilePath,DataFilePath,SteganoParameters);
-        
+        qDebug()<<"STEGANOBITS::makePreview";
+        PImage pImage=encryptWithPreview(ImageFilePath,DataFilePath,SteganoParameters);
+        qDebug()<<ImageFilePath<<" "<<DataFilePath<<" ";
+        if(pImage.data() == NULL)
+            qDebug()<<"NUUUUUUUUUUUUUUUUUUUL "<<pImage.data() ;
+        *pImage;
         emit previewFinished(pImage);
     }catch(...)
     {

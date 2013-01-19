@@ -133,6 +133,7 @@ void CSteganoExecutor::makePreviewWithText(int Id,QString ImageFilepath, QString
         connectSignalsAndSlotsToMethod();
     }
     tmpnam(TempFilepath);
+    qDebug()<<"tmp filepath: "<<TempFilepath;
     QFile file(TempFilepath);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return;

@@ -116,7 +116,7 @@ void CApplication::onPreviewButtonClicked()
         {
             qDebug()<<"preview with text" << m_Window.getTextToHide();
             
-            m_Executor.makePreviewWithFile(m_ChoosenMethodId,ImageFilepath, m_Window.getTextToHide(), m_Window.getArgsListFromWidget());
+            m_Executor.makePreviewWithText(m_ChoosenMethodId,ImageFilepath, m_Window.getTextToHide(), m_Window.getArgsListFromWidget());
 
         }
     }

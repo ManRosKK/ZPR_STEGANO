@@ -3,7 +3,7 @@
 #include <QtGlobal>
 #include <QDebug>
 #include <QMessageBox>
-
+#include <SteganoPreview.h>
 CSteganoWindow::CSteganoWindow(QWidget *parent, Qt::WFlags flags)
     : QMainWindow(parent, flags),
       m_IsFileRadioEncryptChoosen(false),
@@ -137,7 +137,14 @@ void CSteganoWindow::onDecryptFinished(void)
 
 void CSteganoWindow::displayPreview(PImage pImage)
 {
-    QMessageBox::information(this,"previe","aizmplemenetuj mnie");
+
+
+    //QMessageBox::information(this,"previe","aizmplemenetuj mnie");
+    CSteganoPreview* preview =(new CSteganoPreview(this));
+    //pPreview->setParent(this);
+    preview->SetImage(*pImage);
+    preview->exec();
+    delete preview;
 }
 
 void CSteganoWindow::showMessageBox(QString Message, QMessageBox::Icon MessageBoxIcon)
