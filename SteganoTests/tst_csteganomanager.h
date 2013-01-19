@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "./../SteganoMethod.h"
+typedef QSharedPointer<CSteganoMethod> PSteganoMethod ;
 class CSteganoTestMethod :
     public CSteganoMethod
 {
@@ -14,7 +15,7 @@ public:
   CSteganoTestMethod(const CSteganoTestMethod& cp){this->name = cp.name;}
     virtual ~CSteganoTestMethod(void){}
 
-    static PSteganoMethod createSteganoMethod(){}
+  static PSteganoMethod createSteganoMethod(){return PSteganoMethod(NULL);}
     virtual void encrypt(QString, QString, QString, PArgsList);
     virtual void decrypt(QString, QString, PArgsList);
     virtual void makePreview(QString ImageFilepath,QString DataFilePath, PArgsList pArgsList);

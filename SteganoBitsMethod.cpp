@@ -279,9 +279,11 @@ void CSteganoBitsMethod::makeProposition(QString ImageFilepath, unsigned int Byt
 {
     try
     {
+
+        pArgsList->clear();
         QImage image(ImageFilepath);
         unsigned int size = image.width()*image.height();
-        unsigned int bitsPerPixel = ByteCount/size;
+        unsigned int bitsPerPixel = (ByteCount*8)/size;
         unsigned int mask = 0;
         if(bitsPerPixel<=0)
         {
@@ -306,12 +308,12 @@ void CSteganoBitsMethod::makeProposition(QString ImageFilepath, unsigned int Byt
         {
             mask |= (1<<(bitsPerPixel/3))<<(j*8); // jth octet
         }
-        pArgsList->clear();
         pArgsList->append(mask);
         emit proposeFinished(pArgsList);
     }
     catch(...)
     {
+        emit errorOccurred("Fatal error");
         //TODO: implement me
         qDebug()<<"Fatal error";
     }
@@ -320,14 +322,13 @@ void CSteganoBitsMethod::makeProposition(QString ImageFilepath, unsigned int Byt
 }
 void CSteganoBitsMethod::makePreview(QString ImageFilePath, QString DataFilePath, PArgsList SteganoParameters)
 {
-    //TODO: finish implementation
     try
     {
         qDebug()<<"STEGANOBITS::makePreview";
         PImage pImage=encryptWithPreview(ImageFilePath,DataFilePath,SteganoParameters);
         qDebug()<<ImageFilePath<<" "<<DataFilePath<<" ";
-        if(pImage.data() == NULL)
-            qDebug()<<"NUUUUUUUUUUUUUUUUUUUL "<<pImage.data() ;
+  //      if(pImage.data() == NULL)
+//            qDebug()<<"NUUUUUUUUUUUUUUUUUUUL "<<pImage.data() ;
         *pImage;
         emit previewFinished(pImage);
     }catch(...)
