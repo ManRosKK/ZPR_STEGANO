@@ -144,6 +144,7 @@ void CSteganoWindow::onDecryptFinished(void)
 
 void CSteganoWindow::displayPreview(PImage pImage)
 {
+    changeUIblocking(false);
     CSteganoPreview* preview =(new CSteganoPreview(this));
     //pPreview->setParent(this);
     preview->setWindowTitle("Preview");
@@ -176,6 +177,8 @@ void CSteganoWindow::showOpenFileEncryptDialog(QString SupportedTypes)
     if(FileName.length() != 0)
     {
         m_ImageFilepath = FileName;
+        m_SaveFilepath = QString();
+        ui.saveFileEncryptLabel->setText(QString());
         ui.openFileEncryptLabel->setText(FileName);
     }
 }

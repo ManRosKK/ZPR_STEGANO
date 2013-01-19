@@ -99,12 +99,13 @@ void CApplication::onPreviewButtonClicked()
         bool IsDataToSaveAFile = m_Window.getEncryptDataSource();
         if(IsDataToSaveAFile)
         {
+            m_Window.changeUIblocking(true);
             m_Executor.makePreviewWithFile(m_ChoosenMethodId,ImageFilepath,m_Window.getEncryptFileToHide(), m_Window.getArgsListFromWidget());
          }
         else
         {
+            m_Window.changeUIblocking(true);
             m_Executor.makePreviewWithText(m_ChoosenMethodId,ImageFilepath, m_Window.getTextToHide(), m_Window.getArgsListFromWidget());
-
         }
     }
     catch(CSteganoException& Exception)
@@ -157,6 +158,8 @@ void CApplication::configureExecutor()
 void CApplication::onEncryptFinished(bool IsSuccess)
 {
     m_Window.changeUIblocking(false);
+    const int c_MaxProgress = 100;
+    m_Window.updateProgress(c_MaxProgress);
     if(IsSuccess)
     {
         m_Window.showMessageBox(QString("Encryption: Success"),QMessageBox::Information);
@@ -170,6 +173,8 @@ void CApplication::onEncryptFinished(bool IsSuccess)
 void CApplication::onDecryptFinished(bool IsSuccess)
 {
     m_Window.changeUIblocking(false);
+    const int c_MaxProgress = 100;
+    m_Window.updateProgress(c_MaxProgress);
     if(IsSuccess)
     {
         m_Window.showMessageBox(QString("Decryption: Success"),QMessageBox::Information);
@@ -184,6 +189,8 @@ void CApplication::onDecryptFinished(bool IsSuccess)
 void CApplication::onDecryptFinished(bool IsSuccess, QString DecryptedData)
 {
     m_Window.changeUIblocking(false);
+    const int c_MaxProgress = 100;
+    m_Window.updateProgress(c_MaxProgress);
     if(IsSuccess)
     {
         m_Window.showResultsInTextArea(DecryptedData);
@@ -226,6 +233,11 @@ void CApplication::onSaveFileEncryptButtonClicked()
     if(decryptFiletypes.size() == 0)
     {
         decryptFiletypes = m_Window.getImageFilepath();
+        if(decryptFiletypes.size() == 0)
+        {
+            m_Window.showMessageBox(QString("Specify image file first."),QMessageBox::Information);
+            return;
+        }
         std::string fileextenstion = decryptFiletypes.toStdString();
         fileextenstion = fileextenstion.substr(fileextenstion.find_last_of(".") + 1);
         decryptFiletypes = QString("Image Files (*.").append(QString::fromStdString(fileextenstion).append(")"));

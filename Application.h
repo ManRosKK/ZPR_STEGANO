@@ -13,7 +13,7 @@ class CApplication : public QApplication
 {
     Q_OBJECT
 public:
-    explicit CApplication(int & argc, char ** argv);
+    explicit CApplication(int& argc, char** argv);
 signals:
 
 public slots:

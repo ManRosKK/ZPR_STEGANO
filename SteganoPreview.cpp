@@ -6,6 +6,7 @@ CSteganoPreview::CSteganoPreview(QWidget *parent) :
     ui(new Ui::CSteganoPreview)
 {
     ui->setupUi(this);
+    ui->label->setScaledContents(true);
 }
 
 CSteganoPreview::~CSteganoPreview()
