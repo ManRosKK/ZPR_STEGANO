@@ -27,7 +27,10 @@ CSteganoManager& CSteganoManager::getInstance()
 int CSteganoManager::registerSteganoMethod(PSteganoMethod pMethodObject, PSteganoWidget pWidgetObject)
 {
     if(pMethodObject.data() == NULL || pWidgetObject.data() == NULL)
+    {
         throw CSteganoException("NULL exception");
+        return 0;
+    }
     m_steganoProducts.push_back( std::pair<PSteganoMethod, PSteganoWidget>(pMethodObject->clone(), pWidgetObject->clone()));
     return m_counter++;
 }

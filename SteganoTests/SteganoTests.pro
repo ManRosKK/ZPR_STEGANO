@@ -11,6 +11,7 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
+    tst_csteganomanager.cpp \
     ../SteganoWindow.cpp \
     ../SteganoWidget.cpp \
     ../SteganoPreview.cpp \
@@ -23,8 +24,8 @@ SOURCES += main.cpp \
     ../SteganoBitsWidget.cpp \
     ../SteganoBitsMethod.cpp \
     ../OperationResult.cpp \
-    ../Application.cpp \
-    tst_csteganomanager.cpp
+    ../Application.cpp
+
 
 HEADERS  += \
     ../SteganoWindow.h \
