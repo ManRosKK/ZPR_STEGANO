@@ -8,7 +8,7 @@
 #include <fstream>
 #include <algorithm>
 
-const char* CSteganoNonCheckedMethod::footer = "KURWA";
+const char* CSteganoNonCheckedMethod::footer = "\ff\fe\fd\fa\f8";
 
 CSteganoNonCheckedMethod::CSteganoNonCheckedMethod(void)
 {

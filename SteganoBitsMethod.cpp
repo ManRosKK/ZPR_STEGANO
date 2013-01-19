@@ -6,7 +6,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QMessageBox>
-#include <SteganoException.h>
+#include "SteganoException.h"
 CSteganoBitsMethod::CSteganoBitsMethod(void)
 {
 

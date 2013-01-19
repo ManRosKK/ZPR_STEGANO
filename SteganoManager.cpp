@@ -4,6 +4,7 @@
 #include "SteganoBitsWidget.h"
 #include "SteganoNonCheckedMethod.h"
 #include "SteganoNonCheckedWidget.h"
+#include "SteganoException.h"
 
 CSteganoManager::CSteganoManager(void)
 {
@@ -25,6 +26,8 @@ CSteganoManager& CSteganoManager::getInstance()
 
 int CSteganoManager::registerSteganoMethod(PSteganoMethod pMethodObject, PSteganoWidget pWidgetObject)
 {
+    if(pMethodObject.data() == NULL || pWidgetObject.data() == NULL)
+        throw CSteganoException("NULL exception");
     m_steganoProducts.push_back( std::pair<PSteganoMethod, PSteganoWidget>(pMethodObject->clone(), pWidgetObject->clone()));
     return m_counter++;
 }

@@ -3,7 +3,7 @@
 #include <QtGlobal>
 #include <QDebug>
 #include <QMessageBox>
-#include <SteganoPreview.h>
+#include "SteganoPreview.h"
 CSteganoWindow::CSteganoWindow(QWidget *parent, Qt::WFlags flags)
     : QMainWindow(parent, flags),
       m_IsFileRadioEncryptChoosen(false),
