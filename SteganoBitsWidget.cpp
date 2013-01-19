@@ -44,10 +44,9 @@ PArgsList CSteganoBitsWidget::getArgsList()
 void CSteganoBitsWidget::setArgsList(PArgsList pArgsList)
 {
     unsigned int mask = pArgsList->at(0).toUInt();
-
     for(int i=0;i<c_BitsDepth;++i)
     {
-        if( (mask&(1 << (c_BitsDepth-i-1))) == 1)
+        if( (mask&(1 << (c_BitsDepth-i-1))) > 0)
         {
             m_CheckBox[i]->setChecked(true);
         }else
