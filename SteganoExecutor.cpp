@@ -68,9 +68,14 @@ void CSteganoExecutor::proposeWithFile(int Id,QString ImageFilepath, QString Dat
     }
     unsigned int size = 0;
     QFile file(DataFilepath);
-    if(!file.open(QIODevice::ReadOnly))
+    if(file.open(QIODevice::ReadOnly))
     {
         size = file.size();
+    }
+    else
+    {
+        emit errorOccurred("Cannot open data file!");
+        return;
     }
     QtConcurrent::run(m_pSteganoMethod.data(), &CSteganoMethod::makeProposition, ImageFilepath, size, pArgsList);
 }
