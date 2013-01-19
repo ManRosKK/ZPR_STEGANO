@@ -17,6 +17,12 @@ CSteganoWindow::CSteganoWindow(QWidget *parent, Qt::WFlags flags)
     ui.progressBar->setValue(100);
     ui.progressBar->hide();
 
+    ui.openFileEncryptLabel->setText(QString());
+    ui.openFileDecryptLabel->setText(QString());
+    ui.saveFileEncryptLabel->setText(QString());
+    ui.openDataFileDecryptLabel->setText(QString());
+    ui.openDataFileEncryptLabel->setText(QString());
+
     QButtonGroup* ButtonGroupEncrypt = new QButtonGroup(this);
     ButtonGroupEncrypt->addButton(ui.textRadioEncrypt);
     ButtonGroupEncrypt->addButton(ui.fileRadioEncrypt);
@@ -30,20 +36,21 @@ CSteganoWindow::CSteganoWindow(QWidget *parent, Qt::WFlags flags)
 
     connect(ui.encryptButton, SIGNAL(clicked()), this, SIGNAL(encryptButtonClicked()));
     connect(ui.decryptButton, SIGNAL(clicked()), this, SIGNAL(decryptButtonClicked()));
-    connect(ui.openFileButton, SIGNAL(clicked()), this, SIGNAL(openFileButtonClicked()));
-    connect(ui.saveFileEncryptButton, SIGNAL(clicked()), this, SLOT(saveFileButtonClicked()));
+    connect(ui.openFileEncryptButton, SIGNAL(clicked()), this, SIGNAL(openFileEncryptButtonClicked()));
+    connect(ui.openFileDecryptButton, SIGNAL(clicked()), this, SIGNAL(openFileDecryptButtonClicked()));
+    connect(ui.saveFileEncryptButton, SIGNAL(clicked()), this, SIGNAL(saveFileEncryptButtonClicked()));
     connect(ui.proposeButton, SIGNAL(clicked()), this, SIGNAL(proposeButtonClicked()));
     connect(ui.previewButton, SIGNAL(clicked()), this, SIGNAL(previewButtonClicked()));
     connect(ui.openDataFileEncryptButton, SIGNAL(clicked()), this, SLOT(onEncryptDataOpenFile()));
     connect(ui.openDataFileDecryptButton, SIGNAL(clicked()), this, SLOT(onDecryptDataOpenFile()));
-    connect(ui.comboBox, SIGNAL(activated(int)), this, SIGNAL(steganoMethodChoosen(int)));
+    connect(ui.comboBox, SIGNAL(activated(int)), this, SLOT(onComboBoxActivated(int)));
     connect(ui.fileRadioEncrypt, SIGNAL(toggled(bool)), this, SLOT(onEncryptRadioChecked(bool)));
     connect(ui.fileRadioDecrypt, SIGNAL(toggled(bool)), this, SLOT(onDecryptRadioChecked(bool)));
 }
 
 CSteganoWindow::~CSteganoWindow()
 {
-
+    //empty body
 }
 
 void CSteganoWindow::setWidget(PSteganoWidget pWidget)
@@ -160,21 +167,7 @@ void CSteganoWindow::showMessageBox(QString Message, QMessageBox::Icon MessageBo
     MsgBox.exec();
 }
 
-void CSteganoWindow::saveFileButtonClicked()
-{
-    QString FileName = QFileDialog::getSaveFileName(this,
-        tr("Save Image to..."), QString(), tr("Image Files (*.png *.jpg *.bmp);;All Files (*)"));
-
-    //check whether QFileDialog returned a valid filename
-    if(FileName.length() != 0)
-    {
-        m_SaveFilepath = FileName;
-        ui.saveFileEncryptLabel->setText(FileName);
-        emit saveFilepathChanged();
-    }
-}
-
-void CSteganoWindow::showOpenFileDialog(QString SupportedTypes)
+void CSteganoWindow::showOpenFileEncryptDialog(QString SupportedTypes)
 {
     QString FileName = QFileDialog::getOpenFileName(this,
         tr("Open Image"), QString(), SupportedTypes);
@@ -184,10 +177,38 @@ void CSteganoWindow::showOpenFileDialog(QString SupportedTypes)
     if(FileName.length() != 0)
     {
         m_ImageFilepath = FileName;
-        ui.openFileLabel->setText(FileName);
-        emit imageFilepathChanged();
+        ui.openFileEncryptLabel->setText(FileName);
     }
 }
+
+void CSteganoWindow::showOpenFileDecryptDialog(QString SupportedTypes)
+{
+    QString FileName = QFileDialog::getOpenFileName(this,
+        tr("Open Image"), QString(), SupportedTypes);
+
+    //check whether QFileDialog returned a valid filename
+    if(FileName.length() != 0)
+    {
+        m_ImageFilepath = FileName;
+        ui.openFileDecryptLabel->setText(FileName);
+        ui.openFileEncryptLabel->setText(QString());
+    }
+}
+
+void CSteganoWindow::showSaveFileEncryptDialog(QString SupportedTypes)
+{
+    QString FileName = QFileDialog::getSaveFileName(this,
+        tr("Save Image to..."), QString(), SupportedTypes);
+
+    //check whether QFileDialog returned a valid filename
+    if(FileName.length() != 0)
+    {
+        m_SaveFilepath = FileName;
+        ui.saveFileEncryptLabel->setText(FileName);
+        ui.openFileDecryptLabel->setText(QString());
+    }
+}
+
 
 void CSteganoWindow::onEncryptRadioChecked(bool IsFileChecked)
 {
@@ -253,8 +274,28 @@ void CSteganoWindow::changeUIblocking(bool ShouldBeBlocked)
     ui.comboBox->setEnabled(ShouldBeEnabled);
     ui.encryptButton->setEnabled(ShouldBeEnabled);
     ui.decryptButton->setEnabled(ShouldBeEnabled);
-    ui.openFileButton->setEnabled(ShouldBeEnabled);
+    ui.openFileEncryptButton->setEnabled(ShouldBeEnabled);
+    ui.openFileDecryptButton->setEnabled(ShouldBeEnabled);
     ui.saveFileEncryptButton->setEnabled(ShouldBeEnabled);
     ui.openDataFileEncryptButton->setEnabled(ShouldBeEnabled);
     ui.openDataFileDecryptButton->setEnabled(ShouldBeEnabled);
 }
+
+void CSteganoWindow::onComboBoxActivated(int Id)
+{
+    m_ImageFilepath = QString();
+    ui.openFileEncryptLabel->setText(QString());
+    ui.openFileDecryptLabel->setText(QString());
+
+    m_SaveFilepath = QString();
+    ui.saveFileEncryptLabel->setText(QString());
+
+    m_FileToHideDecryptFilepath = QString();
+    ui.openDataFileDecryptLabel->setText(QString());
+
+    m_FileToHideEncryptFilepath = QString();
+    ui.openDataFileEncryptLabel->setText(QString());
+
+    emit steganoMethodChoosen(Id);
+}
+

@@ -11,7 +11,8 @@ CSteganoNonCheckedWidget::CSteganoNonCheckedWidget(void)
 
 }
 
-CSteganoNonCheckedWidget::CSteganoNonCheckedWidget(const CSteganoNonCheckedWidget&)
+CSteganoNonCheckedWidget::CSteganoNonCheckedWidget(const CSteganoNonCheckedWidget& sncw):
+    CSteganoWidget(sncw.parentWidget())
 {
 
 }
@@ -20,9 +21,9 @@ CSteganoNonCheckedWidget::~CSteganoNonCheckedWidget(void)
 {
 }
 
-PSteganoWidget CSteganoNonCheckedWidget::createSteganoNonCheckedWidget()
+QSharedPointer<CSteganoWidget> CSteganoNonCheckedWidget::createSteganoNonCheckedWidget()
 {
-    return PSteganoWidget(new CSteganoNonCheckedWidget());
+    return QSharedPointer<CSteganoWidget>(new CSteganoNonCheckedWidget());
 }
 
 PArgsList CSteganoNonCheckedWidget::getArgsList()
@@ -36,8 +37,8 @@ void CSteganoNonCheckedWidget::setArgsList(PArgsList)
     //empty method
 }
 
-PSteganoWidget CSteganoNonCheckedWidget::clone()
+QSharedPointer<CSteganoWidget> CSteganoNonCheckedWidget::clone()
 {
-    return PSteganoWidget(new CSteganoNonCheckedWidget(*this));
+    return QSharedPointer<CSteganoWidget>(new CSteganoNonCheckedWidget(*this));
 }
 

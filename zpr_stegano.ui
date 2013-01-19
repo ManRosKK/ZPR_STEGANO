@@ -26,33 +26,6 @@
      <widget class="QComboBox" name="comboBox"/>
     </item>
     <item>
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>&lt;b&gt;2. Choose a file to encrypt or decrypt&lt;/b&gt;</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="openFileButton">
-      <property name="text">
-       <string>Choose a file to encrypt or decrypt...</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="openFileLabel">
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>20</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>choosenFile</string>
-      </property>
-     </widget>
-    </item>
-    <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="minimumSize">
        <size>
@@ -61,13 +34,40 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="EncryptTab">
        <attribute name="title">
         <string>Encrypt</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>&lt;b&gt;2. Choose a file to encrypt&lt;/b&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="openFileEncryptButton">
+          <property name="text">
+           <string>Choose a file to encrypt...</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="openFileEncryptLabel">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>choosen file</string>
+          </property>
+         </widget>
+        </item>
         <item>
          <widget class="QLabel" name="label_3">
           <property name="text">
@@ -177,6 +177,27 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_8">
         <item>
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>&lt;b&gt;2. Choose a file to decrypt&lt;/b&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="openFileDecryptButton">
+          <property name="text">
+           <string>Choose a file to decrypt...</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="openFileDecryptLabel">
+          <property name="text">
+           <string>choosen file</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QGroupBox" name="groupBox_2">
           <property name="title">
            <string>3. Choose where to save data taken from image</string>
@@ -185,7 +206,7 @@
            <item>
             <widget class="QRadioButton" name="fileRadioDecrypt">
              <property name="text">
-              <string>Output decrypted data taken from image to file</string>
+              <string>Save decrypted data taken from image to file</string>
              </property>
             </widget>
            </item>

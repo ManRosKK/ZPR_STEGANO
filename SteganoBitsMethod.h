@@ -2,6 +2,14 @@
 
 #include "SteganoTypes.h"
 #include "SteganoMethod.h"
+/**
+ * @brief A SteganoMethod which hides data in bits of pixel
+ *
+ * It's argument list should contain one integer (32bit) with
+ * bits set in QRgb format (only last 24bits are significant).
+ *
+ * @see <a href="http://doc.qt.digia.com/qt/qcolor.html">QRgb</a>
+ */
 class CSteganoBitsMethod :
     public CSteganoMethod
 {
@@ -10,15 +18,16 @@ public:
     CSteganoBitsMethod(void);
     CSteganoBitsMethod(const CSteganoBitsMethod&);
     virtual ~CSteganoBitsMethod(void);
-    static PSteganoMethod createSteganoBitsMethod();
-
+    /**
+     * @brief Creates instance of SteganoBitsMethod
+     * @return Shared pointer of SteganoBitsMethod instance
+     */
+    static QSharedPointer<CSteganoMethod> createSteganoBitsMethod();
     virtual void encrypt(QString, QString, QString, PArgsList);
     virtual void decrypt(QString, QString, PArgsList);
     virtual void makePreview(QString ImageFilepath,QString DataFilePath, PArgsList pArgsList);
     virtual void makeProposition(QString ImageFilepath, unsigned int ByteCount, PArgsList pArgsList);
-    virtual int evaluate(PArgsList,int);
-    virtual int evaluate(PArgsList,QString);
-    virtual PSteganoMethod clone();
+    virtual QSharedPointer<CSteganoMethod> clone();
     virtual QString getName();
     virtual QString getSupportedTypesToEncrypt();
     virtual QString getSupportedTypesToDecrypt();

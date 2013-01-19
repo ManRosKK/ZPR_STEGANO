@@ -71,21 +71,20 @@ void CApplication::onProposeButtonClicked()
         QString ImageFilepath = m_Window.getImageFilepath();
         if(ImageFilepath.length() == 0)
             throw CSteganoException("Image Filepath is not specified!");
-        QString SaveFilepath = m_Window.getSaveFilepath();
-        //TODO: data pusta ewentualnie
+
         PByteArray Data;
         bool IsDataToSaveAFile = m_Window.getEncryptDataSource();
         if(IsDataToSaveAFile)
         {
             qDebug()<<"proposing with file" << m_Window.getEncryptFileToHide();
             m_Window.changeUIblocking(true);
-            m_Executor.proposeWithFile(m_ChoosenMethodId,ImageFilepath,SaveFilepath, m_Window.getEncryptFileToHide(), m_Window.getArgsListFromWidget());
+            m_Executor.proposeWithFile(m_ChoosenMethodId,ImageFilepath, m_Window.getEncryptFileToHide(), m_Window.getArgsListFromWidget());
          }
         else
         {
             qDebug()<<"proposing with text" << m_Window.getTextToHide();
             m_Window.changeUIblocking(true);
-            m_Executor.proposeWithText(m_ChoosenMethodId,ImageFilepath,SaveFilepath, m_Window.getTextToHide(), m_Window.getArgsListFromWidget());
+            m_Executor.proposeWithText(m_ChoosenMethodId,ImageFilepath, m_Window.getTextToHide(), m_Window.getArgsListFromWidget());
 
         }
     }
@@ -129,7 +128,6 @@ void CApplication::onPreviewButtonClicked()
 void CApplication::onSteganoMethodChoosen(int id)
 {
     m_ChoosenMethodId = id;
-    qDebug()<<"stegano method choosen: " << id;
     PSteganoWidget pStegenoWidget = CSteganoManager::getInstance().produceSteganoWidget(id);
     m_Window.setWidget(pStegenoWidget);
     m_Window.changeProposeButtonVisibility(pStegenoWidget->isPropositionsAllowed());
@@ -149,7 +147,9 @@ void CApplication::configureWindow()
     connect(&m_Window,SIGNAL(steganoMethodChoosen(int)),this,SLOT(onSteganoMethodChoosen(int)));
     connect(&m_Window,SIGNAL(encryptButtonClicked()),this,SLOT(onEncryptButtonClicked()));
     connect(&m_Window,SIGNAL(decryptButtonClicked()),this,SLOT(onDecryptButtonClicked()));
-    connect(&m_Window,SIGNAL(openFileButtonClicked()), this, SLOT(onOpenFileButtonClicked()));
+    connect(&m_Window,SIGNAL(openFileEncryptButtonClicked()), this, SLOT(onOpenFileEncryptButtonClicked()));
+    connect(&m_Window,SIGNAL(openFileDecryptButtonClicked()), this, SLOT(onOpenFileDecryptButtonClicked()));
+    connect(&m_Window,SIGNAL(saveFileEncryptButtonClicked()), this, SLOT(onSaveFileEncryptButtonClicked()));
     connect(&m_Window,SIGNAL(proposeButtonClicked()),this, SLOT(onProposeButtonClicked()));
     connect(&m_Window,SIGNAL(previewButtonClicked()),this, SLOT(onPreviewButtonClicked()));
     m_Window.show();
@@ -164,8 +164,6 @@ void CApplication::configureExecutor()
     connect(&m_Executor,SIGNAL(previewFinished(PImage)),&m_Window,SLOT(displayPreview(PImage)));
     connect(&m_Executor,SIGNAL(decryptFinished(bool,QString)),this,SLOT(onDecryptFinished(bool,QString)));
     connect(&m_Executor,SIGNAL(errorOccurred(QString)),this,SLOT(onErrorOccurred(QString)));
-    //connect(&m_Executor,SIGNAL(previewFinished(QString)),this,SLOT(onPreviewFinished(QString)));
-    
 }
 
 void CApplication::onEncryptFinished(bool IsSuccess)
@@ -213,11 +211,23 @@ void CApplication::onErrorOccurred(QString Text)
 {
     m_Window.showMessageBox(QString("Error Occurred: "+ Text),QMessageBox::Critical);
 }
+
 void CApplication::onProposed(PArgsList pArgs)
 {
     m_Window.setWidgetArgs(pArgs);
 }
-void CApplication::onOpenFileButtonClicked()
+
+void CApplication::onOpenFileEncryptButtonClicked()
 {
-    m_Window.showOpenFileDialog(CSteganoManager::getInstance().getSupportedTypesToEncrypt(m_ChoosenMethodId));
+    m_Window.showOpenFileEncryptDialog(CSteganoManager::getInstance().getSupportedTypesToEncrypt(m_ChoosenMethodId));
+}
+
+void CApplication::onOpenFileDecryptButtonClicked()
+{
+    m_Window.showOpenFileDecryptDialog(CSteganoManager::getInstance().getSupportedTypesToDecrypt(m_ChoosenMethodId));
+}
+
+void CApplication::onSaveFileEncryptButtonClicked()
+{
+    m_Window.showSaveFileEncryptDialog(CSteganoManager::getInstance().getSupportedTypesToDecrypt(m_ChoosenMethodId));
 }

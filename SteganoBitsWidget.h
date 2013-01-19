@@ -2,6 +2,9 @@
 #include "SteganoWidget.h"
 #include <QCheckBox>
 
+/**
+ * @brief Widget for CSteganoBitsMethod class
+ */
 class CSteganoBitsWidget :
     public CSteganoWidget
 {
@@ -9,10 +12,14 @@ public:
     CSteganoBitsWidget(void);
     CSteganoBitsWidget(const CSteganoBitsWidget&);
     virtual ~CSteganoBitsWidget(void);
-    static PSteganoWidget createSteganoBitsWidget();
+    /**
+     * @brief Creates instance of SteganoBitsWidget
+     * @return Shared pointer of SteganoBitsWidget instance
+     */
+    static QSharedPointer<CSteganoWidget> createSteganoBitsWidget();
     virtual PArgsList getArgsList();
     virtual void setArgsList(PArgsList);
-    virtual PSteganoWidget clone();
+    virtual QSharedPointer<CSteganoWidget> clone();
     virtual bool isPropositionsAllowed();
 private:
     void configureUI();

@@ -3,11 +3,17 @@
 #include "ui_zpr_stegano.h"
 #include "SteganoWidget.h"
 #include "SteganoTypes.h"
+#include "SteganoWidgetMethodPointers.h"
+
 #include <QMessageBox>
 
 typedef QList<QVariant> ArgsList;
 typedef QSharedPointer<QImage> PImage;
-
+/**
+ * @brief Main window of the program.
+ *
+ * Allows user to choose a SteganoMethod, provide arguments and see results.
+ */
 class CSteganoWindow : public QMainWindow
 {
 	Q_OBJECT
@@ -28,8 +34,6 @@ public:
     void changeProposeButtonVisibility(bool);
     void showResultsInTextArea(QString DecryptedData);
     void setWidgetArgs(PArgsList);
-    // comment stub
-    // Method should set active the first element on the list
     void setStegonoMethodsList(PMethodList);
 signals:
     void steganoMethodChoosen(int id);
@@ -37,11 +41,9 @@ signals:
     void decryptButtonClicked();
     void previewButtonClicked();
     void proposeButtonClicked();
-    void imageFilepathChanged();
-    void saveFilepathChanged();
-    void fileToHideChanged();
-    void dataSourceChanged();
-    void openFileButtonClicked();
+    void openFileEncryptButtonClicked();
+    void openFileDecryptButtonClicked();
+    void saveFileEncryptButtonClicked();
 
 public slots:
     void updateProgress(int);
@@ -50,7 +52,10 @@ public slots:
     void displayPreview(PImage);
     void showMessageBox(QString Message, QMessageBox::Icon MessageBoxIcon);
     void changeUIblocking(bool);
-    void showOpenFileDialog(QString);
+    void showOpenFileEncryptDialog(QString);
+    void showOpenFileDecryptDialog(QString);
+    void showSaveFileEncryptDialog(QString);
+    void onComboBoxActivated(int Id);
 
 private:
 	Ui::ZPR_STEGANOClass ui;
@@ -66,7 +71,6 @@ private:
     void showProposeButton();
 
 private slots:
-    void saveFileButtonClicked();
     void onEncryptRadioChecked(bool);
     void onDecryptRadioChecked(bool);
     void onEncryptDataOpenFile();

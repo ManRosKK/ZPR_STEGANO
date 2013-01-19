@@ -10,7 +10,8 @@ CSteganoBitsWidget::CSteganoBitsWidget(void)
     configureUI();
 }
 
-CSteganoBitsWidget::CSteganoBitsWidget(const CSteganoBitsWidget&)
+CSteganoBitsWidget::CSteganoBitsWidget(const CSteganoBitsWidget& sbw):
+    CSteganoWidget(sbw.parentWidget())
 {
     configureUI();
 }
@@ -19,9 +20,9 @@ CSteganoBitsWidget::~CSteganoBitsWidget(void)
 {
 }
 
-PSteganoWidget CSteganoBitsWidget::createSteganoBitsWidget()
+QSharedPointer<CSteganoWidget> CSteganoBitsWidget::createSteganoBitsWidget()
 {
-    return PSteganoWidget(new CSteganoBitsWidget());
+    return QSharedPointer<CSteganoWidget>(new CSteganoBitsWidget());
 }
 
 PArgsList CSteganoBitsWidget::getArgsList()
@@ -55,9 +56,9 @@ void CSteganoBitsWidget::setArgsList(PArgsList pArgsList)
     qDebug()<<"argslist";
 }
 
-PSteganoWidget CSteganoBitsWidget::clone()
+QSharedPointer<CSteganoWidget> CSteganoBitsWidget::clone()
 {
-    return PSteganoWidget(new CSteganoBitsWidget(*this));
+    return QSharedPointer<CSteganoWidget>(new CSteganoBitsWidget(*this));
 }
 bool CSteganoBitsWidget::isPropositionsAllowed()
 {

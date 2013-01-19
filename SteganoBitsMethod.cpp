@@ -22,9 +22,9 @@ CSteganoBitsMethod::~CSteganoBitsMethod(void)
 
 }
 
-PSteganoMethod CSteganoBitsMethod::createSteganoBitsMethod()
+QSharedPointer<CSteganoMethod> CSteganoBitsMethod::createSteganoBitsMethod()
 {
-    return PSteganoMethod(new CSteganoBitsMethod());
+    return QSharedPointer<CSteganoMethod>(new CSteganoBitsMethod());
 }
 PVectorInt CSteganoBitsMethod::generateEncryptMask(unsigned int maskPixel)
 {
@@ -165,7 +165,7 @@ unsigned int CSteganoBitsMethod::getDataLength(PImage pimage,PVectorInt pmaskVec
 {
     unsigned int length = 0;
     unsigned int bitLength = 4*8;
-    int bitCounter = 0;
+    unsigned int bitCounter = 0;
     
     qDebug()<<"mask size: "<<pmaskVector->size();
     for( int i = 0;i < pimage->height();i++)
@@ -202,19 +202,16 @@ unsigned int CSteganoBitsMethod::getDataLength(PImage pimage,PVectorInt pmaskVec
 
 void CSteganoBitsMethod::decrypt(QString ImageFilePath, QString DataFilepath, PArgsList SteganoParameters)
 {
-    PByteArray Data( new QByteArray() );
-
-
     PImage pimage(new QImage);
     pimage->load(ImageFilePath);
     unsigned int maskPixel = SteganoParameters->takeAt(0).toUInt();
     
-    PVectorInt pmaskVector = generateEncryptMask(maskPixel); //generating help mask for encrypting
-    
-    
-    //odczyt dlugosci danych
-    int length = getDataLength( pimage, pmaskVector);
-    if( (length+4)*8 > (pimage->height()*pimage->width()*24)/pmaskVector->size() )
+    //generating help mask for encrypting
+    PVectorInt pmaskVector = generateEncryptMask(maskPixel);
+
+    //read data length
+    unsigned int length = getDataLength( pimage, pmaskVector);
+    if( (length+4)*8 > static_cast<unsigned int>((pimage->height()*pimage->width()*24)/pmaskVector->size()) )
     {
           emit decryptFinished(false);
           return;
@@ -229,8 +226,7 @@ void CSteganoBitsMethod::decrypt(QString ImageFilePath, QString DataFilepath, PA
     unsigned short shifter = 0x0001;
     unsigned short carriageReturn = 0x0100;
     char byte = 0;
-    unsigned int dataCounter = 0; 
-    bool loopShouldFinishFlag = 0;
+    unsigned int dataCounter = 0;
 
     for( int i = 0; i < pimage->height(); i++)
     {
@@ -299,30 +295,32 @@ void CSteganoBitsMethod::makeProposition(QString ImageFilepath, unsigned int Byt
             emit errorOccurred("Input data is too big.");
             return;
         }
-        int i = 0;
-        for(i=0;i<bitsPerPixel/3;i++)
+        for(unsigned int i=0;i<bitsPerPixel/3;i++)
         {
             mask |= (1<<i)<<0; // first octet
             mask |= (1<<i)<<8; // second octet
             mask |= (1<<i)<<16;// third octet
         }
 
-        for(int j=0;j<bitsPerPixel%3;j++)
+        for(unsigned int j=0;j<bitsPerPixel%3;j++)
         {
-            mask |= (1<<i)<<(j*8); // j octet
+            mask |= (1<<(bitsPerPixel/3))<<(j*8); // jth octet
         }
         pArgsList->clear();
         pArgsList->append(mask);
         emit proposeFinished(pArgsList);
-    }catch(...)
+    }
+    catch(...)
     {
-
+        //TODO: implement me
+        qDebug()<<"Fatal error";
     }
 
     return;
 }
 void CSteganoBitsMethod::makePreview(QString ImageFilePath, QString DataFilePath, PArgsList SteganoParameters)
 {
+    //TODO: finish implementation
     try
     {
         qDebug()<<"STEGANOBITS::makePreview";
@@ -338,30 +336,14 @@ void CSteganoBitsMethod::makePreview(QString ImageFilePath, QString DataFilePath
     }
 }
 
-int CSteganoBitsMethod::evaluate(PArgsList,int)
+QSharedPointer<CSteganoMethod> CSteganoBitsMethod::clone()
 {
-    return 0;
-}
-
-int CSteganoBitsMethod::evaluate(PArgsList,QString)
-{
-    return 0;
-}
-
-
-inline void CSteganoBitsMethod::modifyPixel(QRgb& pixel, QVector<unsigned int> mask, QBitArray data)
-{
-    
-}
-
-PSteganoMethod CSteganoBitsMethod::clone()
-{
-    return PSteganoMethod(new CSteganoBitsMethod(*this));
+    return QSharedPointer<CSteganoMethod>(new CSteganoBitsMethod(*this));
 }
 
 QString CSteganoBitsMethod::getName()
 {
-    //TEMP temporary
+    //TODO: TEMP temporary
     return QString("BitsMethod");
 }
 
@@ -372,5 +354,5 @@ QString CSteganoBitsMethod::getSupportedTypesToEncrypt()
 
 QString CSteganoBitsMethod::getSupportedTypesToDecrypt()
 {
-    return QString("Image Files (*.jpg *.bmp)");
+    return QString("Image Files (*.png *.bmp)");
 }

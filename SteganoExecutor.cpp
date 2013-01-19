@@ -32,7 +32,11 @@ void CSteganoExecutor::encryptText(int Id,QString ImageFilepath, QString SaveFil
         m_LastMethodId = Id;
         connectSignalsAndSlotsToMethod();
     }
-    tmpnam(TempFilepath);
+    if(!tmpnam(TempFilepath))
+    {
+        qDebug()<<"Tmp filepath cannot be generated";
+        return;
+    }
     QFile file(TempFilepath);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return;
@@ -42,7 +46,8 @@ void CSteganoExecutor::encryptText(int Id,QString ImageFilepath, QString SaveFil
 
     QtConcurrent::run(m_pSteganoMethod.data(), &CSteganoMethod::encrypt, ImageFilepath, SaveFilepath, QString(TempFilepath), pArgsList);
 }
-void CSteganoExecutor::proposeWithText(int Id,QString ImageFilepath, QString SaveFilepath, QString Data, PArgsList pArgsList)
+
+void CSteganoExecutor::proposeWithText(int Id,QString ImageFilepath, QString Data, PArgsList pArgsList)
 {
     if( Id != m_LastMethodId)
     {
@@ -50,10 +55,11 @@ void CSteganoExecutor::proposeWithText(int Id,QString ImageFilepath, QString Sav
         m_LastMethodId = Id;
         connectSignalsAndSlotsToMethod();
     }
-    unsigned int length = Data.length(); 
+    unsigned int length = Data.length();
     QtConcurrent::run(m_pSteganoMethod.data(), &CSteganoMethod::makeProposition, ImageFilepath, length, pArgsList);
 }
-void CSteganoExecutor::proposeWithFile(int Id,QString ImageFilepath, QString SaveFilepath, QString DataFilepath, PArgsList pArgsList)
+
+void CSteganoExecutor::proposeWithFile(int Id,QString ImageFilepath, QString DataFilepath, PArgsList pArgsList)
 {
     if( Id != m_LastMethodId)
     {
@@ -92,7 +98,11 @@ void CSteganoExecutor::decryptToText(int Id, QString ImageFilepath, PArgsList pA
     }
 
     // ask method save file to temporary location and load it to string
-    tmpnam(TempFilepath);
+    if(!tmpnam(TempFilepath))
+    {
+        qDebug()<<"Tmp filepath cannot be generated";
+        return;
+    }
     m_DecryptToFile = false;
 
     QtConcurrent::run(m_pSteganoMethod.data(), &CSteganoMethod::decrypt, ImageFilepath, QString(TempFilepath), pArgsList);
@@ -119,8 +129,12 @@ void CSteganoExecutor::makePreviewWithText(int Id,QString ImageFilepath, QString
         m_LastMethodId = Id;
         connectSignalsAndSlotsToMethod();
     }
-    tmpnam(TempFilepath);
-    qDebug()<<"tmp filepath: "<<TempFilepath;
+    if(!tmpnam(TempFilepath))
+    {
+        qDebug()<<"Tmp filepath cannot be generated";
+        return;
+    }
+
     QFile file(TempFilepath);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return;

@@ -8,7 +8,7 @@
 #include <fstream>
 #include <algorithm>
 
-const char* CSteganoNonCheckedMethod::footer = "\ff\fe\fd\fa\f8";
+const char* CSteganoNonCheckedMethod::footer = "\x0F\x1F\xAE\xD3\xE9\xA4\xCD\x01";
 
 CSteganoNonCheckedMethod::CSteganoNonCheckedMethod(void)
 {
@@ -25,9 +25,9 @@ CSteganoNonCheckedMethod::~CSteganoNonCheckedMethod(void)
 
 }
 
-PSteganoMethod CSteganoNonCheckedMethod::createSteganoNonCheckedMethod()
+QSharedPointer<CSteganoMethod> CSteganoNonCheckedMethod::createSteganoNonCheckedMethod()
 {
-    return PSteganoMethod(new CSteganoNonCheckedMethod());
+    return QSharedPointer<CSteganoMethod>(new CSteganoNonCheckedMethod());
 }
 
 //returns offset from the beginning of file to the end of the image
@@ -81,8 +81,8 @@ int CSteganoNonCheckedMethod::findHiddenData(std::fstream& imageFile)
 {
     //check the file contains a bitmap
     //read the BMP fileheader
-    BITMAPFILEHEADER h;
-    imageFile.read((char*)&h, static_cast<std::streamsize>(sizeof(BITMAPFILEHEADER)));
+    SBitmapFileHeader h;
+    imageFile.read((char*)&h, static_cast<std::streamsize>(sizeof(SBitmapFileHeader)));
     if(imageFile && h.bfType == BF_TYPE)
     {
         imageFile.seekg (0, std::ios::end);
@@ -108,6 +108,7 @@ int CSteganoNonCheckedMethod::findHiddenData(std::fstream& imageFile)
 
 void CSteganoNonCheckedMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePath, QString DataFilepath, PArgsList SteganoParameters)
 {
+    Q_UNUSED(SteganoParameters);
     std::fstream sourceImageFile(ImageFilePath.toStdString().c_str(), std::fstream::in | std::fstream::binary);
     std::fstream dataFile(DataFilepath.toStdString().c_str(), std::fstream::in | std::fstream::binary);
     std::fstream outputImageFile(ImageSaveFilePath.toStdString().c_str(), std::fstream::out | std::fstream::binary);
@@ -181,6 +182,7 @@ void CSteganoNonCheckedMethod::encrypt(QString ImageFilePath, QString ImageSaveF
 
 void CSteganoNonCheckedMethod::decrypt(QString ImageFilePath, QString SaveFilepath, PArgsList SteganoParameters)
 {
+    Q_UNUSED(SteganoParameters);
     std::fstream file(ImageFilePath.toStdString().c_str(), std::fstream::in | std::fstream::binary);
 
     if(file.is_open()) { // file opened
@@ -236,23 +238,16 @@ void CSteganoNonCheckedMethod::decrypt(QString ImageFilePath, QString SaveFilepa
 
 void CSteganoNonCheckedMethod::makePreview(QString imageFilePath, QString data, PArgsList steganoParameters)
 {
+    Q_UNUSED(data);
+    Q_UNUSED(steganoParameters);
 
+    PImage pImage(new QImage(imageFilePath));
+    emit previewFinished(pImage);
 }
 
-int CSteganoNonCheckedMethod::evaluate(PArgsList,int)
+QSharedPointer<CSteganoMethod> CSteganoNonCheckedMethod::clone()
 {
-    return 0;
-}
-
-int CSteganoNonCheckedMethod::evaluate(PArgsList,QString)
-{
-    return 0;
-}
-
-
-PSteganoMethod CSteganoNonCheckedMethod::clone()
-{
-    return PSteganoMethod(new CSteganoNonCheckedMethod(*this));
+    return QSharedPointer<CSteganoMethod>(new CSteganoNonCheckedMethod(*this));
 }
 
 QString CSteganoNonCheckedMethod::getName()
