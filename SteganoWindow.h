@@ -25,7 +25,8 @@ public:
     PArgsList getArgsListFromWidget();
     void setArgsListForWidget(PArgsList);
     QString getTextToHide();
-    QString getImageFilepath();
+    QString getEncryptImageFilepath();
+    QString getDecryptImageFilepath();
     QString getSaveFilepath();
     QString getEncryptFileToHide();
     QString getDecryptFileToHide();
@@ -63,7 +64,8 @@ private:
 
     QString m_FileToHideEncryptFilepath;
     QString m_FileToHideDecryptFilepath;
-    QString m_ImageFilepath;
+    QString m_EncryptImageFilepath;
+    QString m_DecryptImageFilepath;
     QString m_SaveFilepath;
     bool m_IsFileRadioEncryptChoosen;
     bool m_IsFileRadioDecryptChoosen;

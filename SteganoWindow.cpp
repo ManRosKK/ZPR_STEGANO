@@ -78,9 +78,14 @@ void CSteganoWindow::setStegonoMethodsList(PMethodList pMethodList)
     }
 }
 
-QString CSteganoWindow::getImageFilepath()
+QString CSteganoWindow::getEncryptImageFilepath()
 {
-    return m_ImageFilepath;
+    return m_EncryptImageFilepath;
+}
+
+QString CSteganoWindow::getDecryptImageFilepath()
+{
+    return m_DecryptImageFilepath;
 }
 
 QString CSteganoWindow::getSaveFilepath()
@@ -176,7 +181,7 @@ void CSteganoWindow::showOpenFileEncryptDialog(QString SupportedTypes)
     //check whether QFileDialog returned a valid filename
     if(FileName.length() != 0)
     {
-        m_ImageFilepath = FileName;
+        m_EncryptImageFilepath = FileName;
         m_SaveFilepath = QString();
         ui.saveFileEncryptLabel->setText(QString());
         ui.openFileEncryptLabel->setText(FileName);
@@ -191,9 +196,8 @@ void CSteganoWindow::showOpenFileDecryptDialog(QString SupportedTypes)
     //check whether QFileDialog returned a valid filename
     if(FileName.length() != 0)
     {
-        m_ImageFilepath = FileName;
+        m_DecryptImageFilepath = FileName;
         ui.openFileDecryptLabel->setText(FileName);
-        ui.openFileEncryptLabel->setText(QString());
     }
 }
 
@@ -207,7 +211,6 @@ void CSteganoWindow::showSaveFileEncryptDialog(QString SupportedTypes)
     {
         m_SaveFilepath = FileName;
         ui.saveFileEncryptLabel->setText(FileName);
-        ui.openFileDecryptLabel->setText(QString());
     }
 }
 
@@ -285,18 +288,13 @@ void CSteganoWindow::changeUIblocking(bool ShouldBeBlocked)
 
 void CSteganoWindow::onComboBoxActivated(int Id)
 {
-    m_ImageFilepath = QString();
+    m_EncryptImageFilepath = QString();
+    m_DecryptImageFilepath = QString();
     ui.openFileEncryptLabel->setText(QString());
     ui.openFileDecryptLabel->setText(QString());
 
     m_SaveFilepath = QString();
     ui.saveFileEncryptLabel->setText(QString());
-
-    m_FileToHideDecryptFilepath = QString();
-    ui.openDataFileDecryptLabel->setText(QString());
-
-    m_FileToHideEncryptFilepath = QString();
-    ui.openDataFileEncryptLabel->setText(QString());
 
     emit steganoMethodChoosen(Id);
 }

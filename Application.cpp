@@ -16,7 +16,7 @@ void CApplication::onEncryptButtonClicked()
     try
     {
         //test whether image filepath is not empty
-        QString ImageFilepath = m_Window.getImageFilepath();
+        QString ImageFilepath = m_Window.getEncryptImageFilepath();
         if(ImageFilepath.length() == 0)
             throw CSteganoException("Image Filepath is not specified!");
         QString SaveFilepath = m_Window.getSaveFilepath();
@@ -50,12 +50,12 @@ void CApplication::onDecryptButtonClicked()
     if(IsDataToSaveAFile)
     {
         m_Window.changeUIblocking(true);
-        m_Executor.decryptToFile(m_ChoosenMethodId, m_Window.getImageFilepath(), m_Window.getDecryptFileToHide(), m_Window.getArgsListFromWidget());
+        m_Executor.decryptToFile(m_ChoosenMethodId, m_Window.getDecryptImageFilepath(), m_Window.getDecryptFileToHide(), m_Window.getArgsListFromWidget());
     }
     else
     {
         m_Window.changeUIblocking(true);
-        m_Executor.decryptToText(m_ChoosenMethodId, m_Window.getImageFilepath(), m_Window.getArgsListFromWidget());
+        m_Executor.decryptToText(m_ChoosenMethodId, m_Window.getDecryptImageFilepath(), m_Window.getArgsListFromWidget());
     }
 }
 void CApplication::onProposeButtonClicked()
@@ -63,7 +63,7 @@ void CApplication::onProposeButtonClicked()
      try
     {
         //test whether image filepath is not empty
-        QString ImageFilepath = m_Window.getImageFilepath();
+        QString ImageFilepath = m_Window.getEncryptImageFilepath();
         if(ImageFilepath.length() == 0)
             throw CSteganoException("Image Filepath is not specified!");
 
@@ -92,7 +92,7 @@ void CApplication::onPreviewButtonClicked()
     try
     {
         //test whether image filepath is not empty
-        QString ImageFilepath = m_Window.getImageFilepath();
+        QString ImageFilepath = m_Window.getEncryptImageFilepath();
         if(ImageFilepath.length() == 0)
             throw CSteganoException("Image Filepath is not specified!");
 
@@ -232,7 +232,7 @@ void CApplication::onSaveFileEncryptButtonClicked()
     QString decryptFiletypes = CSteganoManager::getInstance().getSupportedTypesToDecrypt(m_ChoosenMethodId);
     if(decryptFiletypes.size() == 0)
     {
-        decryptFiletypes = m_Window.getImageFilepath();
+        decryptFiletypes = m_Window.getEncryptImageFilepath();
         if(decryptFiletypes.size() == 0)
         {
             m_Window.showMessageBox(QString("Specify image file first."),QMessageBox::Information);
