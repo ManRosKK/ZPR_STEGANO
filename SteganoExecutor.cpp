@@ -71,8 +71,12 @@ void CSteganoExecutor::proposeWithFile(int Id,QString ImageFilepath, QString Dat
     if(file.open(QIODevice::ReadOnly))
     {
         size = file.size();
-    }else
-        emit errorOccurred("File error- does not exist");
+    }
+    else
+    {
+        emit errorOccurred("Cannot open data file!");
+        return;
+    }
     QtConcurrent::run(m_pSteganoMethod.data(), &CSteganoMethod::makeProposition, ImageFilepath, size, pArgsList);
 }
 

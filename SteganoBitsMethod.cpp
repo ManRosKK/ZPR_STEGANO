@@ -279,7 +279,6 @@ void CSteganoBitsMethod::makeProposition(QString ImageFilepath, unsigned int Byt
 {
     try
     {
-
         pArgsList->clear();
         QImage image(ImageFilepath);
         unsigned int size = image.width()*image.height();
