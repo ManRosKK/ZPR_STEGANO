@@ -6,7 +6,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QMessageBox>
-
+#include <SteganoException.h>
 CSteganoBitsMethod::CSteganoBitsMethod(void)
 {
 
@@ -47,7 +47,12 @@ PBitArray CSteganoBitsMethod::prepareEncryptData(QString DataFilePath)
     QFile file( DataFilePath );
     
     if (!file.open(QIODevice::ReadOnly))
-         ;//TODO nie powinno byc bugow
+    {
+
+        PBitArray pdata(new QBitArray(0));
+        throw CSteganoException("Cannot open data file.");
+        return pdata;
+    }
 
     QByteArray  Data(file.readAll());
     
@@ -90,7 +95,10 @@ PImage CSteganoBitsMethod::encryptWithPreview(QString ImageFilePath, QString Dat
     dataBitLength = pdata->size();
     
     if(dataBitLength == 0)
-        return pImage;
+    {
+        throw CSteganoException("Internal Error");
+        return PImage(NULL);
+    }
 
     unsigned int dataCounter = 0; 
     bool loopShouldFinishFlag = 0;
@@ -132,7 +140,7 @@ PImage CSteganoBitsMethod::encryptWithPreview(QString ImageFilePath, QString Dat
     if(dataCounter < dataBitLength )
     {
         //emit encryptFinished(false);
-
+        throw CSteganoException("Data is too big");
         return PImage(NULL);
     }
     return pImage;
@@ -145,8 +153,10 @@ void CSteganoBitsMethod::encrypt(QString ImageFilePath, QString ImageSaveFilePat
 
         pImage->save(ImageSaveFilePath);
         emit encryptFinished(true);
-    }catch(...)
+    }catch(CSteganoException& e)
     {
+
+        emit errorOccurred(e.getMessage());
         emit encryptFinished(false);
     }
     
@@ -194,7 +204,7 @@ void CSteganoBitsMethod::decrypt(QString ImageFilePath, QString DataFilepath, PA
 {
     PByteArray Data( new QByteArray() );
 
-    unsigned int dataBitLength;
+
     PImage pimage(new QImage);
     pimage->load(ImageFilePath);
     unsigned int maskPixel = SteganoParameters->takeAt(0).toUInt();
@@ -204,7 +214,7 @@ void CSteganoBitsMethod::decrypt(QString ImageFilePath, QString DataFilepath, PA
     
     //odczyt dlugosci danych
     int length = getDataLength( pimage, pmaskVector);
-    if( (length+4)*8 > (pimage->height()*pimage->width())/pmaskVector->size() )
+    if( (length+4)*8 > (pimage->height()*pimage->width()*24)/pmaskVector->size() )
     {
           emit decryptFinished(false);
           return;
@@ -271,7 +281,44 @@ void CSteganoBitsMethod::decrypt(QString ImageFilePath, QString DataFilepath, PA
 }
 void CSteganoBitsMethod::makeProposition(QString ImageFilepath, unsigned int ByteCount, PArgsList pArgsList)
 {
-    emit proposeFinished(pArgsList);
+    try
+    {
+        QImage image(ImageFilepath);
+        unsigned int size = image.width()*image.height();
+        unsigned int bitsPerPixel = ByteCount/size;
+        unsigned int mask = 0;
+        if(bitsPerPixel<=0)
+        {
+            mask = 1;
+            pArgsList->append(mask);
+            emit proposeFinished(pArgsList);
+            return;
+        }
+        if(bitsPerPixel>24)
+        {
+            emit errorOccurred("Input data is too big.");
+            return;
+        }
+        int i = 0;
+        for(i=0;i<bitsPerPixel/3;i++)
+        {
+            mask |= (1<<i)<<0; // first octet
+            mask |= (1<<i)<<8; // second octet
+            mask |= (1<<i)<<16;// third octet
+        }
+
+        for(int j=0;j<bitsPerPixel%3;j++)
+        {
+            mask |= (1<<i)<<(j*8); // j octet
+        }
+        pArgsList->clear();
+        pArgsList->append(mask);
+        emit proposeFinished(pArgsList);
+    }catch(...)
+    {
+
+    }
+
     return;
 }
 void CSteganoBitsMethod::makePreview(QString ImageFilePath, QString DataFilePath, PArgsList SteganoParameters)
@@ -315,7 +362,7 @@ PSteganoMethod CSteganoBitsMethod::clone()
 QString CSteganoBitsMethod::getName()
 {
     //TEMP temporary
-    return QString("Koczo");
+    return QString("BitsMethod");
 }
 
 QString CSteganoBitsMethod::getSupportedTypesToEncrypt()

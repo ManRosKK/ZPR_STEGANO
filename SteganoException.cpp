@@ -11,5 +11,5 @@ CSteganoException::~CSteganoException(void) throw()
 
 QString CSteganoException::getMessage()
 {
-    return m_message;
+    return QString(m_message);
 }

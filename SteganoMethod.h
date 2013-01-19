@@ -70,6 +70,7 @@ signals:
     void decryptFinished(bool);
     void progressChanged(int);
     void proposeFinished(PArgsList pArgsList);
+    void errorOccurred(QString);
 protected:
 };
 

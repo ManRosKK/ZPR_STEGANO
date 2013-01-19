@@ -163,6 +163,7 @@ void CApplication::configureExecutor()
     connect(&m_Executor,SIGNAL(progressChanged(int)),&m_Window,SLOT(updateProgress(int)));
     connect(&m_Executor,SIGNAL(previewFinished(PImage)),&m_Window,SLOT(displayPreview(PImage)));
     connect(&m_Executor,SIGNAL(decryptFinished(bool,QString)),this,SLOT(onDecryptFinished(bool,QString)));
+    connect(&m_Executor,SIGNAL(errorOccurred(QString)),this,SLOT(onErrorOccurred(QString)));
     //connect(&m_Executor,SIGNAL(previewFinished(QString)),this,SLOT(onPreviewFinished(QString)));
     
 }
@@ -206,6 +207,11 @@ void CApplication::onDecryptFinished(bool IsSuccess, QString DecryptedData)
     {
          m_Window.showMessageBox(QString("Decryption: Failure"),QMessageBox::Critical);
     }
+}
+
+void CApplication::onErrorOccurred(QString Text)
+{
+    m_Window.showMessageBox(QString("Error Occurred: "+ Text),QMessageBox::Critical);
 }
 void CApplication::onProposed(PArgsList pArgs)
 {

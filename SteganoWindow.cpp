@@ -109,7 +109,7 @@ QString CSteganoWindow::getTextToHide()
 void CSteganoWindow::setWidgetArgs(PArgsList pArgs)
 {
     changeUIblocking(false);
-    m_pMethodWidget->setProposition(pArgs);
+    m_pMethodWidget->setArgsList(pArgs);
 }
 
 void CSteganoWindow::updateProgress(int Value)

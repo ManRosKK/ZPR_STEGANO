@@ -14,7 +14,6 @@ public:
     virtual void setArgsList(PArgsList);
     virtual PSteganoWidget clone();
     virtual bool isPropositionsAllowed();
-    virtual void setProposition(PArgsList pArgsList);
 private:
     void configureUI();
     static const int c_BitsDepth = 24;

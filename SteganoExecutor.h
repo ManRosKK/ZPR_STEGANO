@@ -29,6 +29,7 @@ signals:
     void decryptFinished(bool);
     void decryptFinished(bool,QString);
     void progressChanged(int);
+    void errorOccurred(QString);
 public slots:
 
 private:

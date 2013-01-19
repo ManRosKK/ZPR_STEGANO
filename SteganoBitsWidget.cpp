@@ -40,11 +40,19 @@ PArgsList CSteganoBitsWidget::getArgsList()
     return pArgsList;
 }
 
-void CSteganoBitsWidget::setArgsList(PArgsList)
+void CSteganoBitsWidget::setArgsList(PArgsList pArgsList)
 {
-    //todo: implement me
-    
-    qDebug()<<"tutdaasddddddddddddddddd    argslist";
+    unsigned int mask = pArgsList->at(0).toUInt();
+
+    for(int i=0;i<c_BitsDepth;++i)
+    {
+        if( (mask&(1 << (c_BitsDepth-i-1))) == 1)
+        {
+            m_CheckBox[i]->setChecked(true);
+        }else
+            m_CheckBox[i]->setChecked(false);
+    }
+    qDebug()<<"argslist";
 }
 
 PSteganoWidget CSteganoBitsWidget::clone()
@@ -55,10 +63,21 @@ bool CSteganoBitsWidget::isPropositionsAllowed()
 {
     return true;
 }
+/*
 void CSteganoBitsWidget::setProposition(PArgsList pArgsList)
 {
+    unsigned int mask = pArgsList->at(0).toUInt();
+
+    for(int i=0;i<c_BitsDepth;++i)
+    {
+        if( (mask&(1 << (c_BitsDepth-i-1))) == 1)
+        {
+            m_CheckBox[i]->setChecked(true);
+        }else
+            m_CheckBox[i]->setChecked(false);
+    }
     QMessageBox::information(this,"zaimplementuj mnie","odebralem PARGS zaimplementuj mnie");
-}
+}*/
 void CSteganoBitsWidget::configureUI()
 {
     QVBoxLayout *VerticalLayout = new QVBoxLayout(this);

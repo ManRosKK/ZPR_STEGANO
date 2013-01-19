@@ -94,22 +94,9 @@ void CSteganoExecutor::decryptToText(int Id, QString ImageFilepath, PArgsList pA
     // ask method save file to temporary location and load it to string
     tmpnam(TempFilepath);
     m_DecryptToFile = false;
-    //m_pSteganoMethod->decrypt(ImageFilepath, QString(TempFilepath), pArgsList);
 
     QtConcurrent::run(m_pSteganoMethod.data(), &CSteganoMethod::decrypt, ImageFilepath, QString(TempFilepath), pArgsList);
 
-    /*std::ifstream TempFile(TempFilepath, std::ios::in | std::ios::binary);
-    if(!TempFile)
-    {
-        qDebug()<<"!good";
-    }
-    std::string DecryptedData;
-
-    TempFile.seekg(0, std::ios::end);
-    DecryptedData.resize(TempFile.tellg());
-    TempFile.seekg(0, std::ios::beg);
-    TempFile.read(&DecryptedData[0], DecryptedData.size());
-    TempFile.close();*/
 
 }
 void CSteganoExecutor::makePreviewWithFile(int Id,QString ImageFilepath, QString DataFilepath, PArgsList pArgsList)
@@ -153,6 +140,7 @@ void CSteganoExecutor::connectSignalsAndSlotsToMethod()
     connect(m_pSteganoMethod.data(),SIGNAL(decryptFinished(bool)),this,SLOT(onDecryptFinished(bool)),Qt::QueuedConnection);
     connect(m_pSteganoMethod.data(),SIGNAL(previewFinished(PImage)), this,SIGNAL(previewFinished(PImage)),Qt::QueuedConnection);
     connect(m_pSteganoMethod.data(),SIGNAL(progressChanged(int)), this,SIGNAL(progressChanged(int)));
+    connect(m_pSteganoMethod.data(),SIGNAL(errorOccurred(QString)), this,SIGNAL(errorOccurred(QString)));
 }
 
 void CSteganoExecutor::onDecryptFinished(bool success)

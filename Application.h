@@ -19,6 +19,7 @@ public slots:
     void onEncryptFinished(bool IsSuccess);
     void onDecryptFinished(bool IsSuccess);
     void onDecryptFinished(bool IsSuccess, QString DecryptedData);
+    void onErrorOccurred(QString);
     void onProposed(PArgsList args);
     void onOpenFileButtonClicked();
 private:

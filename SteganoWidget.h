@@ -13,7 +13,6 @@ public:
     virtual void setArgsList(PArgsList) = 0;
     virtual PSteganoWidget clone() = 0;
     virtual bool isPropositionsAllowed();
-    virtual void setProposition(PArgsList pArgsList);
 signals:
     
 public slots:
