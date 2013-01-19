@@ -22,7 +22,6 @@ SOURCES += \
     SteganoException.cpp \
     SteganoBitsWidget.cpp \
     SteganoBitsMethod.cpp \
-    OperationResult.cpp \
     main.cpp \
     Application.cpp
 
@@ -40,7 +39,6 @@ HEADERS  += \
     SteganoException.h \
     SteganoBitsWidget.h \
     SteganoBitsMethod.h \
-    OperationResult.h \
     BitmapHeader.h \
     Application.h
 

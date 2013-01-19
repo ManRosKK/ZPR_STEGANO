@@ -282,10 +282,11 @@ void CSteganoBitsMethod::makeProposition(QString ImageFilepath, unsigned int Byt
         pArgsList->clear();
         QImage image(ImageFilepath);
         unsigned int size = image.width()*image.height();
-        unsigned int bitsPerPixel = (ByteCount*8)/size;
+        unsigned int bitsPerPixel = (ByteCount*8)/size+1;
         unsigned int mask = 0;
         if(bitsPerPixel<=0)
         {
+
             mask = 1;
             pArgsList->append(mask);
             emit proposeFinished(pArgsList);
@@ -308,12 +309,12 @@ void CSteganoBitsMethod::makeProposition(QString ImageFilepath, unsigned int Byt
             mask |= (1<<(bitsPerPixel/3))<<(j*8); // jth octet
         }
         pArgsList->append(mask);
+        qDebug()<<mask;
         emit proposeFinished(pArgsList);
     }
     catch(...)
     {
         emit errorOccurred("Fatal error");
-        //TODO: implement me
         qDebug()<<"Fatal error";
     }
 
@@ -330,8 +331,9 @@ void CSteganoBitsMethod::makePreview(QString ImageFilePath, QString DataFilePath
 //            qDebug()<<"NUUUUUUUUUUUUUUUUUUUL "<<pImage.data() ;
         *pImage;
         emit previewFinished(pImage);
-    }catch(...)
+    }catch(CSteganoException& e)
     {
+        emit errorOccurred(e.getMessage());
         //emit BLAD;
     }
 }
