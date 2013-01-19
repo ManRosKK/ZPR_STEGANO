@@ -3,6 +3,9 @@
 #include "SteganoWidget.h"
 #include <QCheckBox>
 
+/**
+ * @brief Widget for CSteganoNonCheckedMethod class
+ */
 class CSteganoNonCheckedWidget :
     public CSteganoWidget
 {

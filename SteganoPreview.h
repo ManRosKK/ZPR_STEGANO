@@ -8,6 +8,9 @@ namespace Ui {
 class CSteganoPreview;
 }
 
+/**
+ * @brief A simple dialog window used to display preview of encryption result.
+ */
 class CSteganoPreview : public QDialog
 {
     Q_OBJECT

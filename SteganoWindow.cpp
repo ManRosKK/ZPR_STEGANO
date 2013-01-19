@@ -144,13 +144,12 @@ void CSteganoWindow::onDecryptFinished(void)
 
 void CSteganoWindow::displayPreview(PImage pImage)
 {
-
-
-    //QMessageBox::information(this,"previe","aizmplemenetuj mnie");
     CSteganoPreview* preview =(new CSteganoPreview(this));
     //pPreview->setParent(this);
+    preview->setWindowTitle("Preview");
     preview->SetImage(*pImage);
     preview->exec();
+
     delete preview;
 }
 

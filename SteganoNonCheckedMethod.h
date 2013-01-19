@@ -1,14 +1,22 @@
 #pragma once
 #include "SteganoMethod.h"
 
+/**
+ * @brief A SteganoMethod which hides data after real content end of a file.
+ *
+ * It takes an empty list of arguments.
+ */
 class CSteganoNonCheckedMethod : public CSteganoMethod
 {
 public:
     CSteganoNonCheckedMethod(void);
     CSteganoNonCheckedMethod(const CSteganoNonCheckedMethod&);
     virtual ~CSteganoNonCheckedMethod(void);
+    /**
+     * @brief Creates instance of SteganoNonCheckedMethod
+     * @return Shared pointer to SteganoNonCheckedMethod instance
+     */
     static QSharedPointer<CSteganoMethod> createSteganoNonCheckedMethod();
-
     virtual void encrypt(QString, QString, QString, PArgsList);
     virtual void decrypt(QString, QString, PArgsList);
     virtual void makePreview(QString ImageFilepath,QString DataFilePath, PArgsList pArgsList);

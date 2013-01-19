@@ -34,7 +34,7 @@ PArgsList CSteganoNonCheckedWidget::getArgsList()
 
 void CSteganoNonCheckedWidget::setArgsList(PArgsList)
 {
-    //empty method
+    //empty body
 }
 
 QSharedPointer<CSteganoWidget> CSteganoNonCheckedWidget::clone()

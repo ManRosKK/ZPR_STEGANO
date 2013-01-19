@@ -93,7 +93,6 @@ int CSteganoNonCheckedMethod::findHiddenData(std::fstream& imageFile)
     }
     else
     {
-        qDebug()<<"not a bmp";
         //not a BMP file, try to read footer
         imageFile.clear();
         imageFile.seekg (0, std::ios::end);
@@ -117,13 +116,13 @@ void CSteganoNonCheckedMethod::encrypt(QString ImageFilePath, QString ImageSaveF
     {
         //cannot open one of the files
         emit encryptFinished(false);
+        emit errorOccurred("Cannot access one of the following: source file, data, output file!");
         return;
     }
     std::streamsize count = 0;
     int bytesOfSourceImageToReadLeft = 0;
     findEndOfImage(sourceImageFile);
     bytesOfSourceImageToReadLeft = sourceImageFile.tellg();
-    qDebug()<<bytesOfSourceImageToReadLeft;
     if(bytesOfSourceImageToReadLeft>0)
     {
         //rewrite source image (without hidden data if there is any)
@@ -144,8 +143,8 @@ void CSteganoNonCheckedMethod::encrypt(QString ImageFilePath, QString ImageSaveF
     }
     else
     {
-        //invalid base image
         emit encryptFinished(false);
+        emit errorOccurred("Invalid base image!");
         return;
     }
 
@@ -187,16 +186,15 @@ void CSteganoNonCheckedMethod::decrypt(QString ImageFilePath, QString SaveFilepa
 
     if(file.is_open()) { // file opened
         int dataToReadLength = findHiddenData(file);
-        qDebug()<<"dataToReadLength"<<dataToReadLength;
 
-        //WTF - bez tego nie działa
+        //restart
         int endOffset = file.tellg();
         file.seekg(endOffset,std::ios::beg);
 
         if(dataToReadLength <= 0)
         {
-            qDebug()<<"nothing hidden!";
             emit decryptFinished(false);
+            emit errorOccurred("Nothing is hidden!");
             return;
         }
 
@@ -204,9 +202,8 @@ void CSteganoNonCheckedMethod::decrypt(QString ImageFilePath, QString SaveFilepa
         std::fstream filewrite(SaveFilepath.toStdString().c_str(), std::fstream::out | std::fstream::binary);
         if(!filewrite)
         {
-            qDebug()<<"unable to open file to write";
-
             emit decryptFinished(false);
+            emit errorOccurred("Unable to open file to write!");
             return;
         }
 
@@ -230,8 +227,8 @@ void CSteganoNonCheckedMethod::decrypt(QString ImageFilePath, QString SaveFilepa
     }
     else
     {
-        qDebug()<<"unable to open image file!";
         emit decryptFinished(false);
+        emit errorOccurred("Unable to open image file!");
         return;
     }
 }
@@ -252,7 +249,6 @@ QSharedPointer<CSteganoMethod> CSteganoNonCheckedMethod::clone()
 
 QString CSteganoNonCheckedMethod::getName()
 {
-    //TEMP temporary
     return QString("NonCheckedAreaOfFiles");
 }
 
@@ -263,5 +259,5 @@ QString CSteganoNonCheckedMethod::getSupportedTypesToEncrypt()
 
 QString CSteganoNonCheckedMethod::getSupportedTypesToDecrypt()
 {
-    return QString("Image Files (*.png *.jpg *.bmp)");
+    return QString("");
 }

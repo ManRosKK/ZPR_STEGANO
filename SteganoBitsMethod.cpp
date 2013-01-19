@@ -343,7 +343,6 @@ QSharedPointer<CSteganoMethod> CSteganoBitsMethod::clone()
 
 QString CSteganoBitsMethod::getName()
 {
-    //TODO: TEMP temporary
     return QString("BitsMethod");
 }
 

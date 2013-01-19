@@ -20,7 +20,7 @@ public:
     virtual ~CSteganoBitsMethod(void);
     /**
      * @brief Creates instance of SteganoBitsMethod
-     * @return Shared pointer of SteganoBitsMethod instance
+     * @return Shared pointer to SteganoBitsMethod instance
      */
     static QSharedPointer<CSteganoMethod> createSteganoBitsMethod();
     virtual void encrypt(QString, QString, QString, PArgsList);

@@ -1,7 +1,6 @@
 #include "Application.h"
 #include "SteganoManager.h"
 #include "SteganoException.h"
-#include <QDebug>
 #include <QMessageBox>
 
 CApplication::CApplication(int & argc, char ** argv):
@@ -28,13 +27,11 @@ void CApplication::onEncryptButtonClicked()
         bool IsDataToSaveAFile = m_Window.getEncryptDataSource();
         if(IsDataToSaveAFile)
         {
-            qDebug()<<"saving a file" << m_Window.getEncryptFileToHide();
             m_Window.changeUIblocking(true);
             m_Executor.encryptFile(m_ChoosenMethodId,ImageFilepath,SaveFilepath, m_Window.getEncryptFileToHide(), m_Window.getArgsListFromWidget());
          }
         else
         {
-            qDebug()<<"saving a text" << m_Window.getTextToHide();
             m_Window.changeUIblocking(true);
             m_Executor.encryptText(m_ChoosenMethodId,ImageFilepath,SaveFilepath, m_Window.getTextToHide(), m_Window.getArgsListFromWidget());
 
@@ -52,13 +49,11 @@ void CApplication::onDecryptButtonClicked()
     bool IsDataToSaveAFile = m_Window.getDecryptDataSource();
     if(IsDataToSaveAFile)
     {
-        qDebug()<<"saving to file" << m_Window.getDecryptFileToHide();
         m_Window.changeUIblocking(true);
         m_Executor.decryptToFile(m_ChoosenMethodId, m_Window.getImageFilepath(), m_Window.getDecryptFileToHide(), m_Window.getArgsListFromWidget());
     }
     else
     {
-        qDebug()<<"saving to textbox";
         m_Window.changeUIblocking(true);
         m_Executor.decryptToText(m_ChoosenMethodId, m_Window.getImageFilepath(), m_Window.getArgsListFromWidget());
     }
@@ -76,13 +71,11 @@ void CApplication::onProposeButtonClicked()
         bool IsDataToSaveAFile = m_Window.getEncryptDataSource();
         if(IsDataToSaveAFile)
         {
-            qDebug()<<"proposing with file" << m_Window.getEncryptFileToHide();
             m_Window.changeUIblocking(true);
             m_Executor.proposeWithFile(m_ChoosenMethodId,ImageFilepath, m_Window.getEncryptFileToHide(), m_Window.getArgsListFromWidget());
          }
         else
         {
-            qDebug()<<"proposing with text" << m_Window.getTextToHide();
             m_Window.changeUIblocking(true);
             m_Executor.proposeWithText(m_ChoosenMethodId,ImageFilepath, m_Window.getTextToHide(), m_Window.getArgsListFromWidget());
 
@@ -102,19 +95,14 @@ void CApplication::onPreviewButtonClicked()
         QString ImageFilepath = m_Window.getImageFilepath();
         if(ImageFilepath.length() == 0)
             throw CSteganoException("Image Filepath is not specified!");
-        QString SaveFilepath = m_Window.getSaveFilepath();
-        //TODO: data pusta ewentualnie
-        PByteArray Data;
+
         bool IsDataToSaveAFile = m_Window.getEncryptDataSource();
         if(IsDataToSaveAFile)
         {
-            qDebug()<<"preview with file" << m_Window.getEncryptFileToHide();
             m_Executor.makePreviewWithFile(m_ChoosenMethodId,ImageFilepath,m_Window.getEncryptFileToHide(), m_Window.getArgsListFromWidget());
          }
         else
         {
-            qDebug()<<"preview with text" << m_Window.getTextToHide();
-            
             m_Executor.makePreviewWithText(m_ChoosenMethodId,ImageFilepath, m_Window.getTextToHide(), m_Window.getArgsListFromWidget());
 
         }
@@ -224,10 +212,23 @@ void CApplication::onOpenFileEncryptButtonClicked()
 
 void CApplication::onOpenFileDecryptButtonClicked()
 {
-    m_Window.showOpenFileDecryptDialog(CSteganoManager::getInstance().getSupportedTypesToDecrypt(m_ChoosenMethodId));
+    QString decryptFiletypes = CSteganoManager::getInstance().getSupportedTypesToDecrypt(m_ChoosenMethodId);
+    if(decryptFiletypes.size() == 0)
+    {
+        decryptFiletypes = CSteganoManager::getInstance().getSupportedTypesToEncrypt(m_ChoosenMethodId);
+    }
+    m_Window.showOpenFileDecryptDialog(decryptFiletypes);
 }
 
 void CApplication::onSaveFileEncryptButtonClicked()
 {
-    m_Window.showSaveFileEncryptDialog(CSteganoManager::getInstance().getSupportedTypesToDecrypt(m_ChoosenMethodId));
+    QString decryptFiletypes = CSteganoManager::getInstance().getSupportedTypesToDecrypt(m_ChoosenMethodId);
+    if(decryptFiletypes.size() == 0)
+    {
+        decryptFiletypes = m_Window.getImageFilepath();
+        std::string fileextenstion = decryptFiletypes.toStdString();
+        fileextenstion = fileextenstion.substr(fileextenstion.find_last_of(".") + 1);
+        decryptFiletypes = QString("Image Files (*.").append(QString::fromStdString(fileextenstion).append(")"));
+    }
+    m_Window.showSaveFileEncryptDialog(decryptFiletypes);
 }

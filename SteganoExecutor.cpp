@@ -1,6 +1,5 @@
 #include "SteganoExecutor.h"
 #include "SteganoManager.h"
-#include <QDebug>
 #include <fstream>
 #include <iostream>
 #include <QFile>
@@ -100,7 +99,7 @@ void CSteganoExecutor::decryptToText(int Id, QString ImageFilepath, PArgsList pA
     // ask method save file to temporary location and load it to string
     if(!tmpnam(TempFilepath))
     {
-        qDebug()<<"Tmp filepath cannot be generated";
+        emit errorOccurred("Tmp filepath cannot be generated");
         return;
     }
     m_DecryptToFile = false;
@@ -131,7 +130,7 @@ void CSteganoExecutor::makePreviewWithText(int Id,QString ImageFilepath, QString
     }
     if(!tmpnam(TempFilepath))
     {
-        qDebug()<<"Tmp filepath cannot be generated";
+        emit errorOccurred("Tmp filepath cannot be generated");
         return;
     }
 
@@ -159,7 +158,6 @@ void CSteganoExecutor::connectSignalsAndSlotsToMethod()
 
 void CSteganoExecutor::onDecryptFinished(bool success)
 {
-    qDebug()<<"checksuccess";
     if(success)
     {
         if(!m_DecryptToFile)
@@ -169,19 +167,16 @@ void CSteganoExecutor::onDecryptFinished(bool success)
             if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
                 return;
             decryptedString = file.readAll();
-            qDebug()<<"decryptedString"<<decryptedString;
             file.close();
             emit decryptFinished(true,QString(decryptedString));
         }
         else
         {
-            qDebug()<<"decryptedString2";
             emit decryptFinished(true);
         }
     }
     else
     {
-        qDebug()<<"decryptedString3";
         emit decryptFinished(false);
     }
 }
