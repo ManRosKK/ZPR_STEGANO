@@ -44,7 +44,7 @@
         <item>
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>&lt;b&gt;2. Choose a file to encrypt&lt;/b&gt;</string>
+           <string>&lt;b&gt;2. Choose a file to encrypt data in&lt;/b&gt;</string>
           </property>
          </widget>
         </item>
@@ -104,7 +104,7 @@
            <item>
             <widget class="QRadioButton" name="fileRadioEncrypt">
              <property name="text">
-              <string>Take data to hide in image from file...</string>
+              <string>Take data to hide in image from file</string>
              </property>
             </widget>
            </item>
@@ -179,7 +179,7 @@
         <item>
          <widget class="QLabel" name="label_9">
           <property name="text">
-           <string>&lt;b&gt;2. Choose a file to decrypt&lt;/b&gt;</string>
+           <string>&lt;b&gt;2. Choose a file to decrypt data from&lt;/b&gt;</string>
           </property>
          </widget>
         </item>
@@ -275,7 +275,7 @@
       </widget>
       <widget class="QWidget" name="WidgetTab">
        <attribute name="title">
-        <string>Encryption/Dectyption Parameters</string>
+        <string>Encryption/Decryption Parameters</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>

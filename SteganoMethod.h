@@ -72,11 +72,14 @@ public:
 
     /**
      * @return input types which method supports in QT format
+     * @see <a href="http://doc.qt.digia.com/qt/qfiledialog.html#details">QT format on qt.digia.com</a>
      */
     virtual QString getSupportedTypesToEncrypt() = 0;
 
     /**
-     * @return output types which method supports in QT format
+     * @return output types which method supports in QT format.
+     * Should return an empty string if a method can output only image in input format.
+     * @see <a href="http://doc.qt.digia.com/qt/qfiledialog.html#details">QT format on qt.digia.com</a>
      */
     virtual QString getSupportedTypesToDecrypt() = 0;
 
