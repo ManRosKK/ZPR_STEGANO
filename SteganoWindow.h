@@ -9,6 +9,7 @@
 
 typedef QList<QVariant> ArgsList;
 typedef QSharedPointer<QImage> PImage;
+
 /**
  * @brief Main window of the program.
  *

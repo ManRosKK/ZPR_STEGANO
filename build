@@ -7,7 +7,8 @@ elif [ "$1" = "test" ]; then
     cd SteganoTests
     qmake
     make
-    ./SteganoTests  
+    ./SteganoTests
+    echo "End of tests."
 elif [ "$1" = "clean" ]; then
     cd SteganoTests
     make clean &> /dev/null
@@ -16,8 +17,10 @@ elif [ "$1" = "clean" ]; then
     make clean &> /dev/null
     rm -f Makefile steganoZPR
     rm -f -r doxygen_doc/
+    echo "Cleaning finished."
 elif [ "$1" = "docs" ]; then
     doxygen doxygen_conf
+    echo "Doxygen docs generated to folder doxygen_doc/"
 else
     qmake
     make

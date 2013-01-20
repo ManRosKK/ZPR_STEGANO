@@ -3,9 +3,7 @@
 #include <QString>
 
 /**
- * @brief The CSteganoException class
- *
- * Represents exceptions specific for the application.
+ * @brief Represents exceptions specific for the application.
  */
 class CSteganoException :
     public std::exception

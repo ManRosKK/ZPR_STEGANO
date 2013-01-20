@@ -4,7 +4,7 @@
 #include "SteganoTypes.h"
 
 /**
- * @brief The CSteganoMethod class
+ * @brief Allows to hide and retrieve data using image files
  *
  * The most important base class in project. Allows user to hide data in images
  * and later retrieve the data. Each class derieving from CSteganoMethod should
@@ -13,6 +13,7 @@
 class CSteganoMethod: public QObject
 {
     Q_OBJECT
+
 public:
     /**
      * @brief CSteganoMethod default constructor

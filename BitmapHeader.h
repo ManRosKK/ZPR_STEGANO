@@ -2,18 +2,36 @@
 
 #pragma pack(2)
 /**
- * @brief The SBitmapFileHeader struct
+ * @brief A bitmap file header.
  *
- * A bitmap file header. Used by CSteganoNonCheckedMethod.
+ * Used by CSteganoNonCheckedMethod.
  */
 struct SBitmapFileHeader
 {
-    unsigned short bfType;           /* Magic number for file */
-    unsigned int   bfSize;           /* Size of file */
-    unsigned short bfReserved1;      /* Reserved */
-    unsigned short bfReserved2;      /* Reserved */
-    unsigned int   bfOffBits;        /* Offset to bitmap data */
+    /**
+     * @brief Magic number for file
+     */
+    unsigned short bfType;
+    /**
+     * @brief Size of file
+     */
+    unsigned int   bfSize;
+    /**
+     * @brief Reserved
+     */
+    unsigned short bfReserved1;
+    /**
+     * @brief Reserved
+     */
+    unsigned short bfReserved2;
+    /**
+     * @brief Offset to bitmap data
+     */
+    unsigned int   bfOffBits;
 };
 #pragma pack()
 
-const unsigned short BF_TYPE = 0x4D42; /* Magic number of BMP files "MB" */
+/**
+ * @brief Magic number of BMP files "MB"
+ */
+const unsigned short BF_TYPE = 0x4D42;

@@ -6,7 +6,7 @@
 #include "SteganoWidgetMethodPointers.h"
 
 /**
- * @brief The executor class.
+ * @brief The asynchronus executor facade class.
  *
  * Used to launch method's encryption and decryption functions asynchronously
  * while keeping UI responsive. Proxies access to CSteganoWidgets allowing

@@ -2,7 +2,7 @@
 #include "SteganoMethod.h"
 
 /**
- * @brief A SteganoMethod which hides data after real content end of a file.
+ * @brief A SteganoMethod which hides data after real content of a file.
  *
  * It takes an empty list of arguments.
  */
@@ -25,10 +25,22 @@ public:
     virtual QString getSupportedTypesToEncrypt();
     virtual QString getSupportedTypesToDecrypt();
 private:
+    /**
+     * @brief Finds real end of image for all suported filetypes.
+     *
+     * Sets read iterator of file to a place after the end of image.
+     * @param fileone file to find end of image in
+     */
     void findEndOfImage(std::fstream& fileone);
+    /**
+     * @brief Finds hidden data of image for all suported filetypes.
+     *
+     * Sets read iterator of file to a place where hidden data starts.
+     * @param fileone file to find hidden data in
+     * @return hidden data length (<=0 if no data is hidden)
+     */
     int findHiddenData(std::fstream& fileone);
 
-    static const unsigned int c_MaxExtensionLength = 16;
     static const int c_BufferSize = 1000000;
     char buffer[c_BufferSize];
     static const int c_FooterLength = 8;

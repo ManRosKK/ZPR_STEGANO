@@ -11,6 +11,7 @@
 class CSteganoWidget : public QWidget
 {
     Q_OBJECT
+
 public:
     explicit CSteganoWidget(QWidget *parent = 0);
     CSteganoWidget(const CSteganoWidget&);
