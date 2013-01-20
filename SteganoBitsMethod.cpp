@@ -327,15 +327,11 @@ void CSteganoBitsMethod::makePreview(QString ImageFilePath, QString DataFilePath
         qDebug()<<"STEGANOBITS::makePreview";
         PImage pImage=encryptWithPreview(ImageFilePath,DataFilePath,SteganoParameters);
         qDebug()<<ImageFilePath<<" "<<DataFilePath<<" ";
-  //      if(pImage.data() == NULL)
-//            qDebug()<<"NUUUUUUUUUUUUUUUUUUUL "<<pImage.data() ;
-        *pImage;
         emit previewFinished(pImage);
     }catch(CSteganoException& e)
     {
         emit errorOccurred(e.getMessage());
         emit previewFinished(PImage());
-        //emit BLAD;
     }
 }
 
