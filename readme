@@ -1,0 +1,12 @@
+Installation guide
+1. You will need Qt 4.7 and qmake, make added to your system checked path.
+3. Installation on Linux-based systems
+    a. To build the app run ./build
+    b. To run the app use ./build run
+    c. To launch unit tests ./build test
+    d. To clean up binaries ./build clean
+    e. To build doxygen docs ./build docs
+4. Installation on Windows-based systems
+    a. Open project in Visual Studio 2010 with QT library installed, compile and run
+    b. ZPR_STEGANO_VS/ folder contains application project
+    c.STEGANO_TEST_VS/ folder folder contains unit test project
