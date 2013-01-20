@@ -69,7 +69,7 @@ PBitArray CSteganoBitsMethod::prepareEncryptData(QString DataFilePath)
     
     dataLength = Data.length(); //data length + sizeof(data length)
     unsigned int dataBitLength = dataLength*8;
-    //generator danych
+    //data generator
     PBitArray pdata(new QBitArray(dataBitLength));
     for(int i = 0;i < Data.size();++i)
         for(int j=0;j<8;j++)
@@ -111,12 +111,10 @@ PImage CSteganoBitsMethod::encryptWithPreview(QString ImageFilePath, QString Dat
             {
                 if(pdata->testBit(dataCounter++) )
                 {//1
-                    //qDebug()<<"wpisano: 1"; 
                     pixel |=((*pmaskVector)[k]); // set bit in pixel on proper position
                 }
                 else
                 {//0
-                    //qDebug()<<"wpisano: 0";
                     pixel &=~((*pmaskVector)[k]);
                 }
 
@@ -139,7 +137,6 @@ PImage CSteganoBitsMethod::encryptWithPreview(QString ImageFilePath, QString Dat
     }
     if(dataCounter < dataBitLength )
     {
-        //emit encryptFinished(false);
         throw CSteganoException("Data is too big");
         return PImage(NULL);
     }
@@ -178,11 +175,9 @@ unsigned int CSteganoBitsMethod::getDataLength(PImage pimage,PVectorInt pmaskVec
                 
                 if( pixel & (*pmaskVector)[k] )
                 {
-                    //qDebug()<<"wstawiam: 1";
                     length |= (1<<bitCounter);
                 }else
                 {
-                    //qDebug()<<"wstawiam: 0";
                     length &= ~(1<<bitCounter);
                 }
                 bitCounter++;
