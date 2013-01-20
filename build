@@ -8,6 +8,16 @@ elif [ "$1" = "test" ]; then
     qmake
     make
     ./SteganoTests  
+elif [ "$1" = "clean" ]; then
+    cd SteganoTests
+    make clean &> /dev/null
+    rm -f Makefile SteganoTests
+    cd ..
+    make clean &> /dev/null
+    rm -f Makefile steganoZPR
+    rm -f -r doxygen_doc/
+elif [ "$1" = "docs" ]; then
+    doxygen doxygen_conf
 else
     qmake
     make
