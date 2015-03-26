@@ -4,8 +4,8 @@
 #include <QDebug>
 #include <QMessageBox>
 #include "SteganoPreview.h"
-CSteganoWindow::CSteganoWindow(QWidget *parent, Qt::WFlags flags)
-    : QMainWindow(parent, flags),
+CSteganoWindow::CSteganoWindow(QWidget *parent)
+    : QMainWindow(parent),
       m_IsFileRadioEncryptChoosen(false),
       m_IsFileRadioDecryptChoosen(false)
 {

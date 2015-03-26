@@ -1,10 +1,9 @@
 #pragma once
-#include <QtGui/QMainWindow>
+#include <QMainWindow>
 #include "ui_zpr_stegano.h"
 #include "SteganoWidget.h"
 #include "SteganoTypes.h"
 #include "SteganoWidgetMethodPointers.h"
-
 #include <QMessageBox>
 
 typedef QList<QVariant> ArgsList;
@@ -20,7 +19,7 @@ class CSteganoWindow : public QMainWindow
 	Q_OBJECT
 
 public:
-    CSteganoWindow(QWidget *parent = 0, Qt::WFlags flags = 0);
+    CSteganoWindow(QWidget *parent = 0);
     ~CSteganoWindow();
     void setWidget(QSharedPointer<CSteganoWidget>);
     PArgsList getArgsListFromWidget();

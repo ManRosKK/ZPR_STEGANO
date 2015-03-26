@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <QFile>
-#include <QtConcurrentRun>
+#include <QtConcurrent/QtConcurrent>
 #include <QMessageBox>
 
 CSteganoExecutor::CSteganoExecutor(QObject *parent) :

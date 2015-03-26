@@ -4,11 +4,12 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui 
 
 TARGET = steganoZPR
 TEMPLATE = app
 
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 SOURCES += \
     SteganoWindow.cpp \
